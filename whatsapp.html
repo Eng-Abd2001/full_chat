@@ -94,7 +94,6 @@
             width: 380px;
             aspect-ratio: 9 / 19; 
             background-color: var(--wa-bg);
-            /* إزالة الحواف الدائرية تماماً لتبدو كصورة ملتقطة من النظام */
             border-radius: 0;
             overflow: hidden;
             position: relative;
@@ -119,7 +118,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            height: 14px; /* تثبيت الارتفاع لتوحيد العناصر */
+            height: 14px; 
         }
         .status-icons svg {
             display: block;
@@ -221,6 +220,7 @@
                         <label>البطارية:</label>
                         <select id="inBattery" onchange="updateLive()">
                             <option value="full">ممتلئ (100%)</option>
+                            <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
                             <option value="low">ضعيف (أحمر)</option>
                         </select>
@@ -279,7 +279,7 @@
                 <div class="control-section-title">محتوى الرسائل</div>
                 <div class="input-group">
                     <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">هل قمت بتصحيح الأخطاء وإزالة الإضافات المزعجة؟</textarea>
+                    <textarea id="inMsg1" oninput="updateLive()">هل قمت بإضافة نسبة الـ 75% للبطارية؟</textarea>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                         <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
                     </div>
@@ -287,7 +287,7 @@
 
                 <div class="input-group">
                     <label>رسالتك أنت:</label>
-                    <textarea id="inMsg2" oninput="updateLive()">نعم، تم إرجاع الواجهة لتكون "سكرين شوت" خام ومسطح بالكامل. الأيقونات الآن محاذية بدقة هندسية عالية جداً.</textarea>
+                    <textarea id="inMsg2" oninput="updateLive()">نعم، تمت الإضافة بنجاح وبدون المساس بأي عنصر آخر في الواجهة لتظل بدقتها الهندسية.</textarea>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                         <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
                         <select id="inTicks" onchange="updateLive()">
@@ -352,12 +352,12 @@
                 <div class="wa-date-badge">اليوم</div>
                 
                 <div class="msg-received">
-                    <span id="outMsg1">هل قمت بتصحيح الأخطاء وإزالة الإضافات المزعجة؟</span>
+                    <span id="outMsg1">هل قمت بإضافة نسبة الـ 75% للبطارية؟</span>
                     <div class="msg-meta"><span id="outTime1">10:30 ص</span></div>
                 </div>
                 
                 <div class="msg-sent">
-                    <span id="outMsg2">نعم، تم إرجاع الواجهة لتكون "سكرين شوت" خام ومسطح بالكامل. الأيقونات الآن محاذية بدقة هندسية عالية جداً.</span>
+                    <span id="outMsg2">نعم، تمت الإضافة بنجاح وبدون المساس بأي عنصر آخر في الواجهة لتظل بدقتها الهندسية.</span>
                     <div class="msg-meta">
                         <span id="outTime2">10:32 ص</span>
                         <div class="blue-ticks" id="outTicks"><i class="fas fa-check-double"></i></div>
@@ -416,6 +416,9 @@
             const batFill = document.getElementById('bat-fill');
             if (batteryStatus === 'full') {
                 batFill.setAttribute('width', '16');
+                batFill.setAttribute('fill', '#ffffff');
+            } else if (batteryStatus === 'three-quarters') {
+                batFill.setAttribute('width', '12'); // 75% من أصل 16
                 batFill.setAttribute('fill', '#ffffff');
             } else if (batteryStatus === 'half') {
                 batFill.setAttribute('width', '8');
