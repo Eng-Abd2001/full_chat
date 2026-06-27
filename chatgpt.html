@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة ChatGPT | البنية الهندسية المستقرة</title>
+    <title>محادثة ChatGPT | النسخة الأصلية المطابقة</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
+            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
             --primary-neon: #10a37f;
             
+            /* ألوان تطبيق ChatGPT الرسمية */
             --gpt-bg: #000000; 
             --gpt-user-bg: #2f2f2f; 
             --gpt-text: #ececec; 
@@ -72,19 +74,12 @@
         }
         .input-group textarea { resize: vertical; min-height: 80px; }
 
-        .custom-file-upload {
-            display: block; width: 100%; padding: 12px; background: #0f172a;
-            border: 1px dashed var(--primary-neon); color: var(--primary-neon);
-            border-radius: 10px; text-align: center; cursor: pointer; font-size: 14px;
-            transition: 0.3s;
-        }
-        .custom-file-upload:hover { background: rgba(16, 163, 127, 0.1); }
-
         .btn-download {
             width: 100%; background: #fff; color: #000; font-weight: bold;
             padding: 15px; font-size: 16px; border: none; border-radius: 30px;
             cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: var(--font-ar);
         }
+        .btn-download:hover { transform: translateY(-2px); }
 
         /* شاشة الموبايل */
         .capture-container {
@@ -146,25 +141,10 @@
             white-space: pre-wrap;
         }
 
+        /* رسالة الذكاء الاصطناعي (تم حذف الأيقونة لتطابق التطبيق الرسمي) */
         .msg-ai {
-            display: flex;
-            gap: 12px;
             align-self: flex-start;
             max-width: 95%;
-        }
-
-        /* تنويه هندسي: تم حذف (border-radius) والخلفية من الـ CSS بالكامل.
-           هذا الإجراء يمنع مكتبة التصوير من إصدار أي مربعات سوداء.
-        */
-        .ai-avatar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .ai-text {
             font-size: 16px;
             line-height: 1.6;
             color: var(--gpt-text);
@@ -200,7 +180,6 @@
             font-family: var(--font-en);
         }
 
-        /* تم حذف الزوايا الدائرية هنا أيضاً لحماية الزر من التكسر */
         .gpt-send-btn {
             display: flex;
             align-items: center;
@@ -226,21 +205,15 @@
             </div>
 
             <div class="input-group">
-                <label>صورة الذكاء الاصطناعي (اختياري للـ Custom GPT):</label>
-                <label class="custom-file-upload">
-                    <input type="file" accept="image/*" onchange="updateAiAvatar(event)" style="display:none;">
-                    <i class="fas fa-image"></i> تغيير صورة البوت
-                </label>
-            </div>
-
-            <div class="input-group">
                 <label>رسالة المستخدم (أنت):</label>
-                <textarea id="inUserMsg" oninput="updateLive()">هل تم حل مشكلة السواد بشكل حقيقي هذه المرة؟</textarea>
+                <textarea id="inUserMsg" oninput="updateLive()">للمعلومة، شعار ChatGPT لا يوجد داخل المحادثة نفسها في التطبيق.</textarea>
             </div>
 
             <div class="input-group">
                 <label>رد الذكاء الاصطناعي (ChatGPT):</label>
-                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم. تم الاستغناء عن الحيل البرمجية، وتمت إعادة بناء الأيقونات بطريقة هندسية بحتة لكي تتوافق مع نظام جهازك وتمنع أي انهيار في التصوير بدقة 4K.</textarea>
+                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">ملاحظة دقيقة جداً وممتازة! 
+
+تم حذف الشعار تماماً لكي تتطابق الواجهة مع التطبيق الرسمي بنسبة 100%. هذا الأمر أدى أيضاً إلى تنظيف الكود بالكامل، وحل مشكلة التشوه والسواد بشكل نهائي.</textarea>
             </div>
 
             <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
@@ -259,19 +232,11 @@
 
             <div class="gpt-chat-area">
                 
-                <div class="msg-user" id="outUserMsg">هل تم حل مشكلة السواد بشكل حقيقي هذه المرة؟</div>
+                <div class="msg-user" id="outUserMsg">للمعلومة، شعار ChatGPT لا يوجد داخل المحادثة نفسها في التطبيق.</div>
                 
-                <div class="msg-ai">
-                    <div class="ai-avatar" id="outAiAvatar">
-                        <svg id="defaultAiIcon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-                            <circle cx="15" cy="15" r="15" fill="#ffffff" />
-                            <g transform="translate(3, 3)">
-                                <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.073zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.5973 8.3829a.7759.7759 0 0 0-.7806 0L5.974 11.7514v-2.3324a.0804.0804 0 0 1 .0332-.0615bDQuMzUyOC0yLjUxNTJhNC40OTkyIDQuNDk5MiAwIDAgMSA2LjE0MDggMS42NDY0IDQuNDcwOCA0LjQ3MDggMCAwIDEgLjUzNDYgMy4wMTM3bC0uMTQyLS4wODUyLTQuNzgzLTIuNzU4MnpNMjEuNjU5MiAxNi4xMDQ0YTQuNDg1IDQuNDg1IDAgMCAxLTIuMzY1NSAxLjk3MjhWMTIuNGEuNzY2NC43NjY0IDAgMCAwLS4zODc5LS42NzY1TDEzLjA5MTQgOC4zNjkybDIuMDIwMS0xLjE2ODVhLjA3NTcuMDc1NyAwIDAgMSAuMDcxIDBsNC44MzAzIDIuNzg2NWE0LjUwNCA0LjUwNCAwIDAgMS0uMzUzNiA2LjExNzJ6bS02LjA5NzUtMTAuNDU3OGE0LjQ3NTUgNC40NzU1IDAgMCAxIDIuODc2NCAxLjA0MDhsLS4xNDE5LjA4MDQtNC43NzgzIDIuNzU4MmEuNzk0OC43OTQ4IDAgMCAwLS4zOTI3LjY4MTN2Ni43MzY5bC0yLjAyLTEuMTY4NmEuMDcxLjA3MSAwIDAgMS0uMDM4LS4wNTJWOS42NjA4YTQuNTA0IDQuNTA0IDAgMCAxIDQuNDk0NS00LjQ5NDR6TTEwLjc0OTEgMTQuNTQyMmwtMi44NDY1LTEuNjQ2NHYtMy4yOTI4bDIuODQ2NS0xLjY0NjQgMi44NDY1IDEuNjQ2NHYzLjI5Mjh6" fill="#000000" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="ai-text" id="outAiMsg">نعم. تم الاستغناء عن الحيل البرمجية، وتمت إعادة بناء الأيقونات بطريقة هندسية بحتة لكي تتوافق مع نظام جهازك وتمنع أي انهيار في التصوير بدقة 4K.</div>
-                </div>
+                <div class="msg-ai" id="outAiMsg">ملاحظة دقيقة جداً وممتازة! 
+
+تم حذف الشعار تماماً لكي تتطابق الواجهة مع التطبيق الرسمي بنسبة 100%. هذا الأمر أدى أيضاً إلى تنظيف الكود بالكامل، وحل مشكلة التشوه والسواد بشكل نهائي.</div>
 
             </div>
 
@@ -308,29 +273,13 @@
             document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
         }
 
-        function updateAiAvatar(event) {
-            const reader = new FileReader();
-            reader.onload = function() { 
-                const avatarDiv = document.getElementById('outAiAvatar');
-                document.getElementById('defaultAiIcon').style.display = 'none'; 
-                
-                // في حال رفع المستخدم صورة، نطبق الـ CSS هنا فقط
-                avatarDiv.style.width = '30px';
-                avatarDiv.style.height = '30px';
-                avatarDiv.style.borderRadius = '50%';
-                avatarDiv.style.backgroundSize = 'cover';
-                avatarDiv.style.backgroundImage = `url(${reader.result})`; 
-            };
-            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
-        }
-
         function captureChatGPT() {
             const captureArea = document.getElementById('captureArea');
             
+            // دقة 4K صريحة مع ضمان أداء سريع وخالي من الشوائب
             html2canvas(captureArea, { 
                 scale: 5, 
-                backgroundColor: '#000000',
-                useCORS: true
+                backgroundColor: '#000000'
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `ChatGPT_Mockup_4K_${Date.now()}.png`;
