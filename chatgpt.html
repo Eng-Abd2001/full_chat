@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة ChatGPT | مطابقة 100% (نسخة الـ PNG المستقرة)</title>
+    <title>محادثة ChatGPT | مطابقة 100% (نسخة Base64 المستقرة)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -173,7 +173,7 @@
             overflow: hidden;
         }
         
-        /* الصورة النقطية (PNG) اللي مستحيل تتشوه بالدقة العالية */
+        /* الصورة المشفرة Base64 (لا تعتمد على انترنت أو روابط خارجية) */
         .default-ai-icon {
             width: 17px;
             height: 17px;
@@ -259,14 +259,14 @@
 
             <div class="input-group">
                 <label>رسالة المستخدم (أنت):</label>
-                <textarea id="inUserMsg" oninput="updateLive()">لماذا يظهر الشعار بهذا الشكل المشوه؟</textarea>
+                <textarea id="inUserMsg" oninput="updateLive()">هل تم حل مشكلة اختفاء الصورة في الدقة العالية؟</textarea>
             </div>
 
             <div class="input-group">
                 <label>رد الذكاء الاصطناعي (ChatGPT):</label>
-                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">الآن تم استبدال الشعار الهندسي (SVG) بصورة نقطية عالية الجودة (PNG). 
+                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم، كـ Tech Lead قمت الآن بتشفير الصورة برمجياً بصيغة Base64 ودمجها في الكود نفسه.
 
-مهما قمت برفع الدقة الآن، من المستحيل أن يتشوه الشعار أو تنفصل أجزاؤه أثناء التقاط الصورة.</textarea>
+هذا يعني أنه لا توجد روابط خارجية يمكن للمتصفح أن يحظرها (CORS Error)، وستظهر الصورة بدقة 4K في كل مرة بدون أي اختفاء أو تشوه.</textarea>
             </div>
 
             <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
@@ -285,15 +285,15 @@
 
             <div class="gpt-chat-area">
                 
-                <div class="msg-user" id="outUserMsg">لماذا يظهر الشعار بهذا الشكل المشوه؟</div>
+                <div class="msg-user" id="outUserMsg">هل تم حل مشكلة اختفاء الصورة في الدقة العالية؟</div>
                 
                 <div class="msg-ai">
                     <div class="ai-avatar" id="outAiAvatar">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/512px-ChatGPT_logo.svg.png" crossorigin="anonymous" class="default-ai-icon" id="defaultAiIcon">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIyLjI4MTkgOS44MjExYTUuOTg0NyA1Ljk4NDcgMCAwIDAtLjUxNTctNC45MTA4IDYuMDQ2MiA2LjA0NjIgMCAwIDAtNi41MDk4LTIuOUE2LjA2NTEgNi4wNjUxIDAgMCAwIDQuOTgwNyA0LjE4MThhNS45ODQ3IDUuOTg0NyAwIDAgMC0zLjk5NzcgMi45IDYuMDQ2MiA2LjA0NjIgMCAwIDAgLjc0MjcgNy4wOTY2IDUuOTggNS45OCAwIDAgMCAuNTExIDQuOTEwNyA2LjA1MSA2LjA1MSAwIDAgMCA2LjUxNDYgMi45MDAxQTUuOTg0NyA1Ljk4NDcgMCAwIDAgMTMuMjU5OSAyNGE2LjA1NTcgNi4wNTU3IDAgMCAwIDUuNzcxOC00LjIwNTggNS45ODk0IDUuOTg5NCAwIDAgMCAzLjk5NzctMi45MDAxIDYuMDU1NyA2LjA1NTcgMCAwIDAtLjc0NzUtNy4wNzN6bS05LjAyMiAxMi42MDgxYTQuNDc1NSA0LjQ3NTUgMCAwIDEtMi44NzY0LTEuMDQwOGwuMTQxOS0uMDgwNCA0Ljc3ODMtMi43NTgyYS43OTQ4Ljc5NDggMCAwIDAgLjM5MjctLjY4MTN2LTYuNzM2OWwyLjAyIDEuMTY4NmEuMDcxLjA3MSAwIDAgMSAuMDM4LjA1MnY1LjU4MjZhNC41MDQgNC41MDQgMCAwIDEtNC40OTQ1IDQuNDk0NHptLTkuNjYwNy00LjEyNTRhNC40NzA4IDQuNDcwOCAwIDAgMS0uNTM0Ni0zLjAxMzdsLjE0Mi4wODUyIDQuNzgzIDIuNzU4MmEuNzcxMi43NzEyIDAgMCAwIC43ODA2IDBsNS44NDI4LTMuMzY4NXYyLjMzMjRhLjA4MDQuMDgwNCAwIDAgMS0uMDMzMi4wNjE1TDkuNzQgMTkuOTUwMmE0LjQ5OTIgNC40OTkyIDAgMCAxLTYuMTQwOC0xLjY0NjR6TTIuMzQwOCA3Ljg5NTZhNC40ODUgNC40ODUgMCAwIDEgMi4zNjU1LTEuOTcyOFYxMS42YS43NjY0Ljc2NjQgMCAwIDAgLjM4NzkuNjc2NWw1LjgxNDQgMy4zNTQzLTIuMDIwMSAxLjE2ODVhLjA3NTcuMDc1NyAwIDAgMS0uMDcxIDBsLTQuODMwMy0yLjc4NjVBNC41MDQgNC41MDQgMCAwIDEgMi4zNDA4IDcuODk1NnptMTYuMDk5MyAzLjg1NThMMTIuNTk3MyA4LjM4MjlhLjc3NTkuNzc1OSAwIDAgMC0uNzgwNiAwTDUuOTc0IDExLjc1MTR2LTIuMzMyNGEuMDgwNC4wODA0IDAgMCAxIC4wMzMyLS4wNjE1bDQuMzUyOC0yLjUxNTJhNC40OTkyIDQuNDk5MiAwIDAgMSA2LjE0MDggMS42NDY0IDQuNDcwOCA0LjQ3MDggMCAwIDEgLjUzNDYgMy4wMTM3bC0uMTQyLS4wODUyLTQuNzgzLTIuNzU4MnpNMjEuNjU5MiAxNi4xMDQ0YTQuNDg1IDQuNDg1IDAgMCAxLTIuMzY1NSAxLjk3MjhWMTIuNGEuNzY2NC43NjY0IDAgMCAwLS4zODc5LS42NzY1TDEzLjA5MTQgOC4zNjkybDIuMDIwMS0xLjE2ODVhLjA3NTcuMDc1NyAwIDAgMSAuMDcxIDBsNC44MzAzIDIuNzg2NWE0LjUwNCA0LjUwNCAwIDAgMS0uMzUzNiA2LjExNzJ6bS02LjA5NzUtMTAuNDU3OGE0LjQ3NTUgNC40NzU1IDAgMCAxIDIuODc2NCAxLjA0MDhsLS4xNDE5LjA4MDQtNC43NzgzIDIuNzU4MmEuNzk0OC43OTQ4IDAgMCAwLS4zOTI3LjY4MTN2Ni43MzY5bC0yLjAyLTEuMTY4NmEuMDcxLjA3MSAwIDAgMS0uMDM4LS4wNTJWOS42NjA4YTQuNTA0IDQuNTA0IDAgMCAxIDQuNDk0NS00LjQ5NDR6TTEwLjc0OTEgMTQuNTQyMmwtMi44NDY1LTEuNjQ2NHYtMy4yOTI4bDIuODQ2NS0xLjY0NjQgMi44NDY1IDEuNjQ2NHYzLjI5Mjh6IiBmaWxsPSIjMDAwMDAwIi8+PC9zdmc+" class="default-ai-icon" id="defaultAiIcon">
                     </div>
-                    <div class="ai-text" id="outAiMsg">الآن تم استبدال الشعار الهندسي (SVG) بصورة نقطية عالية الجودة (PNG). 
+                    <div class="ai-text" id="outAiMsg">نعم، كـ Tech Lead قمت الآن بتشفير الصورة برمجياً بصيغة Base64 ودمجها في الكود نفسه.
 
-مهما قمت برفع الدقة الآن، من المستحيل أن يتشوه الشعار أو تنفصل أجزاؤه أثناء التقاط الصورة.</div>
+هذا يعني أنه لا توجد روابط خارجية يمكن للمتصفح أن يحظرها (CORS Error)، وستظهر الصورة بدقة 4K في كل مرة بدون أي اختفاء أو تشوه.</div>
                 </div>
 
             </div>
@@ -326,14 +326,14 @@
             document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
         }
 
-        // دالة تغيير صورة البوت (لـ Custom GPTs)
+        // دالة تغيير صورة البوت (لـ Custom GPTs) - ترفع الصورة بأسلوب Base64 محلي
         function updateAiAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
                 const avatarDiv = document.getElementById('outAiAvatar');
-                // إخفاء الصورة الأصلية
+                // إخفاء الشعار الأساسي
                 document.getElementById('defaultAiIcon').style.display = 'none'; 
-                // وضع الصورة المرفوعة كخلفية
+                // وضع الصورة المرفوعة
                 avatarDiv.style.backgroundImage = `url(${reader.result})`; 
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
@@ -342,11 +342,12 @@
         function captureChatGPT() {
             const captureArea = document.getElementById('captureArea');
             
-            // التقاط بدقة 5 أضعاف مع السماح بجلب الصورة من الرابط الخارجي (CORS)
+            // دقة 5 أضعاف للحصول على 4K خارق بدون أي خطأ
             html2canvas(captureArea, { 
                 scale: 5, 
                 backgroundColor: '#000000', 
-                useCORS: true 
+                useCORS: true,
+                allowTaint: true /* لتفادي أي مشاكل تخص المتصفحات الصارمة */
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `ChatGPT_Mockup_4K_${Date.now()}.png`;
