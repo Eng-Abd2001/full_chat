@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محادثة ChatGPT | ستوديو المحاكاة</title>
+    <!-- مكتبة التصوير المعتمدة للدقة الفائقة (4K) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* ألوان بيئة العمل (Premium Dark Mode) */
+            --bg-site: #121212; 
+            --panel-bg: #1a1a1a;
+            --primary-neon: #10a37f;
+            
+            /* ألوان تطبيق ChatGPT الرسمي (الوضع الليلي) */
+            --gpt-app-bg: #171717;
+            --gpt-user-bubble: #2f2f2f;
+            --gpt-text-main: #ececec;
+            --gpt-text-muted: #b4b4b4;
+            --gpt-border: #383838;
+            
+            --font-ar: 'Tajawal', sans-serif;
+            --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-site);
+            color: #fff;
+            font-family: var(--font-ar);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* رأس الصفحة (للرجوع للرئيسية) */
+        .top-nav {
+            width: 100%;
+            max-width: 950px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        .back-btn:hover { color: var(--primary-neon); }
+
+        /* حاوية التصميم والتحكم */
+        .workspace {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            width: 100%;
+            max-width: 950px;
+            justify-content: center;
+        }
+
+        /* لوحة التحكم */
+        .controls {
+            background: var(--panel-bg);
+            border: 1px solid #2a2a2a;
+            padding: 25px;
+            border-radius: 16px;
+            flex: 1;
+            min-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .controls h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-neon);
+        }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #a0a0a0; }
+        .input-group select, .input-group textarea {
+            width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333;
+            color: #fff; border-radius: 10px; outline: none; font-size: 14px;
+            font-family: var(--font-ar); transition: 0.3s;
+        }
+        .input-group select:focus, .input-group textarea:focus { border-color: var(--primary-neon); }
+        .input-group textarea { resize: vertical; min-height: 80px; }
+
+        .btn-download {
+            width: 100%; background: var(--primary-neon); color: #fff; font-weight: bold;
+            padding: 15px; font-size: 16px; border: none; border-radius: 12px;
+            cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: var(--font-ar);
+            box-shadow: 0 4px 15px rgba(16, 163, 127, 0.3);
+        }
+        .btn-download:hover { background: #0df0b9; transform: translateY(-2px); }
+
+        /* منطقة التصوير (شاشة الموبايل) */
+        .capture-container {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 9 / 16;
+            background-color: var(--gpt-app-bg);
+            border: 1px solid #333;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* هيدر تطبيق ChatGPT */
+        .gpt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gpt-border);
+            background: var(--gpt-app-bg);
+            z-index: 10;
+        }
+
+        .gpt-menu-icon { font-size: 18px; color: var(--gpt-text-main); }
+        
+        .gpt-model-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-en);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--gpt-text-main);
+        }
+        
+        .gpt-new-chat { font-size: 18px; color: var(--gpt-text-main); }
+
+        /* منطقة المحادثة */
+        .gpt-chat-area {
+            flex: 1;
+            padding: 20px 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* رسالة المستخدم */
+        .msg-user {
+            align-self: flex-start; /* لأن الاتجاه RTL */
+            background: var(--gpt-user-bubble);
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-top-right-radius: 4px;
+            max-width: 85%;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--gpt-text-main);
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        /* رسالة الذكاء الاصطناعي */
+        .msg-ai {
+            display: flex;
+            gap: 12px;
+            align-self: flex-start;
+            max-width: 95%;
+        }
+
+        .ai-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* كود SVG أصلي لشعار OpenAI */
+        .ai-avatar svg { width: 18px; height: 18px; fill: #000; }
+
+        .ai-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--gpt-text-main);
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        /* شريط الإدخال السفلي */
+        .gpt-input-bar {
+            padding: 12px 20px 25px 20px;
+            background: var(--gpt-app-bg);
+        }
+
+        .gpt-input-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--gpt-user-bubble);
+            border-radius: 25px;
+            padding: 10px 15px;
+        }
+
+        .gpt-placeholder {
+            color: var(--gpt-text-muted);
+            font-size: 15px;
+        }
+
+        .gpt-input-icons {
+            display: flex;
+            gap: 15px;
+            color: var(--gpt-text-main);
+            font-size: 16px;
+        }
+        
+        .gpt-input-icons i { opacity: 0.8; }
+        
+        .send-btn-mock {
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+    </div>
+
+    <div class="workspace">
+        <!-- لوحة التحكم -->
+        <div class="controls">
+            <h2><i class="fas fa-sliders-h"></i> إعدادات المحادثة</h2>
+            
+            <div class="input-group">
+                <label>إصدار النموذج (Model):</label>
+                <select id="inModel" onchange="updateLive()">
+                    <option value="ChatGPT 4o">ChatGPT 4o</option>
+                    <option value="ChatGPT 4">ChatGPT 4</option>
+                    <option value="ChatGPT 3.5">ChatGPT 3.5</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>رسالتك (السؤال):</label>
+                <textarea id="inUserMsg" oninput="updateLive()">اكتب لي كود احترافي بلغة HTML و CSS لتصميم واجهة مستخدم.</textarea>
+            </div>
+
+            <div class="input-group">
+                <label>رد الذكاء الاصطناعي (الجواب):</label>
+                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 150px;">بالتأكيد! إليك كود احترافي ونظيف لتصميم واجهة مستخدم حديثة تعتمد على الوضع الليلي (Dark Mode) مع تأثيرات نيون جذابة.
+لقد استخدمت أحدث التقنيات لضمان تجربة مستخدم مثالية.</textarea>
+            </div>
+
+            <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+        </div>
+
+        <!-- منطقة التصوير -->
+        <div class="capture-container" id="captureArea">
+            
+            <!-- الهيدر -->
+            <div class="gpt-header">
+                <i class="fas fa-bars gpt-menu-icon"></i>
+                <div class="gpt-model-selector">
+                    <span id="outModel">ChatGPT 4o</span>
+                    <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--gpt-text-muted);"></i>
+                </div>
+                <i class="far fa-edit gpt-new-chat"></i>
+            </div>
+
+            <!-- المحادثة -->
+            <div class="gpt-chat-area">
+                
+                <!-- فقاعة المستخدم -->
+                <div class="msg-user" id="outUserMsg">اكتب لي كود احترافي بلغة HTML و CSS لتصميم واجهة مستخدم.</div>
+                
+                <!-- فقاعة الذكاء الاصطناعي -->
+                <div class="msg-ai">
+                    <div class="ai-avatar">
+                        <!-- الشعار الأصلي لـ OpenAI -->
+                        <svg viewBox="0 0 24 24"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.073zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.5973 8.3829a.7759.7759 0 0 0-.7806 0L5.974 11.7514v-2.3324a.0804.0804 0 0 1 .0332-.0615l4.3528-2.5152a4.4992 4.4992 0 0 1 6.1408 1.6464 4.4708 4.4708 0 0 1 .5346 3.0137l-.142-.0852-4.783-2.7582zM21.6592 16.1044a4.485 4.485 0 0 1-2.3655 1.9728V12.4a.7664.7664 0 0 0-.3879-.6765L13.0914 8.3692l2.0201-1.1685a.0757.0757 0 0 1 .071 0l4.8303 2.7865a4.504 4.504 0 0 1-.3536 6.1172zm-6.0975-10.4578a4.4755 4.4755 0 0 1 2.8764 1.0408l-.1419.0804-4.7783 2.7582a.7948.7948 0 0 0-.3927.6813v6.7369l-2.02-1.1686a.071.071 0 0 1-.038-.052V9.6608a4.504 4.504 0 0 1 4.4945-4.4944zM10.7491 14.5422l-2.8465-1.6464v-3.2928l2.8465-1.6464 2.8465 1.6464v3.2928z"/></svg>
+                    </div>
+                    <div class="ai-text" id="outAiMsg">بالتأكيد! إليك كود احترافي ونظيف لتصميم واجهة مستخدم حديثة تعتمد على الوضع الليلي (Dark Mode) مع تأثيرات نيون جذابة.
+لقد استخدمت أحدث التقنيات لضمان تجربة مستخدم مثالية.</div>
+                </div>
+
+            </div>
+
+            <!-- الفوتر (حقل الإدخال) -->
+            <div class="gpt-input-bar">
+                <div class="gpt-input-box">
+                    <span class="gpt-placeholder">Message</span>
+                    <div class="gpt-input-icons">
+                        <i class="fas fa-microphone"></i>
+                        <i class="far fa-folder"></i>
+                        <div class="send-btn-mock"><i class="fas fa-arrow-up"></i></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function updateLive() {
+            document.getElementById('outModel').innerText = document.getElementById('inModel').value;
+            
+            const userMsg = document.getElementById('inUserMsg').value;
+            document.getElementById('outUserMsg').innerText = userMsg ? userMsg : '...';
+            
+            const aiMsg = document.getElementById('inAiMsg').value;
+            document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
+        }
+
+        function captureChatGPT() {
+            const captureArea = document.getElementById('captureArea');
+            
+            // استخدام Scale 5 لضمان دقة 4K الخارقة
+            html2canvas(captureArea, { 
+                scale: 5, 
+                backgroundColor: '#171717', 
+                useCORS: true 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `ChatGPT_Mockup_4K_${Date.now()}.png`;
+                link.href = canvas.toDataURL("image/png", 1.0);
+                link.click();
+            });
+        }
+        
+        window.onload = updateLive;
+    </script>
+</body>
+</html>

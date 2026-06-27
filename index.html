@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ستوديو المحاكاة | Simulation Studio</title>
+    <!-- خط تجوال -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* === نظام التصميم الموحد (Design System) === */
+        :root {
+            --bg-base: #050505; /* أسود عميق فاخر */
+            --bg-surface: #111111; /* لون البطاقات */
+            --bg-surface-hover: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --border-light: rgba(255, 255, 255, 0.08);
+            
+            /* ألوان هوية المنصات */
+            --brand-chatgpt: #10a37f;
+            --brand-gemini: #1a73e8; /* أزرق جوجل */
+            --brand-x: #ffffff;
+            --brand-whatsapp: #25d366;
+            --brand-messenger: #0084ff;
+            --brand-instagram: #e1306c;
+            --brand-tiktok: #00f2fe;
+            
+            --font-main: 'Tajawal', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* أعلى درجات تنعيم الخطوط */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255,255,255,0.02) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255,255,255,0.02) 0%, transparent 25%);
+        }
+
+        /* === الهيدر الاحترافي === */
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px 50px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #A0A0A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* === شبكة الأدوات (Grid) === */
+        .tools-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 20px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* === تصميم البطاقات (Cards) === */
+        .tool-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 24px;
+            text-decoration: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* تأثير الإضاءة الخلفية للبطاقة */
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .tool-card:hover {
+            background: var(--bg-surface-hover);
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        /* أيقونات المنصات */
+        .icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        /* تلوين الأيقونة عند التحويم حسب هوية المنصة */
+        .tool-card[data-brand="chatgpt"]:hover .icon-wrapper { color: var(--brand-chatgpt); border-color: var(--brand-chatgpt); background: rgba(16, 163, 127, 0.1); }
+        .tool-card[data-brand="gemini"]:hover .icon-wrapper { color: var(--brand-gemini); border-color: var(--brand-gemini); background: rgba(26, 115, 232, 0.1); }
+        .tool-card[data-brand="x"]:hover .icon-wrapper { color: var(--text-primary); border-color: var(--text-primary); background: rgba(255, 255, 255, 0.1); }
+        .tool-card[data-brand="whatsapp"]:hover .icon-wrapper { color: var(--brand-whatsapp); border-color: var(--brand-whatsapp); background: rgba(37, 211, 102, 0.1); }
+        .tool-card[data-brand="messenger"]:hover .icon-wrapper { color: var(--brand-messenger); border-color: var(--brand-messenger); background: rgba(0, 132, 255, 0.1); }
+        .tool-card[data-brand="instagram"]:hover .icon-wrapper { color: var(--brand-instagram); border-color: var(--brand-instagram); background: rgba(225, 48, 108, 0.1); }
+        .tool-card[data-brand="tiktok"]:hover .icon-wrapper { color: var(--brand-tiktok); border-color: var(--brand-tiktok); background: rgba(0, 242, 254, 0.1); }
+
+        /* نصوص البطاقة */
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .card-info h3 {
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .card-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* سهم الانتقال */
+        .arrow-indicator {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%) translateX(-10px);
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: var(--transition-smooth);
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        .tool-card:hover .arrow-indicator {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+        
+        .tool-card:hover .card-info {
+            padding-left: 20px; /* إزاحة النص قليلاً لإعطاء مساحة للسهم */
+            transition: var(--transition-smooth);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <span class="hero-label">V 2.0 الماسية</span>
+        <h1 class="hero-title">ستوديو المحاكاة الشامل</h1>
+        <p class="hero-subtitle">بيئة عمل هندسية متكاملة لإنشاء محادثات ومنشورات وهمية بكسل بـ بكسل. اختر الأداة وابدأ صناعة المحتوى بدقة 4K.</p>
+    </header>
+
+    <main class="tools-container">
+        
+        <!-- الأداة 1: ChatGPT -->
+        <a href="chatgpt.html" class="tool-card" data-brand="chatgpt">
+            <div class="icon-wrapper"><i class="fas fa-robot"></i></div>
+            <div class="card-info">
+                <h3>محادثة ChatGPT</h3>
+                <p>محاكاة دقيقة لواجهة الذكاء الاصطناعي مع تحكم كامل بالردود.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 2: Gemini -->
+        <a href="gemini.html" class="tool-card" data-brand="gemini">
+            <div class="icon-wrapper"><i class="fas fa-sparkles"></i></div>
+            <div class="card-info">
+                <h3>محادثة Gemini</h3>
+                <p>أنشئ حوارات تفاعلية بتصميم جوجل الرسمي الحديث.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 3: X (Twitter) -->
+        <a href="x-post.html" class="tool-card" data-brand="x">
+            <div class="icon-wrapper"><i class="fa-brands fa-x-twitter"></i></div>
+            <div class="card-info">
+                <h3>منشور منصة X</h3>
+                <p>صانع تغريدات بتوثيق رسمي ومقاسات مثالية لكل الشاشات.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 4: WhatsApp -->
+        <a href="whatsapp.html" class="tool-card" data-brand="whatsapp">
+            <div class="icon-wrapper"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="card-info">
+                <h3>محادثة WhatsApp</h3>
+                <p>توليد شاشات شات واتساب احترافية بالوضعين الداكن والمضيء.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 5: Messenger -->
+        <a href="messenger.html" class="tool-card" data-brand="messenger">
+            <div class="icon-wrapper"><i class="fa-brands fa-facebook-messenger"></i></div>
+            <div class="card-info">
+                <h3>شات Messenger</h3>
+                <p>تصميم فقاعات رسائل ماسنجر مطابقة للتطبيق الأساسي.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 6: Instagram -->
+        <a href="instagram.html" class="tool-card" data-brand="instagram">
+            <div class="icon-wrapper"><i class="fa-brands fa-instagram"></i></div>
+            <div class="card-info">
+                <h3>منشورات Instagram</h3>
+                <p>مولد بوستات ومحادثات انستغرام بدقة وتفاصيل خرافية.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 7: TikTok -->
+        <a href="tiktok.html" class="tool-card" data-brand="tiktok">
+            <div class="icon-wrapper"><i class="fa-brands fa-tiktok"></i></div>
+            <div class="card-info">
+                <h3>واجهة TikTok</h3>
+                <p>محاكاة كاملة لواجهة الفيديوهات القصيرة بتصميم دقيق.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+    </main>
+
+</body>
+</html>
