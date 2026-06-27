@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة WhatsApp | سكرين شوت حقيقي (الخلفية الأصلية)</title>
+    <title>محادثة WhatsApp | سكرين شوت حقيقي (شريط إشعارات ديناميكي)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
             --primary-color: #25D366; 
             
-            /* ألوان تطبيق واتساب الرسمي بالمليمتر */
             --wa-bg: #0b141a; 
             --wa-header: #202c33;
             --wa-sent: #005c4b;
@@ -52,7 +50,6 @@
             justify-content: center;
         }
 
-        /* لوحة التحكم */
         .controls {
             background: var(--panel-bg);
             border: 1px solid #1e293b;
@@ -70,6 +67,23 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* تنسيق الأقسام داخل لوحة التحكم */
+        .control-section {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            margin-bottom: 20px;
+        }
+        .control-section-title {
+            font-size: 14px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 8px;
         }
 
         .input-group { margin-bottom: 15px; }
@@ -102,12 +116,12 @@
             cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: var(--font-ar);
         }
 
-        /* شاشة الموبايل (حاوية السكرين شوت) */
+        /* شاشة الموبايل */
         .capture-container {
             width: 100%;
             max-width: 400px;
             aspect-ratio: 9 / 19; 
-            background-color: var(--wa-bg); /* اللون الأصلي النظيف */
+            background-color: var(--wa-bg);
             border: 1px solid #222;
             border-radius: 35px;
             overflow: hidden;
@@ -136,7 +150,6 @@
             font-size: 12px;
         }
 
-        /* هيدر واتساب */
         .wa-header {
             display: flex;
             align-items: center;
@@ -145,32 +158,17 @@
             background: var(--wa-header);
             z-index: 10;
         }
-
-        .wa-header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .wa-header-left { display: flex; align-items: center; gap: 10px; }
         .wa-back { color: var(--wa-text); font-size: 18px; display: flex; align-items: center; gap: 5px; }
-        
         .wa-avatar {
             width: 40px; height: 40px; border-radius: 50%;
             background-color: #333; background-size: cover; background-position: center;
         }
-
         .wa-user-info { display: flex; flex-direction: column; }
         .wa-name { color: var(--wa-text); font-size: 16px; font-weight: 600; line-height: 1.2; font-family: var(--font-en); }
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
+        .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        .wa-header-icons {
-            display: flex;
-            gap: 20px;
-            color: var(--wa-text);
-            font-size: 18px;
-        }
-
-        /* مساحة المحادثة */
         .wa-chat-area {
             flex: 1;
             padding: 20px 15px;
@@ -178,7 +176,7 @@
             flex-direction: column;
             gap: 15px;
             overflow: hidden;
-            background-color: var(--wa-bg); /* اللون السادة الاحترافي بدون زخارف مشوهة */
+            background-color: var(--wa-bg); 
         }
 
         .wa-date-badge {
@@ -201,20 +199,8 @@
             position: relative;
             box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
-
-        .msg-received {
-            align-self: flex-start;
-            background: var(--wa-received);
-            color: var(--wa-text);
-            border-top-right-radius: 0;
-        }
-
-        .msg-sent {
-            align-self: flex-end;
-            background: var(--wa-sent);
-            color: var(--wa-text);
-            border-top-left-radius: 0;
-        }
+        .msg-received { align-self: flex-start; background: var(--wa-received); color: var(--wa-text); border-top-right-radius: 0; }
+        .msg-sent { align-self: flex-end; background: var(--wa-sent); color: var(--wa-text); border-top-left-radius: 0; }
 
         .msg-meta {
             display: flex;
@@ -228,17 +214,9 @@
             margin-right: 15px;
             font-family: var(--font-en);
         }
-
         .msg-received .msg-meta { float: left; margin-right: 15px; }
+        .blue-ticks { color: var(--wa-blue-tick); font-size: 13px; display: flex; align-items: center; }
 
-        .blue-ticks {
-            color: var(--wa-blue-tick);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* شريط الإدخال */
         .wa-input-area {
             padding: 10px;
             background: var(--wa-bg);
@@ -247,20 +225,12 @@
             gap: 10px;
             z-index: 10;
         }
-
         .wa-input-box {
-            flex: 1;
-            background: var(--wa-header);
-            border-radius: 24px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            flex: 1; background: var(--wa-header); border-radius: 24px;
+            padding: 10px 15px; display: flex; align-items: center; gap: 15px;
         }
-
         .wa-input-box i { color: var(--wa-muted); font-size: 20px; }
         .wa-placeholder { flex: 1; color: var(--wa-muted); font-size: 16px; }
-
         .wa-mic-btn {
             width: 44px; height: 44px; border-radius: 50%;
             background: var(--primary-color); color: #fff;
@@ -277,23 +247,9 @@
             background: #000000;
             z-index: 20;
         }
-
-        .nav-btn-recent {
-            width: 14px; height: 14px;
-            border: 2px solid #a0a0a0;
-            border-radius: 2px;
-        }
-        .nav-btn-home {
-            width: 16px; height: 16px;
-            border: 2px solid #a0a0a0;
-            border-radius: 50%;
-        }
-        .nav-btn-back {
-            width: 0; height: 0;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 12px solid #a0a0a0;
-        }
+        .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #a0a0a0; border-radius: 2px; }
+        .nav-btn-home { width: 16px; height: 16px; border: 2px solid #a0a0a0; border-radius: 50%; }
+        .nav-btn-back { width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 12px solid #a0a0a0; }
 
     </style>
 </head>
@@ -304,46 +260,87 @@
         <div class="controls">
             <h2><i class="fa-brands fa-whatsapp"></i> إعدادات سكرين شوت الواتساب</h2>
             
-            <div class="file-upload-grid">
-                <label class="custom-file-upload">
-                    <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                    <i class="fas fa-user-circle"></i> صورة الشخص
-                </label>
-                <label class="custom-file-upload">
-                    <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
-                    <i class="fas fa-image"></i> خلفية المحادثة (النقش)
-                </label>
+            <div class="control-section">
+                <div class="control-section-title">شريط إشعارات الموبايل (Status Bar)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>وقت الموبايل:</label>
+                        <input type="text" id="inPhoneTime" value="10:50 ص" oninput="updateLive()">
+                    </div>
+                    <div class="input-group">
+                        <label>البطارية:</label>
+                        <select id="inBattery" onchange="updateLive()">
+                            <option value="full">ممتلئ (100%)</option>
+                            <option value="half">نصف (50%)</option>
+                            <option value="low">ضعيف (أحمر)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateLive()">
+                            <option value="full">إشارة قوية</option>
+                            <option value="weak">إشارة ضعيفة</option>
+                            <option value="none">مخفي (بيانات فقط)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateLive()">
+                            <option value="full">تغطية قوية</option>
+                            <option value="weak">تغطية ضعيفة</option>
+                            <option value="none">لا توجد خدمة</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="control-section">
+                <div class="control-section-title">إعدادات المحادثة والخلفية</div>
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-user-circle"></i> صورة الشخص
+                    </label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
+                        <i class="fas fa-image"></i> خلفية المحادثة (النقش)
+                    </label>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>اسم الشخص:</label>
+                        <input type="text" id="inName" value="Yousef" oninput="updateLive()">
+                    </div>
+                    <div class="input-group">
+                        <label>الحالة:</label>
+                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateLive()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">الرسائل</div>
                 <div class="input-group">
-                    <label>اسم الشخص:</label>
-                    <input type="text" id="inName" value="Yousef" oninput="updateLive()">
+                    <label>رسالة الطرف الآخر:</label>
+                    <textarea id="inMsg1" oninput="updateLive()">شكراً لك، شريط الإشعارات الآن أصبح ديناميكياً ويتحكم بالبطارية والشبكة.</textarea>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
+                        <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
+                    </div>
                 </div>
+
                 <div class="input-group">
-                    <label>وقت الموبايل (فوق):</label>
-                    <input type="text" id="inPhoneTime" value="10:50 ص" oninput="updateLive()">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>رسالة الطرف الآخر:</label>
-                <textarea id="inMsg1" oninput="updateLive()">هل قمت بإزالة النقش المزعج من الخلفية؟</textarea>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
-                    <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>رسالتك أنت:</label>
-                <textarea id="inMsg2" oninput="updateLive()">نعم! تم إرجاع الخلفية إلى اللون الأصلي السادة (Solid Dark)، وبإمكانك الآن رفع أي خلفية أصلية لواتساب من جهازك لتندمج باحترافية.</textarea>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
-                    <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
-                    <select id="inTicks" onchange="updateLive()">
-                        <option value="blue">تمت القراءة (صح أزرق)</option>
-                        <option value="gray">تم الاستلام (صح رمادي)</option>
-                        <option value="single">تم الإرسال (صح واحد)</option>
-                    </select>
+                    <label>رسالتك أنت:</label>
+                    <textarea id="inMsg2" oninput="updateLive()">بالخدمة يا صديقي، وتم تثبيت هذه القاعدة البرمجية لجميع التطبيقات القادمة كما طلبت.</textarea>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
+                        <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
+                        <select id="inTicks" onchange="updateLive()">
+                            <option value="blue">تمت القراءة (صح أزرق)</option>
+                            <option value="gray">تم الاستلام (صح رمادي)</option>
+                            <option value="single">تم الإرسال (صح واحد)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -354,9 +351,9 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <i class="fas fa-signal" style="margin-left: 2px;"></i>
-                    <i class="fas fa-wifi" style="margin-left: 2px;"></i>
-                    <i class="fas fa-battery-three-quarters"></i>
+                    <i id="outSignal" class="fas fa-signal" style="margin-left: 2px;"></i>
+                    <i id="outWifi" class="fas fa-wifi" style="margin-left: 2px;"></i>
+                    <i id="outBattery" class="fas fa-battery-full"></i>
                 </div>
                 <div id="outPhoneTime">10:50 ص</div>
             </div>
@@ -382,14 +379,14 @@
                 <div class="wa-date-badge">اليوم</div>
 
                 <div class="msg-received">
-                    <span id="outMsg1">هل قمت بإزالة النقش المزعج من الخلفية؟</span>
+                    <span id="outMsg1">شكراً لك، شريط الإشعارات الآن أصبح ديناميكياً ويتحكم بالبطارية والشبكة.</span>
                     <div class="msg-meta">
                         <span id="outTime1">10:30 ص</span>
                     </div>
                 </div>
 
                 <div class="msg-sent">
-                    <span id="outMsg2">نعم! تم إرجاع الخلفية إلى اللون الأصلي السادة (Solid Dark)، وبإمكانك الآن رفع أي خلفية أصلية لواتساب من جهازك لتندمج باحترافية.</span>
+                    <span id="outMsg2">بالخدمة يا صديقي، وتم تثبيت هذه القاعدة البرمجية لجميع التطبيقات القادمة كما طلبت.</span>
                     <div class="msg-meta">
                         <span id="outTime2">10:32 ص</span>
                         <div class="blue-ticks" id="outTicks">
@@ -423,15 +420,56 @@
 
     <script>
         function updateLive() {
+            // تحديث النصوص الأساسية
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
-            
+            document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
             document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
             document.getElementById('outTime1').innerText = document.getElementById('inTime1').value;
-            
             document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
             document.getElementById('outTime2').innerText = document.getElementById('inTime2').value;
 
+            // تحديث علامات شريط الإشعارات (البطارية)
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batteryIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') {
+                batteryIcon.className = 'fas fa-battery-full';
+                batteryIcon.style.color = '#ffffff';
+            } else if (batteryStatus === 'half') {
+                batteryIcon.className = 'fas fa-battery-half';
+                batteryIcon.style.color = '#ffffff';
+            } else if (batteryStatus === 'low') {
+                batteryIcon.className = 'fas fa-battery-quarter';
+                batteryIcon.style.color = '#ff3b30'; // لون أحمر واقعي للبطارية الضعيفة
+            }
+
+            // تحديث الواي فاي
+            const wifiStatus = document.getElementById('inWifi').value;
+            const wifiIcon = document.getElementById('outWifi');
+            if (wifiStatus === 'full') {
+                wifiIcon.style.display = 'inline-block';
+                wifiIcon.style.opacity = '1';
+            } else if (wifiStatus === 'weak') {
+                wifiIcon.style.display = 'inline-block';
+                wifiIcon.style.opacity = '0.4'; // يظهر كإشارة ضعيفة
+            } else {
+                wifiIcon.style.display = 'none';
+            }
+
+            // تحديث الشبكة (الابراج)
+            const signalStatus = document.getElementById('inSignal').value;
+            const signalIcon = document.getElementById('outSignal');
+            if (signalStatus === 'full') {
+                signalIcon.style.display = 'inline-block';
+                signalIcon.style.opacity = '1';
+            } else if (signalStatus === 'weak') {
+                signalIcon.style.display = 'inline-block';
+                signalIcon.style.opacity = '0.4';
+            } else {
+                signalIcon.style.display = 'none';
+            }
+
+            // تحديث حالة الصح في الواتساب
             const tickStatus = document.getElementById('inTicks').value;
             const tickBox = document.getElementById('outTicks');
             if (tickStatus === 'blue') {
@@ -454,12 +492,10 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // دالة الرفع المعدلة هندسياً
         function updateChatBg(event) {
             const reader = new FileReader();
             reader.onload = function() { 
                 const chatArea = document.getElementById('outChatArea');
-                // تندمج الصورة مع لون أسود شفاف خفيف (0.4) لتحاكي تعتيم الواتساب الأصلي للخلفيات
                 chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.4), rgba(11, 20, 26, 0.4)), url(${reader.result})`;
                 chatArea.style.backgroundSize = 'cover';
                 chatArea.style.backgroundPosition = 'center';
