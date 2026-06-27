@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة ChatGPT | مطابقة 100% (نسخة Base64 المستقرة)</title>
+    <title>محادثة ChatGPT | نسخة الـ PNG الصلبة (بدون أي تشوه)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
+            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
             --primary-neon: #10a37f;
             
+            /* ألوان تطبيق ChatGPT الأصلية */
             --gpt-bg: #000000; 
             --gpt-user-bg: #2f2f2f; 
             --gpt-text: #ececec; 
@@ -157,7 +159,7 @@
             max-width: 95%;
         }
 
-        /* حاوية الأيقونة */
+        /* الدائرة البيضاء للشعار */
         .ai-avatar {
             width: 28px;
             height: 28px;
@@ -173,7 +175,7 @@
             overflow: hidden;
         }
         
-        /* الصورة المشفرة Base64 (لا تعتمد على انترنت أو روابط خارجية) */
+        /* الصورة النقطية اللي مستحيل تصير سودة أو تتشوه */
         .default-ai-icon {
             width: 17px;
             height: 17px;
@@ -259,14 +261,14 @@
 
             <div class="input-group">
                 <label>رسالة المستخدم (أنت):</label>
-                <textarea id="inUserMsg" oninput="updateLive()">هل تم حل مشكلة اختفاء الصورة في الدقة العالية؟</textarea>
+                <textarea id="inUserMsg" oninput="updateLive()">هل تم حل مشكلة السواد والتشوه بشكل نهائي؟</textarea>
             </div>
 
             <div class="input-group">
                 <label>رد الذكاء الاصطناعي (ChatGPT):</label>
-                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم، كـ Tech Lead قمت الآن بتشفير الصورة برمجياً بصيغة Base64 ودمجها في الكود نفسه.
+                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم، تم استخدام "الضربة القاضية" هندسياً. 
 
-هذا يعني أنه لا توجد روابط خارجية يمكن للمتصفح أن يحظرها (CORS Error)، وستظهر الصورة بدقة 4K في كل مرة بدون أي اختفاء أو تشوه.</textarea>
+المتصفح الآن يقوم برسم الشعار وتحويله إلى بكسلات صلبة (PNG) بالخفاء قبل التقاط الصورة. مستحيل أن يظهر السواد أو التشوه مهما رفعت الدقة.</textarea>
             </div>
 
             <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
@@ -285,15 +287,15 @@
 
             <div class="gpt-chat-area">
                 
-                <div class="msg-user" id="outUserMsg">هل تم حل مشكلة اختفاء الصورة في الدقة العالية؟</div>
+                <div class="msg-user" id="outUserMsg">هل تم حل مشكلة السواد والتشوه بشكل نهائي؟</div>
                 
                 <div class="msg-ai">
                     <div class="ai-avatar" id="outAiAvatar">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIyLjI4MTkgOS44MjExYTUuOTg0NyA1Ljk4NDcgMCAwIDAtLjUxNTctNC45MTA4IDYuMDQ2MiA2LjA0NjIgMCAwIDAtNi41MDk4LTIuOUE2LjA2NTEgNi4wNjUxIDAgMCAwIDQuOTgwNyA0LjE4MThhNS45ODQ3IDUuOTg0NyAwIDAgMC0zLjk5NzcgMi45IDYuMDQ2MiA2LjA0NjIgMCAwIDAgLjc0MjcgNy4wOTY2IDUuOTggNS45OCAwIDAgMCAuNTExIDQuOTEwNyA2LjA1MSA2LjA1MSAwIDAgMCA2LjUxNDYgMi45MDAxQTUuOTg0NyA1Ljk4NDcgMCAwIDAgMTMuMjU5OSAyNGE2LjA1NTcgNi4wNTU3IDAgMCAwIDUuNzcxOC00LjIwNTggNS45ODk0IDUuOTg5NCAwIDAgMCAzLjk5NzctMi45MDAxIDYuMDU1NyA2LjA1NTcgMCAwIDAtLjc0NzUtNy4wNzN6bS05LjAyMiAxMi42MDgxYTQuNDc1NSA0LjQ3NTUgMCAwIDEtMi44NzY0LTEuMDQwOGwuMTQxOS0uMDgwNCA0Ljc3ODMtMi43NTgyYS43OTQ4Ljc5NDggMCAwIDAgLjM5MjctLjY4MTN2LTYuNzM2OWwyLjAyIDEuMTY4NmEuMDcxLjA3MSAwIDAgMSAuMDM4LjA1MnY1LjU4MjZhNC41MDQgNC41MDQgMCAwIDEtNC40OTQ1IDQuNDk0NHptLTkuNjYwNy00LjEyNTRhNC40NzA4IDQuNDcwOCAwIDAgMS0uNTM0Ni0zLjAxMzdsLjE0Mi4wODUyIDQuNzgzIDIuNzU4MmEuNzcxMi43NzEyIDAgMCAwIC43ODA2IDBsNS44NDI4LTMuMzY4NXYyLjMzMjRhLjA4MDQuMDgwNCAwIDAgMS0uMDMzMi4wNjE1TDkuNzQgMTkuOTUwMmE0LjQ5OTIgNC40OTkyIDAgMCAxLTYuMTQwOC0xLjY0NjR6TTIuMzQwOCA3Ljg5NTZhNC40ODUgNC40ODUgMCAwIDEgMi4zNjU1LTEuOTcyOFYxMS42YS43NjY0Ljc2NjQgMCAwIDAgLjM4NzkuNjc2NWw1LjgxNDQgMy4zNTQzLTIuMDIwMSAxLjE2ODVhLjA3NTcuMDc1NyAwIDAgMS0uMDcxIDBsLTQuODMwMy0yLjc4NjVBNC41MDQgNC41MDQgMCAwIDEgMi4zNDA4IDcuODk1NnptMTYuMDk5MyAzLjg1NThMMTIuNTk3MyA4LjM4MjlhLjc3NTkuNzc1OSAwIDAgMC0uNzgwNiAwTDUuOTc0IDExLjc1MTR2LTIuMzMyNGEuMDgwNC4wODA0IDAgMCAxIC4wMzMyLS4wNjE1bDQuMzUyOC0yLjUxNTJhNC40OTkyIDQuNDk5MiAwIDAgMSA2LjE0MDggMS42NDY0IDQuNDcwOCA0LjQ3MDggMCAwIDEgLjUzNDYgMy4wMTM3bC0uMTQyLS4wODUyLTQuNzgzLTIuNzU4MnpNMjEuNjU5MiAxNi4xMDQ0YTQuNDg1IDQuNDg1IDAgMCAxLTIuMzY1NSAxLjk3MjhWMTIuNGEuNzY2NC43NjY0IDAgMCAwLS4zODc5LS42NzY1TDEzLjA5MTQgOC4zNjkybDIuMDIwMS0xLjE2ODVhLjA3NTcuMDc1NyAwIDAgMSAuMDcxIDBsNC44MzAzIDIuNzg2NWE0LjUwNCA0LjUwNCAwIDAgMS0uMzUzNiA2LjExNzJ6bS02LjA5NzUtMTAuNDU3OGE0LjQ3NTUgNC40NzU1IDAgMCAxIDIuODc2NCAxLjA0MDhsLS4xNDE5LjA4MDQtNC43NzgzIDIuNzU4MmEuNzk0OC43OTQ4IDAgMCAwLS4zOTI3LjY4MTN2Ni43MzY5bC0yLjAyLTEuMTY4NmEuMDcxLjA3MSAwIDAgMS0uMDM4LS4wNTJWOS42NjA4YTQuNTA0IDQuNTA0IDAgMCAxIDQuNDk0NS00LjQ5NDR6TTEwLjc0OTEgMTQuNTQyMmwtMi44NDY1LTEuNjQ2NHYtMy4yOTI4bDIuODQ2NS0xLjY0NjQgMi44NDY1IDEuNjQ2NHYzLjI5Mjh6IiBmaWxsPSIjMDAwMDAwIi8+PC9zdmc+" class="default-ai-icon" id="defaultAiIcon">
+                        <img src="" class="default-ai-icon" id="defaultAiIcon">
                     </div>
-                    <div class="ai-text" id="outAiMsg">نعم، كـ Tech Lead قمت الآن بتشفير الصورة برمجياً بصيغة Base64 ودمجها في الكود نفسه.
+                    <div class="ai-text" id="outAiMsg">نعم، تم استخدام "الضربة القاضية" هندسياً. 
 
-هذا يعني أنه لا توجد روابط خارجية يمكن للمتصفح أن يحظرها (CORS Error)، وستظهر الصورة بدقة 4K في كل مرة بدون أي اختفاء أو تشوه.</div>
+المتصفح الآن يقوم برسم الشعار وتحويله إلى بكسلات صلبة (PNG) بالخفاء قبل التقاط الصورة. مستحيل أن يظهر السواد أو التشوه مهما رفعت الدقة.</div>
                 </div>
 
             </div>
@@ -326,28 +328,42 @@
             document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
         }
 
-        // دالة تغيير صورة البوت (لـ Custom GPTs) - ترفع الصورة بأسلوب Base64 محلي
+        // دالة تحويل الشعار إلى بكسلات صلبة (الضربة القاضية لمشكلة السواد)
+        function initAILogo() {
+            const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.073zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.5973 8.3829a.7759.7759 0 0 0-.7806 0L5.974 11.7514v-2.3324a.0804.0804 0 0 1 .0332-.0615bDQuMzUyOC0yLjUxNTJhNC40OTkyIDQuNDk5MiAwIDAgMSA2LjE0MDggMS42NDY0IDQuNDcwOCA0LjQ3MDggMCAwIDEgLjUzNDYgMy4wMTM3bC0uMTQyLS4wODUyLTQuNzgzLTIuNzU4MnpNMjEuNjU5MiAxNi4xMDQ0YTQuNDg1IDQuNDg1IDAgMCAxLTIuMzY1NSAxLjk3MjhWMTIuNGEuNzY2NC43NjY0IDAgMCAwLS4zODc5LS42NzY1TDEzLjA5MTQgOC4zNjkybDIuMDIwMS0xLjE2ODVhLjA3NTcuMDc1NyAwIDAgMSAuMDcxIDBsNC44MzAzIDIuNzg2NWE0LjUwNCA0LjUwNCAwIDAgMS0uMzUzNiA2LjExNzJ6bS02LjA5NzUtMTAuNDU3OGE0LjQ3NTUgNC40NzU1IDAgMCAxIDIuODc2NCAxLjA0MDhsLS4xNDE5LjA4MDQtNC43NzgzIDIuNzU4MmEuNzk0OC43OTQ4IDAgMCAwLS4zOTI3LjY4MTN2Ni43MzY5bC0yLjAyLTEuMTY4NmEuMDcxLjA3MSAwIDAgMS0uMDM4LS4wNTJWOS42NjA4YTQuNTA0IDQuNTA0IDAgMCAxIDQuNDk0NS00LjQ5NDR6TTEwLjc0OTEgMTQuNTQyMmwtMi44NDY1LTEuNjQ2NHYtMy4yOTI4bDIuODQ2NS0xLjY0NjQgMi44NDY1IDEuNjQ2NHYzLjI5Mjh6" fill="#000000"/></svg>`;
+            
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                
+                // زرع البكسلات الصلبة بداخل الموقع
+                document.getElementById("defaultAiIcon").src = canvas.toDataURL("image/png");
+            };
+            img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgString);
+        }
+
+        // دالة تغيير صورة البوت في حال أردت وضع صورتك
         function updateAiAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
                 const avatarDiv = document.getElementById('outAiAvatar');
-                // إخفاء الشعار الأساسي
                 document.getElementById('defaultAiIcon').style.display = 'none'; 
-                // وضع الصورة المرفوعة
                 avatarDiv.style.backgroundImage = `url(${reader.result})`; 
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
+        // دالة الالتقاط بدقة 4K
         function captureChatGPT() {
             const captureArea = document.getElementById('captureArea');
             
-            // دقة 5 أضعاف للحصول على 4K خارق بدون أي خطأ
             html2canvas(captureArea, { 
                 scale: 5, 
-                backgroundColor: '#000000', 
-                useCORS: true,
-                allowTaint: true /* لتفادي أي مشاكل تخص المتصفحات الصارمة */
+                backgroundColor: '#000000'
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `ChatGPT_Mockup_4K_${Date.now()}.png`;
@@ -356,7 +372,11 @@
             });
         }
         
-        window.onload = updateLive;
+        // تشغيل كل الدوال بمجرد فتح الصفحة
+        window.onload = function() {
+            updateLive();
+            initAILogo();
+        };
     </script>
 </body>
 </html>
