@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة WhatsApp | سكرين شوت حقيقي (4K)</title>
+    <title>محادثة WhatsApp | سكرين شوت حقيقي (الخلفية الأصلية)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
             --panel-bg: #151b2b;
             --primary-color: #25D366; 
             
-            /* ألوان تطبيق واتساب الرسمي */
+            /* ألوان تطبيق واتساب الرسمي بالمليمتر */
             --wa-bg: #0b141a; 
             --wa-header: #202c33;
             --wa-sent: #005c4b;
@@ -106,8 +106,8 @@
         .capture-container {
             width: 100%;
             max-width: 400px;
-            aspect-ratio: 9 / 19; /* تم تطويل الشاشة لتناسب السكرين شوت الحقيقي */
-            background-color: var(--wa-bg);
+            aspect-ratio: 9 / 19; 
+            background-color: var(--wa-bg); /* اللون الأصلي النظيف */
             border: 1px solid #222;
             border-radius: 35px;
             overflow: hidden;
@@ -116,7 +116,7 @@
             flex-direction: column;
         }
 
-        /* شريط إشعارات الموبايل (Status Bar) */
+        /* شريط إشعارات الموبايل */
         .phone-status-bar {
             display: flex;
             justify-content: space-between;
@@ -170,7 +170,7 @@
             font-size: 18px;
         }
 
-        /* مساحة المحادثة (الخلفية) */
+        /* مساحة المحادثة */
         .wa-chat-area {
             flex: 1;
             padding: 20px 15px;
@@ -178,11 +178,7 @@
             flex-direction: column;
             gap: 15px;
             overflow: hidden;
-            background-color: var(--wa-bg);
-            /* خلفية النقش الافتراضية المدمجة */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83v58.34l-.83.83H5.373l-.83-.83V.83l.83-.83h49.254zM26.5 13.5v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-15 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
+            background-color: var(--wa-bg); /* اللون السادة الاحترافي بدون زخارف مشوهة */
         }
 
         .wa-date-badge {
@@ -272,17 +268,16 @@
             font-size: 18px; flex-shrink: 0;
         }
 
-        /* أزرار التنقل السفلية للأندرويد (لكي يبدو سكرين شوت حقيقي) */
+        /* أزرار التنقل السفلية */
         .android-nav-bar {
             display: flex;
             justify-content: space-around;
             align-items: center;
             height: 48px;
-            background: #000000; /* لون شريط النظام السفلي */
+            background: #000000;
             z-index: 20;
         }
 
-        /* هندسة الأزرار السفلية بالـ CSS النقي (بدون صور) */
         .nav-btn-recent {
             width: 14px; height: 14px;
             border: 2px solid #a0a0a0;
@@ -333,7 +328,7 @@
 
             <div class="input-group">
                 <label>رسالة الطرف الآخر:</label>
-                <textarea id="inMsg1" oninput="updateLive()">هل تم إضافة شريط الإشعارات لتبدو كصورة ملتقطة من شاشة الهاتف الحقيقية؟</textarea>
+                <textarea id="inMsg1" oninput="updateLive()">هل قمت بإزالة النقش المزعج من الخلفية؟</textarea>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                     <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
                 </div>
@@ -341,7 +336,7 @@
 
             <div class="input-group">
                 <label>رسالتك أنت:</label>
-                <textarea id="inMsg2" oninput="updateLive()">نعم يا صديقي! تم تحويل الواجهة إلى "سكرين شوت" متكامل يحتوي على البطارية وأزرار الأندرويد السفلية، مع إمكانية رفع خلفية الواتساب الأصلية بنفسك.</textarea>
+                <textarea id="inMsg2" oninput="updateLive()">نعم! تم إرجاع الخلفية إلى اللون الأصلي السادة (Solid Dark)، وبإمكانك الآن رفع أي خلفية أصلية لواتساب من جهازك لتندمج باحترافية.</textarea>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                     <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
                     <select id="inTicks" onchange="updateLive()">
@@ -355,10 +350,8 @@
             <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ السكرين شوت (4K)</button>
         </div>
 
-        <!-- الموبايل (منطقة التقاط الصورة) -->
         <div class="capture-container" id="captureArea">
             
-            <!-- شريط إشعارات الموبايل (الجديد) -->
             <div class="phone-status-bar">
                 <div class="status-icons">
                     <i class="fas fa-signal" style="margin-left: 2px;"></i>
@@ -384,20 +377,19 @@
                 </div>
             </div>
 
-            <!-- تم إعطاء هذه المنطقة ID لتغيير خلفيتها -->
             <div class="wa-chat-area" id="outChatArea">
                 
                 <div class="wa-date-badge">اليوم</div>
 
                 <div class="msg-received">
-                    <span id="outMsg1">هل تم إضافة شريط الإشعارات لتبدو كصورة ملتقطة من شاشة الهاتف الحقيقية؟</span>
+                    <span id="outMsg1">هل قمت بإزالة النقش المزعج من الخلفية؟</span>
                     <div class="msg-meta">
                         <span id="outTime1">10:30 ص</span>
                     </div>
                 </div>
 
                 <div class="msg-sent">
-                    <span id="outMsg2">نعم يا صديقي! تم تحويل الواجهة إلى "سكرين شوت" متكامل يحتوي على البطارية وأزرار الأندرويد السفلية، مع إمكانية رفع خلفية الواتساب الأصلية بنفسك.</span>
+                    <span id="outMsg2">نعم! تم إرجاع الخلفية إلى اللون الأصلي السادة (Solid Dark)، وبإمكانك الآن رفع أي خلفية أصلية لواتساب من جهازك لتندمج باحترافية.</span>
                     <div class="msg-meta">
                         <span id="outTime2">10:32 ص</span>
                         <div class="blue-ticks" id="outTicks">
@@ -420,11 +412,10 @@
                 </div>
             </div>
 
-            <!-- أزرار نظام الأندرويد السفلية (الجديدة) -->
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> <!-- زر التطبيقات الأخيرة -->
-                <div class="nav-btn-home"></div>   <!-- زر الرئيسية -->
-                <div class="nav-btn-back"></div>   <!-- زر الرجوع -->
+                <div class="nav-btn-recent"></div> 
+                <div class="nav-btn-home"></div>   
+                <div class="nav-btn-back"></div>   
             </div>
 
         </div>
@@ -455,7 +446,6 @@
             }
         }
 
-        // دالة رفع صورة الشخص
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
@@ -464,13 +454,15 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // دالة جديدة: رفع خلفية محادثة واتساب الأصلية!
+        // دالة الرفع المعدلة هندسياً
         function updateChatBg(event) {
             const reader = new FileReader();
             reader.onload = function() { 
                 const chatArea = document.getElementById('outChatArea');
-                // دمج الصورة المرفوعة مع لون خلفية واتساب الداكنة حتى تبين واقعية
-                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.85), rgba(11, 20, 26, 0.85)), url(${reader.result})`;
+                // تندمج الصورة مع لون أسود شفاف خفيف (0.4) لتحاكي تعتيم الواتساب الأصلي للخلفيات
+                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.4), rgba(11, 20, 26, 0.4)), url(${reader.result})`;
+                chatArea.style.backgroundSize = 'cover';
+                chatArea.style.backgroundPosition = 'center';
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
