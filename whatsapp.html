@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة WhatsApp | سكرين شوت حقيقي (شريط إشعارات ديناميكي)</title>
+    <title>محادثة WhatsApp | سكرين شوت حقيقي (إشعارات ديناميكية متقدمة)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -69,7 +69,6 @@
             gap: 10px;
         }
 
-        /* تنسيق الأقسام داخل لوحة التحكم */
         .control-section {
             background: rgba(0,0,0,0.2);
             padding: 15px;
@@ -130,7 +129,7 @@
             flex-direction: column;
         }
 
-        /* شريط إشعارات الموبايل */
+        /* شريط الإشعارات المتطور */
         .phone-status-bar {
             display: flex;
             justify-content: space-between;
@@ -147,7 +146,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
         }
 
         .wa-header {
@@ -238,7 +236,6 @@
             font-size: 18px; flex-shrink: 0;
         }
 
-        /* أزرار التنقل السفلية */
         .android-nav-bar {
             display: flex;
             justify-content: space-around;
@@ -261,7 +258,7 @@
             <h2><i class="fa-brands fa-whatsapp"></i> إعدادات سكرين شوت الواتساب</h2>
             
             <div class="control-section">
-                <div class="control-section-title">شريط إشعارات الموبايل (Status Bar)</div>
+                <div class="control-section-title">شريط الإشعارات (درجات دقيقة)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
@@ -272,25 +269,30 @@
                         <select id="inBattery" onchange="updateLive()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="half">نصف (50%)</option>
-                            <option value="low">ضعيف (أحمر)</option>
+                            <option value="quarter">ضعيف (25%)</option>
+                            <option value="low">فارغ (أحمر)</option>
                         </select>
                     </div>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>الـ Wi-Fi:</label>
+                        <label>درجة الـ Wi-Fi:</label>
                         <select id="inWifi" onchange="updateLive()">
-                            <option value="full">إشارة قوية</option>
-                            <option value="weak">إشارة ضعيفة</option>
-                            <option value="none">مخفي (بيانات فقط)</option>
+                            <option value="4">ممتلئ (4 أقواس)</option>
+                            <option value="3">جيد (3 أقواس)</option>
+                            <option value="2">متوسط (قوسين)</option>
+                            <option value="1">ضعيف (نقطة فقط)</option>
+                            <option value="0">مخفي (بيانات فقط)</option>
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>الشبكة (Signal):</label>
+                        <label>درجة شبكة الاتصال:</label>
                         <select id="inSignal" onchange="updateLive()">
-                            <option value="full">تغطية قوية</option>
-                            <option value="weak">تغطية ضعيفة</option>
-                            <option value="none">لا توجد خدمة</option>
+                            <option value="4">تغطية كاملة (4 خطوط)</option>
+                            <option value="3">جيدة (3 خطوط)</option>
+                            <option value="2">متوسطة (خطين)</option>
+                            <option value="1">ضعيفة (خط واحد)</option>
+                            <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
                 </div>
@@ -324,7 +326,7 @@
                 <div class="control-section-title">الرسائل</div>
                 <div class="input-group">
                     <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">شكراً لك، شريط الإشعارات الآن أصبح ديناميكياً ويتحكم بالبطارية والشبكة.</textarea>
+                    <textarea id="inMsg1" oninput="updateLive()">هل نجحت الفكرة بإضافة درجات للشبكة والواي فاي؟</textarea>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                         <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
                     </div>
@@ -332,7 +334,7 @@
 
                 <div class="input-group">
                     <label>رسالتك أنت:</label>
-                    <textarea id="inMsg2" oninput="updateLive()">بالخدمة يا صديقي، وتم تثبيت هذه القاعدة البرمجية لجميع التطبيقات القادمة كما طلبت.</textarea>
+                    <textarea id="inMsg2" oninput="updateLive()">نعم! تمت برمجة أيقونات الشبكة والواي فاي هندسياً (SVG)، ويمكنك الآن التحكم بعدد الخطوط بدقة لتبدو حقيقية 100%.</textarea>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                         <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
                         <select id="inTicks" onchange="updateLive()">
@@ -351,9 +353,22 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <i id="outSignal" class="fas fa-signal" style="margin-left: 2px;"></i>
-                    <i id="outWifi" class="fas fa-wifi" style="margin-left: 2px;"></i>
-                    <i id="outBattery" class="fas fa-battery-full"></i>
+                    
+                    <svg id="outSignal" width="14" height="12" viewBox="0 0 16 14" fill="#ffffff" style="display:flex; margin-left:4px;">
+                        <rect id="sig-1" x="0" y="10" width="3" height="4" rx="0.5" opacity="1"/>
+                        <rect id="sig-2" x="4" y="7" width="3" height="7" rx="0.5" opacity="1"/>
+                        <rect id="sig-3" x="8" y="4" width="3" height="10" rx="0.5" opacity="1"/>
+                        <rect id="sig-4" x="12" y="0" width="3" height="14" rx="0.5" opacity="1"/>
+                    </svg>
+
+                    <svg id="outWifi" width="16" height="14" viewBox="0 0 18 14" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" style="display:flex; margin-left:4px;">
+                        <path id="wifi-3" d="M0 3 A12 12 0 0 1 18 3" opacity="1"/>
+                        <path id="wifi-2" d="M3 6 A8 8 0 0 1 15 6" opacity="1"/>
+                        <path id="wifi-1" d="M6 9 A4 4 0 0 1 12 9" opacity="1"/>
+                        <path id="wifi-0" d="M9 12.5h0" stroke-width="3.5" opacity="1"/>
+                    </svg>
+
+                    <i id="outBattery" class="fas fa-battery-full" style="font-size: 14px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50 ص</div>
             </div>
@@ -375,26 +390,18 @@
             </div>
 
             <div class="wa-chat-area" id="outChatArea">
-                
                 <div class="wa-date-badge">اليوم</div>
-
                 <div class="msg-received">
-                    <span id="outMsg1">شكراً لك، شريط الإشعارات الآن أصبح ديناميكياً ويتحكم بالبطارية والشبكة.</span>
-                    <div class="msg-meta">
-                        <span id="outTime1">10:30 ص</span>
-                    </div>
+                    <span id="outMsg1">هل نجحت الفكرة بإضافة درجات للشبكة والواي فاي؟</span>
+                    <div class="msg-meta"><span id="outTime1">10:30 ص</span></div>
                 </div>
-
                 <div class="msg-sent">
-                    <span id="outMsg2">بالخدمة يا صديقي، وتم تثبيت هذه القاعدة البرمجية لجميع التطبيقات القادمة كما طلبت.</span>
+                    <span id="outMsg2">نعم! تمت برمجة أيقونات الشبكة والواي فاي هندسياً (SVG)، ويمكنك الآن التحكم بعدد الخطوط بدقة لتبدو حقيقية 100%.</span>
                     <div class="msg-meta">
                         <span id="outTime2">10:32 ص</span>
-                        <div class="blue-ticks" id="outTicks">
-                            <i class="fas fa-check-double"></i>
-                        </div>
+                        <div class="blue-ticks" id="outTicks"><i class="fas fa-check-double"></i></div>
                     </div>
                 </div>
-
             </div>
 
             <div class="wa-input-area">
@@ -420,7 +427,7 @@
 
     <script>
         function updateLive() {
-            // تحديث النصوص الأساسية
+            // النصوص
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
@@ -429,7 +436,23 @@
             document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
             document.getElementById('outTime2').innerText = document.getElementById('inTime2').value;
 
-            // تحديث علامات شريط الإشعارات (البطارية)
+            // تحديث الواي فاي (4 درجات) - الشفافية 0.3 تعطي اللون الرصاصي الواقعي للدرجات المطفية
+            const wifiLevel = parseInt(document.getElementById('inWifi').value);
+            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'flex';
+            document.getElementById('wifi-0').style.opacity = wifiLevel >= 1 ? '1' : '0.3';
+            document.getElementById('wifi-1').style.opacity = wifiLevel >= 2 ? '1' : '0.3';
+            document.getElementById('wifi-2').style.opacity = wifiLevel >= 3 ? '1' : '0.3';
+            document.getElementById('wifi-3').style.opacity = wifiLevel >= 4 ? '1' : '0.3';
+
+            // تحديث شبكة الاتصال (4 درجات)
+            const sigLevel = parseInt(document.getElementById('inSignal').value);
+            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'flex';
+            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.3';
+            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.3';
+            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.3';
+            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.3';
+
+            // تحديث البطارية
             const batteryStatus = document.getElementById('inBattery').value;
             const batteryIcon = document.getElementById('outBattery');
             if (batteryStatus === 'full') {
@@ -438,38 +461,15 @@
             } else if (batteryStatus === 'half') {
                 batteryIcon.className = 'fas fa-battery-half';
                 batteryIcon.style.color = '#ffffff';
-            } else if (batteryStatus === 'low') {
+            } else if (batteryStatus === 'quarter') {
                 batteryIcon.className = 'fas fa-battery-quarter';
-                batteryIcon.style.color = '#ff3b30'; // لون أحمر واقعي للبطارية الضعيفة
+                batteryIcon.style.color = '#ffffff';
+            } else if (batteryStatus === 'low') {
+                batteryIcon.className = 'fas fa-battery-empty';
+                batteryIcon.style.color = '#ff3b30'; // أحمر واقعي
             }
 
-            // تحديث الواي فاي
-            const wifiStatus = document.getElementById('inWifi').value;
-            const wifiIcon = document.getElementById('outWifi');
-            if (wifiStatus === 'full') {
-                wifiIcon.style.display = 'inline-block';
-                wifiIcon.style.opacity = '1';
-            } else if (wifiStatus === 'weak') {
-                wifiIcon.style.display = 'inline-block';
-                wifiIcon.style.opacity = '0.4'; // يظهر كإشارة ضعيفة
-            } else {
-                wifiIcon.style.display = 'none';
-            }
-
-            // تحديث الشبكة (الابراج)
-            const signalStatus = document.getElementById('inSignal').value;
-            const signalIcon = document.getElementById('outSignal');
-            if (signalStatus === 'full') {
-                signalIcon.style.display = 'inline-block';
-                signalIcon.style.opacity = '1';
-            } else if (signalStatus === 'weak') {
-                signalIcon.style.display = 'inline-block';
-                signalIcon.style.opacity = '0.4';
-            } else {
-                signalIcon.style.display = 'none';
-            }
-
-            // تحديث حالة الصح في الواتساب
+            // تحديث حالة الصح
             const tickStatus = document.getElementById('inTicks').value;
             const tickBox = document.getElementById('outTicks');
             if (tickStatus === 'blue') {
