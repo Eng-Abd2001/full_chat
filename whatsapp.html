@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة WhatsApp | ستوديو المحاكاة</title>
+    <title>محادثة WhatsApp | سكرين شوت حقيقي (4K)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* ألوان المنصة الرئيسية */
+            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #25D366; /* أخضر واتساب */
+            --primary-color: #25D366; 
             
-            /* ألوان واجهة واتساب الأصلية (Dark Mode) */
+            /* ألوان تطبيق واتساب الرسمي */
             --wa-bg: #0b141a; 
             --wa-header: #202c33;
             --wa-sent: #005c4b;
@@ -42,28 +42,6 @@
             padding: 30px 15px;
             -webkit-font-smoothing: antialiased;
         }
-
-        .top-nav {
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .back-btn {
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        
-        .back-btn:hover { color: var(--primary-color); }
 
         .workspace {
             display: flex;
@@ -101,13 +79,19 @@
             color: #fff; border-radius: 10px; outline: none; font-size: 14px;
             font-family: var(--font-ar); transition: 0.3s;
         }
-        .input-group input:focus, .input-group textarea:focus { border-color: var(--primary-color); }
         .input-group textarea { resize: vertical; min-height: 60px; }
+
+        .file-upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
         .custom-file-upload {
             display: block; width: 100%; padding: 12px; background: #0f172a;
             border: 1px dashed var(--primary-color); color: var(--primary-color);
-            border-radius: 10px; text-align: center; cursor: pointer; font-size: 14px;
+            border-radius: 10px; text-align: center; cursor: pointer; font-size: 13px;
             transition: 0.3s;
         }
         .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
@@ -117,13 +101,12 @@
             padding: 15px; font-size: 16px; border: none; border-radius: 30px;
             cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: var(--font-ar);
         }
-        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
 
-        /* منطقة التصوير (الموبايل) */
+        /* شاشة الموبايل (حاوية السكرين شوت) */
         .capture-container {
             width: 100%;
             max-width: 400px;
-            aspect-ratio: 9 / 16;
+            aspect-ratio: 9 / 19; /* تم تطويل الشاشة لتناسب السكرين شوت الحقيقي */
             background-color: var(--wa-bg);
             border: 1px solid #222;
             border-radius: 35px;
@@ -131,8 +114,26 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            /* خلفية واتساب الأصلية (خفيفة جداً) */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83v58.34l-.83.83H5.373l-.83-.83V.83l.83-.83h49.254zM26.5 13.5v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-15 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* شريط إشعارات الموبايل (Status Bar) */
+        .phone-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 18px 4px 18px;
+            background: var(--wa-header);
+            font-family: var(--font-en);
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 600;
+            z-index: 20;
+        }
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
         }
 
         /* هيدر واتساب */
@@ -140,7 +141,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 15px;
+            padding: 10px 15px 12px 15px;
             background: var(--wa-header);
             z-index: 10;
         }
@@ -149,10 +150,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none;
         }
 
-        .wa-back { color: var(--wa-text); font-size: 18px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .wa-back { color: var(--wa-text); font-size: 18px; display: flex; align-items: center; gap: 5px; }
         
         .wa-avatar {
             width: 40px; height: 40px; border-radius: 50%;
@@ -170,7 +170,7 @@
             font-size: 18px;
         }
 
-        /* منطقة المحادثة */
+        /* مساحة المحادثة (الخلفية) */
         .wa-chat-area {
             flex: 1;
             padding: 20px 15px;
@@ -178,6 +178,11 @@
             flex-direction: column;
             gap: 15px;
             overflow: hidden;
+            background-color: var(--wa-bg);
+            /* خلفية النقش الافتراضية المدمجة */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83v58.34l-.83.83H5.373l-.83-.83V.83l.83-.83h49.254zM26.5 13.5v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-15 10v-2h-3v2h3zm10 0v-2h-3v2h3zm-5 10v-2h-3v2h3zm10 0v-2h-3v2h3z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
         }
 
         .wa-date-badge {
@@ -191,37 +196,30 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        /* فقاعة المستلم (الطرف الآخر) */
+        .msg-received, .msg-sent {
+            padding: 8px 12px 6px 12px;
+            border-radius: 12px;
+            max-width: 85%;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
         .msg-received {
             align-self: flex-start;
             background: var(--wa-received);
             color: var(--wa-text);
-            padding: 8px 12px 6px 12px;
-            border-radius: 12px;
             border-top-right-radius: 0;
-            max-width: 85%;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
-        /* فقاعة المرسل (أنت) */
         .msg-sent {
             align-self: flex-end;
             background: var(--wa-sent);
             color: var(--wa-text);
-            padding: 8px 12px 6px 12px;
-            border-radius: 12px;
             border-top-left-radius: 0;
-            max-width: 85%;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
-        /* الوقت وتفاصيل الرسالة */
         .msg-meta {
             display: flex;
             justify-content: flex-end;
@@ -230,14 +228,13 @@
             margin-top: 4px;
             font-size: 11px;
             color: rgba(255,255,255,0.6);
-            float: left; /* لدفع الوقت لليسار أسفل النص في اللغة العربية */
+            float: left;
             margin-right: 15px;
             font-family: var(--font-en);
         }
 
         .msg-received .msg-meta { float: left; margin-right: 15px; }
 
-        /* الصح الأزرق المقفول هندسياً */
         .blue-ticks {
             color: var(--wa-blue-tick);
             font-size: 13px;
@@ -245,13 +242,14 @@
             align-items: center;
         }
 
-        /* شريط الإدخال السفلي */
+        /* شريط الإدخال */
         .wa-input-area {
             padding: 10px;
             background: var(--wa-bg);
             display: flex;
             align-items: flex-end;
             gap: 10px;
+            z-index: 10;
         }
 
         .wa-input-box {
@@ -265,44 +263,60 @@
         }
 
         .wa-input-box i { color: var(--wa-muted); font-size: 20px; }
-        
-        .wa-placeholder {
-            flex: 1;
-            color: var(--wa-muted);
-            font-size: 16px;
-        }
+        .wa-placeholder { flex: 1; color: var(--wa-muted); font-size: 16px; }
 
         .wa-mic-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            color: #fff;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--primary-color); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+
+        /* أزرار التنقل السفلية للأندرويد (لكي يبدو سكرين شوت حقيقي) */
+        .android-nav-bar {
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
+            height: 48px;
+            background: #000000; /* لون شريط النظام السفلي */
+            z-index: 20;
+        }
+
+        /* هندسة الأزرار السفلية بالـ CSS النقي (بدون صور) */
+        .nav-btn-recent {
+            width: 14px; height: 14px;
+            border: 2px solid #a0a0a0;
+            border-radius: 2px;
+        }
+        .nav-btn-home {
+            width: 16px; height: 16px;
+            border: 2px solid #a0a0a0;
+            border-radius: 50%;
+        }
+        .nav-btn-back {
+            width: 0; height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 12px solid #a0a0a0;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
-    </div>
-
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-whatsapp"></i> إعدادات محادثة الواتساب</h2>
+            <h2><i class="fa-brands fa-whatsapp"></i> إعدادات سكرين شوت الواتساب</h2>
             
-            <div class="input-group">
-                <label>صورة جهة الاتصال:</label>
+            <div class="file-upload-grid">
                 <label class="custom-file-upload">
                     <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                    <i class="fas fa-image"></i> رفع صورة
+                    <i class="fas fa-user-circle"></i> صورة الشخص
+                </label>
+                <label class="custom-file-upload">
+                    <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
+                    <i class="fas fa-image"></i> خلفية المحادثة (النقش)
                 </label>
             </div>
 
@@ -312,22 +326,22 @@
                     <input type="text" id="inName" value="Yousef" oninput="updateLive()">
                 </div>
                 <div class="input-group">
-                    <label>الحالة (متصل، يكتب...):</label>
-                    <input type="text" id="inStatus" value="متصل الآن" oninput="updateLive()">
+                    <label>وقت الموبايل (فوق):</label>
+                    <input type="text" id="inPhoneTime" value="10:50 ص" oninput="updateLive()">
                 </div>
             </div>
 
             <div class="input-group">
-                <label>رسالة المستلم (الرمادية):</label>
-                <textarea id="inMsg1" oninput="updateLive()">السلام عليكم، هل أكملت برمجة منصة ستوديو المحاكاة؟</textarea>
+                <label>رسالة الطرف الآخر:</label>
+                <textarea id="inMsg1" oninput="updateLive()">هل تم إضافة شريط الإشعارات لتبدو كصورة ملتقطة من شاشة الهاتف الحقيقية؟</textarea>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                     <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
                 </div>
             </div>
 
             <div class="input-group">
-                <label>رسالتك (الخضراء):</label>
-                <textarea id="inMsg2" oninput="updateLive()">وعليكم السلام! نعم، تم إنجاز أداة الواتساب بنجاح وبدقة 4K خرافية.</textarea>
+                <label>رسالتك أنت:</label>
+                <textarea id="inMsg2" oninput="updateLive()">نعم يا صديقي! تم تحويل الواجهة إلى "سكرين شوت" متكامل يحتوي على البطارية وأزرار الأندرويد السفلية، مع إمكانية رفع خلفية الواتساب الأصلية بنفسك.</textarea>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
                     <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
                     <select id="inTicks" onchange="updateLive()">
@@ -338,11 +352,22 @@
                 </div>
             </div>
 
-            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ السكرين شوت (4K)</button>
         </div>
 
+        <!-- الموبايل (منطقة التقاط الصورة) -->
         <div class="capture-container" id="captureArea">
             
+            <!-- شريط إشعارات الموبايل (الجديد) -->
+            <div class="phone-status-bar">
+                <div class="status-icons">
+                    <i class="fas fa-signal" style="margin-left: 2px;"></i>
+                    <i class="fas fa-wifi" style="margin-left: 2px;"></i>
+                    <i class="fas fa-battery-three-quarters"></i>
+                </div>
+                <div id="outPhoneTime">10:50 ص</div>
+            </div>
+
             <div class="wa-header">
                 <div class="wa-header-left">
                     <div class="wa-back"><i class="fas fa-arrow-right"></i></div>
@@ -359,19 +384,20 @@
                 </div>
             </div>
 
-            <div class="wa-chat-area">
+            <!-- تم إعطاء هذه المنطقة ID لتغيير خلفيتها -->
+            <div class="wa-chat-area" id="outChatArea">
                 
                 <div class="wa-date-badge">اليوم</div>
 
                 <div class="msg-received">
-                    <span id="outMsg1">السلام عليكم، هل أكملت برمجة منصة ستوديو المحاكاة؟</span>
+                    <span id="outMsg1">هل تم إضافة شريط الإشعارات لتبدو كصورة ملتقطة من شاشة الهاتف الحقيقية؟</span>
                     <div class="msg-meta">
                         <span id="outTime1">10:30 ص</span>
                     </div>
                 </div>
 
                 <div class="msg-sent">
-                    <span id="outMsg2">وعليكم السلام! نعم، تم إنجاز أداة الواتساب بنجاح وبدقة 4K خرافية.</span>
+                    <span id="outMsg2">نعم يا صديقي! تم تحويل الواجهة إلى "سكرين شوت" متكامل يحتوي على البطارية وأزرار الأندرويد السفلية، مع إمكانية رفع خلفية الواتساب الأصلية بنفسك.</span>
                     <div class="msg-meta">
                         <span id="outTime2">10:32 ص</span>
                         <div class="blue-ticks" id="outTicks">
@@ -394,13 +420,20 @@
                 </div>
             </div>
 
+            <!-- أزرار نظام الأندرويد السفلية (الجديدة) -->
+            <div class="android-nav-bar">
+                <div class="nav-btn-recent"></div> <!-- زر التطبيقات الأخيرة -->
+                <div class="nav-btn-home"></div>   <!-- زر الرئيسية -->
+                <div class="nav-btn-back"></div>   <!-- زر الرجوع -->
+            </div>
+
         </div>
     </div>
 
     <script>
         function updateLive() {
+            document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
-            document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
             
             document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
             document.getElementById('outTime1').innerText = document.getElementById('inTime1').value;
@@ -408,7 +441,6 @@
             document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
             document.getElementById('outTime2').innerText = document.getElementById('inTime2').value;
 
-            // تحديث حالة الصح (أزرق، رمادي، مفرد)
             const tickStatus = document.getElementById('inTicks').value;
             const tickBox = document.getElementById('outTicks');
             if (tickStatus === 'blue') {
@@ -423,6 +455,7 @@
             }
         }
 
+        // دالة رفع صورة الشخص
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
@@ -431,17 +464,27 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
+        // دالة جديدة: رفع خلفية محادثة واتساب الأصلية!
+        function updateChatBg(event) {
+            const reader = new FileReader();
+            reader.onload = function() { 
+                const chatArea = document.getElementById('outChatArea');
+                // دمج الصورة المرفوعة مع لون خلفية واتساب الداكنة حتى تبين واقعية
+                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.85), rgba(11, 20, 26, 0.85)), url(${reader.result})`;
+            };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
         function captureWhatsApp() {
             const captureArea = document.getElementById('captureArea');
             
-            // دقة 4K الخارقة
             html2canvas(captureArea, { 
                 scale: 5, 
-                backgroundColor: '#0b141a', 
+                backgroundColor: '#000000', 
                 useCORS: true 
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `WhatsApp_Mockup_4K_${Date.now()}.png`;
+                link.download = `WhatsApp_Screenshot_4K_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
             });
