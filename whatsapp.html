@@ -49,9 +49,9 @@
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        .btn-download:hover { opacity: 0.9; }
-        .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-process { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-process:hover { opacity: 0.9; }
+        .btn-process:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* أزرار الإضافة */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
@@ -108,6 +108,26 @@
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
+
+        /* ----- تصميم الشاشة المنبثقة للتحميل المباشر (التغيير الجذري) ----- */
+        #resultModal {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.95); 
+            z-index: 9999; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: #fff; cursor: pointer; transition: 0.3s; }
+        .modal-close:hover { color: var(--primary-color); }
+        .modal-img-container { max-height: 70vh; max-width: 90vw; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 25px; }
+        #finalResultImage { height: 100%; width: auto; object-fit: contain; display: block; }
+        .btn-direct-download { background: var(--primary-color); color: #000; font-weight: bold; padding: 15px 35px; font-size: 18px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-direct-download:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -119,7 +139,6 @@
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
-                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
@@ -135,7 +154,6 @@
                         </select>
                     </div>
                 </div>
-                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الـ Wi-Fi:</label>
@@ -160,7 +178,6 @@
 
             <div class="control-section">
                 <div class="control-section-title">بيانات الشخص والخلفية</div>
-                
                 <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
@@ -171,7 +188,6 @@
                         <i class="fas fa-image"></i> خلفية المحادثة 
                     </label>
                 </div>
-                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>اسم الشخص:</label>
@@ -186,16 +202,13 @@
 
             <div class="control-section">
                 <div class="control-section-title">صانع الرسائل</div>
-                
                 <div class="input-group">
                     <label>تاريخ المحادثة (الوسام بالأعلى):</label>
                     <input type="text" id="inChatDate" value="اليوم" oninput="renderMessages()">
                 </div>
-
                 <div class="input-group">
                     <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
                 </div>
-                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom: 15px;">
                     <div class="input-group" style="margin-bottom: 0;">
                         <label>وقت الرسالة:</label>
@@ -210,23 +223,20 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="btn-add-group">
                     <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
-                
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
                     <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
                 </div>
                 <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" id="btnDownload" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-process" id="btnProcess" onclick="processScreenshot()"><i class="fas fa-magic"></i> توليد الصورة بدقة 4K</button>
         </div>
 
         <div class="capture-container" id="captureArea">
-            
             <div class="phone-status-bar">
                 <div class="status-icons">
                     <svg xmlns="http://www.w3.org/2000/svg" id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
@@ -235,7 +245,6 @@
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
-
             <div class="wa-header">
                 <div class="wa-header-left">
                     <div class="wa-back"><i class="fas fa-arrow-right"></i></div>
@@ -251,9 +260,7 @@
                     <i class="fas fa-ellipsis-v"></i>
                 </div>
             </div>
-
             <div class="wa-chat-area" id="outChatArea"></div>
-
             <div class="wa-input-area">
                 <div class="wa-input-box">
                     <i class="far fa-smile"></i>
@@ -265,12 +272,20 @@
                     <i class="fas fa-microphone"></i>
                 </div>
             </div>
-
             <div class="android-nav-bar">
                 <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
-
         </div>
+    </div>
+
+    <div id="resultModal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-img-container">
+            <img id="finalResultImage" src="" alt="Generated 4K Screenshot">
+        </div>
+        <a id="downloadLinkBtn" class="btn-direct-download" href="#" download="WhatsApp_4K.png">
+            <i class="fas fa-download"></i> اضغط هنا لتحميل الصورة
+        </a>
     </div>
 
     <script>
@@ -413,54 +428,68 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // --- الضربة القاضية لمشكلة التحميل المتكرر (Deep Cache Busting & DataURL) ---
-        function captureWhatsApp() {
-            const btn = document.getElementById('btnDownload');
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
+        // --- المعالجة الجذرية بالتوليد والاستنساخ الخفي ---
+        function processScreenshot() {
+            const btn = document.getElementById('btnProcess');
             if (btn.disabled) return;
             
-            const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            const originalText = '<i class="fas fa-magic"></i> توليد الصورة بدقة 4K';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري استنساخ ومعالجة الصورة...';
             btn.disabled = true;
 
-            const captureArea = document.getElementById('captureArea');
+            const originalArea = document.getElementById('captureArea');
             
-            // إضافة cacheBust و allowTaint: false لمنع تجميد الكانفاس
-            html2canvas(captureArea, { 
-                scale: 4, // دقة 4K صافية بدون خنق الرام
-                backgroundColor: '#0b141a', 
-                useCORS: true,
-                allowTaint: false,
-                cacheBust: true, // الحل الجذري لتفريغ الكاش وإعادة الريندر
-            }).then(canvas => {
-                // استخدام DataURL المباشر لأنه أسرع ولا يتطلب Blob URL
-                const dataUrl = canvas.toDataURL("image/png", 1.0);
-                
-                const link = document.createElement('a');
-                link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
-                link.href = dataUrl;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            // التغيير الجذري 1: استنساخ العنصر بالكامل (Cloning) لمنع تضارب الـ Canvas
+            const cloneArea = originalArea.cloneNode(true);
+            cloneArea.style.position = 'absolute';
+            cloneArea.style.left = '-9999px'; 
+            document.body.appendChild(cloneArea);
 
-                // إرجاع الزر لحالته الطبيعية
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }).catch(err => {
-                alert("حدث خطأ. يرجى فتح الملف عبر Live Server وتجنب الصور التالفة.");
-                console.error(err);
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
+            setTimeout(() => {
+                html2canvas(cloneArea, { 
+                    scale: 4, 
+                    backgroundColor: '#0b141a', 
+                    useCORS: true,
+                    allowTaint: false 
+                }).then(canvas => {
+                    const dataUrl = canvas.toDataURL("image/png", 1.0);
+                    
+                    // التغيير الجذري 2: عرض الصورة بنافذة منبثقة (باي باس حظر المتصفح)
+                    document.getElementById('finalResultImage').src = dataUrl;
+                    
+                    const downloadBtn = document.getElementById('downloadLinkBtn');
+                    downloadBtn.href = dataUrl;
+                    downloadBtn.download = `WhatsApp_4K_${Date.now()}.png`;
+                    
+                    document.getElementById('resultModal').style.display = 'flex';
+
+                    // تنظيف النسخة المستنسخة من الذاكرة
+                    document.body.removeChild(cloneArea);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+
+                }).catch(err => {
+                    alert("حدث خطأ تقني أثناء التوليد.");
+                    console.error("Cloning Canvas error:", err);
+                    document.body.removeChild(cloneArea);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }, 100);
         }
         
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "هسه اختبر النظام براحتك، صدقني ماراح يعصى بعد!";
+            document.getElementById('newMsgText').value = "هسه التغيير صار جذري 100% وبدون أي بلوك من المتصفح.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "تم إضافة (cacheBust: true) لتفريغ الذاكرة بكل ضغطة.";
+            document.getElementById('newMsgText').value = "نظام الاستنساخ الوهمي والشاشة المنبثقة يحل كل مشاكل الذاكرة والتحميل المستمر.";
             addMessage('sent');
         };
     </script>
