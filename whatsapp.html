@@ -217,7 +217,7 @@
                 </div>
                 
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة
+                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
                 </div>
                 <div id="messages-list"></div>
             </div>
@@ -229,7 +229,6 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <!-- تمت إضافة xmlns هنا لإصلاح التجمد -->
                     <svg xmlns="http://www.w3.org/2000/svg" id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
                     <svg xmlns="http://www.w3.org/2000/svg" id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
                     <svg xmlns="http://www.w3.org/2000/svg" id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
@@ -414,10 +413,11 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // دالة التحميل المعدلة بالكامل لدعم أحجام 4K الضخمة وتجاوز التجمد
         function captureWhatsApp() {
             const btn = document.getElementById('btnDownload');
-            const originalText = btn.innerHTML;
+            if (btn.disabled) return;
+            
+            const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             btn.disabled = true;
 
@@ -427,31 +427,27 @@
                 scale: 5, 
                 backgroundColor: '#0b141a', 
                 useCORS: true, 
-                allowTaint: true 
+                logging: false 
             }).then(canvas => {
-                // استخدام نظام Blob بدلاً من DataURL لتحمل الأحجام العملاقة
                 canvas.toBlob(function(blob) {
-                    if (!blob) {
-                        alert("حدث خطأ في إنشاء الصورة.");
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                        return;
+                    if (blob) {
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.style.display = 'none';
+                        link.href = url;
+                        link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    } else {
+                        alert("حدث خطأ في معالجة الصورة، يرجى المحاولة مرة أخرى.");
                     }
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.style.display = 'none';
-                    link.href = url;
-                    link.download = `WhatsApp_4K_${Date.now()}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                    
                     btn.innerHTML = originalText;
                     btn.disabled = false;
                 }, 'image/png', 1.0);
             }).catch(err => {
-                alert("فشل الالتقاط! تأكد من فتح الملف بـ Live Server وتجنب رفع صور تالفة.");
+                alert("فشل الالتقاط! تأكد من فتح الملف عبر Live Server في VS Code.");
                 console.error("html2canvas error:", err);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -461,11 +457,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "تم حل مشكلة التحميل بالكامل.";
+            document.getElementById('newMsgText').value = "تم إصلاح زر التحميل بالكامل يا مدير!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "الآن يمكنك تحميل صور بحجم 4K بضغطة زر واحدة!";
+            document.getElementById('newMsgText').value = "الآن يمكنك الحفظ اللانهائي وبدقة 4K فائقة الوضوح وبأعلى أمان.";
             addMessage('sent');
         };
     </script>
