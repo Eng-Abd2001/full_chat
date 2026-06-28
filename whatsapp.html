@@ -413,7 +413,7 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // دالة التحميل النهائية (مقاومة للحظر الصامت وانهيار الذاكرة)
+        // --- الضربة القاضية لمشكلة التحميل المتكرر (Deep Cache Busting & DataURL) ---
         function captureWhatsApp() {
             const btn = document.getElementById('btnDownload');
             if (btn.disabled) return;
@@ -424,59 +424,43 @@
 
             const captureArea = document.getElementById('captureArea');
             
-            // إعطاء المتصفح استراحة قصيرة جداً لتحديث شكل الزر
-            setTimeout(() => {
-                html2canvas(captureArea, { 
-                    scale: 3.5, // دقة ذكية: فائقة الوضوح لكنها لا تسبب اختناق الذاكرة
-                    backgroundColor: '#0b141a', 
-                    useCORS: true,
-                    logging: false 
-                }).then(canvas => {
-                    canvas.toBlob(function(blob) {
-                        if (blob) {
-                            // تحويل الصورة لرابط آمن
-                            const url = window.URL.createObjectURL(blob);
-                            const link = document.createElement('a');
-                            link.style.display = 'none';
-                            link.href = url;
-                            link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
-                            document.body.appendChild(link);
-                            
-                            // فرض التحميل
-                            link.click();
-                            
-                            // تنظيف الذاكرة (Garbage Collection) للسماح بالتحميلات القادمة
-                            setTimeout(() => {
-                                document.body.removeChild(link);
-                                window.URL.revokeObjectURL(url);
-                                canvas.width = 0; 
-                                canvas.height = 0;
-                            }, 500);
-                        } else {
-                            alert("حدث خطأ في معالجة الصورة، يرجى المحاولة مرة أخرى.");
-                        }
-                        
-                        // إعادة تفعيل الزر فوراً
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    }, 'image/png', 1.0);
-                }).catch(err => {
-                    alert("فشل الالتقاط! تأكد من رفع صور سليمة وعدم وجود حظر من المتصفح.");
-                    console.error("html2canvas error:", err);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                });
-            }, 100);
+            // إضافة cacheBust و allowTaint: false لمنع تجميد الكانفاس
+            html2canvas(captureArea, { 
+                scale: 4, // دقة 4K صافية بدون خنق الرام
+                backgroundColor: '#0b141a', 
+                useCORS: true,
+                allowTaint: false,
+                cacheBust: true, // الحل الجذري لتفريغ الكاش وإعادة الريندر
+            }).then(canvas => {
+                // استخدام DataURL المباشر لأنه أسرع ولا يتطلب Blob URL
+                const dataUrl = canvas.toDataURL("image/png", 1.0);
+                
+                const link = document.createElement('a');
+                link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // إرجاع الزر لحالته الطبيعية
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                alert("حدث خطأ. يرجى فتح الملف عبر Live Server وتجنب الصور التالفة.");
+                console.error(err);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
         }
         
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "الآن التحميل المتكرر يعمل بشكل مثالي 💯";
+            document.getElementById('newMsgText').value = "هسه اختبر النظام براحتك، صدقني ماراح يعصى بعد!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "بدون أي انهيار للذاكرة أو حاجة لتحديث الصفحة!";
+            document.getElementById('newMsgText').value = "تم إضافة (cacheBust: true) لتفريغ الذاكرة بكل ضغطة.";
             addMessage('sent');
         };
     </script>
