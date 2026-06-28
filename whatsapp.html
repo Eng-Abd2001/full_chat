@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محادثة WhatsApp | سكرين شوت ديناميكي 4K</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -50,7 +50,6 @@
         
         .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
-        .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -203,12 +202,12 @@
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة
+                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
                 </div>
                 <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" id="btnDownload" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
         <div class="capture-container" id="captureArea">
@@ -393,48 +392,28 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // --- استخدام المكتبة الجديدة html-to-image ---
+        // نفس الكود الخاص بك بالحرف الواحد اللي يشتغل بدون أي مشاكل
         function captureWhatsApp() {
-            const btn = document.getElementById('btnDownload');
-            if (btn.disabled) return;
-            
-            const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
-            btn.disabled = true;
-
-            const captureArea = document.getElementById('captureArea');
-            
-            // html-to-image أسرع وما تقفل الذاكرة
-            window.htmlToImage.toPng(captureArea, { 
-                pixelRatio: 4, // يعادل دقة 4K
-                backgroundColor: '#0b141a'
-            })
-            .then(function (dataUrl) {
+            html2canvas(document.getElementById('captureArea'), { 
+                scale: 5, 
+                backgroundColor: '#0b141a', 
+                useCORS: true 
+            }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `WhatsApp_4K_${Date.now()}.png`;
-                link.href = dataUrl;
+                link.href = canvas.toDataURL("image/png");
                 link.click();
-                
-                // يرجع الزر يشتغل فوراً وبدون أي تجميد
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            })
-            .catch(function (error) {
-                alert("حدث خطأ! يرجى التأكد من رفع صور صحيحة.");
-                console.error('oops, something went wrong!', error);
-                btn.innerHTML = originalText;
-                btn.disabled = false;
             });
         }
         
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "المكتبة القديمة انحذفت بالكامل من الكود!";
+            document.getElementById('newMsgText').value = "تم تطبيق الكود الخاص بك بنجاح!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "هسه دا نستخدم html-to-image، جرب حمل الف مرة متتالية وبدون تجميد.";
+            document.getElementById('newMsgText').value = "البساطة دائماً هي الحل الأفضل.";
             addMessage('sent');
         };
     </script>
