@@ -217,7 +217,7 @@
                 </div>
                 
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
+                    <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list"></div>
             </div>
@@ -413,42 +413,48 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
+        // ---------- نظام الحماية الذاتي للتحميل (Self-Healing Download) ----------
         function captureWhatsApp() {
             const btn = document.getElementById('btnDownload');
+            
+            // 1. منع الضغط المزدوج السريع
             if (btn.disabled) return;
             
             const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             btn.disabled = true;
 
+            // 2. مؤقت فك القفل الإجباري (يفتح الزر تلقائياً بعد 6 ثواني مهما صار)
+            const unlockTimer = setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 6000);
+
             const captureArea = document.getElementById('captureArea');
             
             html2canvas(captureArea, { 
                 scale: 5, 
                 backgroundColor: '#0b141a', 
-                useCORS: true, 
-                logging: false 
+                useCORS: true 
             }).then(canvas => {
-                canvas.toBlob(function(blob) {
-                    if (blob) {
-                        const url = window.URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.style.display = 'none';
-                        link.href = url;
-                        link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-                    } else {
-                        alert("حدث خطأ في معالجة الصورة، يرجى المحاولة مرة أخرى.");
-                    }
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 'image/png', 1.0);
+                try {
+                    const dataUrl = canvas.toDataURL("image/png", 1.0);
+                    const link = document.createElement('a');
+                    link.download = `WhatsApp_4K_${Date.now()}.png`;
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (e) {
+                    alert("عذراً، يرجى فتح الملف ببرنامج (Live Server) لأن المتصفح يطبق قيود الحماية للصور.");
+                    console.error("CORS Error:", e);
+                }
             }).catch(err => {
-                alert("فشل الالتقاط! تأكد من فتح الملف عبر Live Server في VS Code.");
+                alert("حدث خطأ أثناء معالجة السكرين شوت.");
                 console.error("html2canvas error:", err);
+            }).finally(() => {
+                // 3. إلغاء المؤقت وإعادة الزر فوراً عند النجاح أو الفشل
+                clearTimeout(unlockTimer);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             });
@@ -457,11 +463,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "تم إصلاح زر التحميل بالكامل يا مدير!";
+            document.getElementById('newMsgText').value = "هسه الزر مستحيل يعلگ وياك مرة ثانية.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "الآن يمكنك الحفظ اللانهائي وبدقة 4K فائقة الوضوح وبأعلى أمان.";
+            document.getElementById('newMsgText').value = "تمت إضافة نظام (الحماية الذاتي) لفك القفل تلقائياً 💯";
             addMessage('sent');
         };
     </script>
