@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة Instagram | سكرين شوت خام 4K</title>
+    <title>محادثة Instagram | سكرين شوت ديناميكي 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #e1306c; /* لون انستغرام للوحة التحكم */
+            --primary-color: #d62976; /* لون الانستا الوردي/البنفسجي للوحة */
             
-            /* ألوان انستغرام الرسمية (Dark Mode) */
+            /* ألوان انستغرام الرسمية (OLED Dark Mode) */
             --ig-bg: #000000; 
-            --ig-border: #262626;
+            --ig-header: #000000;
             --ig-received: #262626;
-            --ig-sent: #3797f0; /* أزرق انستغرام */
+            --ig-sent: linear-gradient(135deg, #7b2cbf, #b5179e); /* تدرج لوني لرسائل الانستا */
             --ig-text: #ffffff;
             --ig-muted: #a8a8a8;
+            --ig-border: #262626;
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -29,218 +30,87 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: var(--bg-site);
-            color: #fff;
-            font-family: var(--font-ar);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 15px;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
-        .workspace {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
-            max-width: 1050px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls {
-            background: var(--panel-bg);
-            border: 1px solid #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            flex: 1;
-            min-width: 340px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
-        .control-section {
-            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;
-            border: 1px solid #1e293b; margin-bottom: 20px;
-        }
-        .control-section-title {
-            font-size: 14px; color: var(--primary-color); margin-bottom: 15px;
-            font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px;
-        }
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group input, .input-group textarea, .input-group select {
-            width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b;
-            color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar);
-        }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
         .input-group textarea { resize: vertical; min-height: 60px; }
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload {
-            display: block; width: 100%; padding: 10px; background: #0f172a;
-            border: 1px dashed var(--primary-color); color: var(--primary-color);
-            border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px;
-        }
-        .btn-download {
-            width: 100%; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-            color: #fff; font-weight: bold;
-            padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;
-            transition: 0.3s;
-        }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(214, 41, 118, 0.1); }
+        
+        .btn-download { width: 100%; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         .btn-download:hover { opacity: 0.9; }
 
-        /* ----- السكرين شوت الخام ----- */
-        .capture-container {
-            width: 380px;
-            aspect-ratio: 9 / 19; 
-            background-color: var(--ig-bg);
-            border-radius: 0; 
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* أزرار الإضافة المركزية */
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; color: #fff;}
+        .btn-add.received { background: #334155; }
+        .btn-add.sent { background: linear-gradient(135deg, #7b2cbf, #b5179e); }
+        .btn-add:hover { opacity: 0.8; }
 
-        /* شريط الإشعارات الموحد (نفس هندسة الواتساب) */
-        .phone-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px 4px 18px;
-            background: var(--ig-bg);
-            font-family: var(--font-en);
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-            z-index: 20;
-        }
+        /* قائمة الرسائل المضافة */
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
+        .badge-sent { background: #7b2cbf; }
+        .badge-received { background: #334155; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
+
+        /* ----- السكرين شوت (خام) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--ig-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--ig-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
         .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
         .status-icons svg { display: block; height: 100%; }
 
         /* هيدر انستغرام */
-        .ig-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 15px 12px 15px;
-            background: var(--ig-bg);
-            border-bottom: 1px solid var(--ig-border);
-        }
-        .ig-header-left { display: flex; align-items: center; gap: 12px; }
-        .ig-back { color: var(--ig-text); font-size: 20px; display: flex; align-items: center; cursor: pointer; }
-        .ig-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-        }
-        .ig-user-info { display: flex; flex-direction: column; justify-content: center; gap: 2px; }
-        .ig-name { color: var(--ig-text); font-size: 15px; font-weight: 700; line-height: 1; font-family: var(--font-en); }
-        .ig-status { color: var(--ig-muted); font-size: 12px; line-height: 1; font-family: var(--font-en); }
-        
-        .ig-header-icons { display: flex; gap: 20px; color: var(--ig-text); font-size: 20px; }
+        .ig-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: var(--ig-header); border-bottom: 1px solid var(--ig-border); }
+        .ig-header-left { display: flex; align-items: center; gap: 15px; }
+        .ig-back { color: var(--ig-text); font-size: 20px; cursor: pointer; }
+        .ig-user-info { display: flex; align-items: center; gap: 10px; }
+        .ig-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        .ig-name-block { display: flex; flex-direction: column; }
+        .ig-name { color: var(--ig-text); font-size: 15px; font-weight: 700; font-family: var(--font-en); line-height: 1.2; display: flex; align-items: center; gap: 4px;}
+        .ig-username { color: var(--ig-muted); font-size: 12px; font-family: var(--font-en); line-height: 1.2; }
+        .ig-header-icons { display: flex; gap: 20px; color: var(--ig-text); font-size: 22px; }
 
         /* منطقة المحادثة */
-        .ig-chat-area {
-            flex: 1;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            overflow: hidden;
-            background-color: var(--ig-bg); 
-        }
+        .ig-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 16px; overflow-y: hidden; background-color: var(--ig-bg); }
+        .ig-date-badge { align-self: center; color: var(--ig-muted); font-size: 12px; margin-bottom: 10px; font-family: var(--font-en); }
 
-        .ig-timestamp {
-            align-self: center;
-            color: var(--ig-muted);
-            font-size: 12px;
-            margin-bottom: 10px;
-            font-family: var(--font-en);
-            font-weight: 500;
-        }
+        /* تصميم الرسائل */
+        .msg-row-received { display: flex; align-items: flex-end; gap: 8px; max-width: 85%; }
+        .msg-avatar-small { width: 26px; height: 26px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; flex-shrink: 0; }
+        .msg-received { background: var(--ig-received); color: var(--ig-text); padding: 12px 16px; border-radius: 20px; font-size: 15px; line-height: 1.4; }
 
-        /* رسالة الطرف الآخر (تحتوي على صورة شخصية صغيرة) */
-        .msg-row-received {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            max-width: 85%;
-        }
-        .msg-avatar-small {
-            width: 24px; height: 24px; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-            flex-shrink: 0;
-        }
-        .msg-received {
-            background: var(--ig-received);
-            color: var(--ig-text);
-            padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 15px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
+        .msg-row-sent { display: flex; flex-direction: column; align-items: flex-end; align-self: flex-end; max-width: 80%; }
+        .msg-sent { background: var(--ig-sent); color: #ffffff; padding: 12px 16px; border-radius: 20px; font-size: 15px; line-height: 1.4; }
+        .msg-seen { font-size: 12px; color: var(--ig-muted); margin-top: 5px; font-family: var(--font-en); }
 
-        /* رسالتك (بدون صورة) */
-        .msg-row-sent {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            align-self: flex-end;
-            max-width: 80%;
-        }
-        .msg-sent {
-            background: var(--ig-sent);
-            color: var(--ig-text);
-            padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 15px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-        .msg-seen {
-            font-size: 11px;
-            color: var(--ig-muted);
-            margin-top: 4px;
-            margin-right: 4px;
-            font-family: var(--font-en);
-        }
-
-        /* شريط الإدخال في انستغرام */
-        .ig-input-area {
-            padding: 10px 15px;
-            background: var(--ig-bg);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .ig-camera-btn {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--ig-sent); color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; flex-shrink: 0;
-        }
-        .ig-input-box {
-            flex: 1; background: var(--ig-received); border-radius: 20px;
-            padding: 8px 15px; display: flex; align-items: center; gap: 12px;
-        }
-        .ig-placeholder { flex: 1; color: var(--ig-muted); font-size: 15px; }
-        .ig-input-box i { color: var(--ig-text); font-size: 18px; opacity: 0.9; }
-
-        /* أزرار النظام السفلية */
-        .android-nav-bar {
-            display: flex; justify-content: space-around; align-items: center;
-            height: 44px; background: #000000; padding: 0 40px;
-        }
+        /* شريط الإدخال */
+        .ig-input-area { padding: 10px 15px 15px 15px; background: var(--ig-bg); display: flex; align-items: center; gap: 15px; }
+        .ig-input-box { flex: 1; background: var(--ig-received); border-radius: 30px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; }
+        .ig-camera-icon { background: #0095f6; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;}
+        .ig-placeholder { flex: 1; color: var(--ig-muted); font-size: 15px; font-family: var(--font-en); }
+        
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
-
     </style>
 </head>
 <body>
@@ -248,19 +118,19 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-instagram"></i> إعدادات سكرين شوت Instagram</h2>
+            <h2><i class="fa-brands fa-instagram"></i> لوحة تحكم السكرين شوت (Instagram)</h2>
             
-            <!-- شريط الإشعارات (الماتريكس الثابت) -->
+            <!-- القسم الأول: شريط الإشعارات -->
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
@@ -271,8 +141,8 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
                             <option value="2">متوسط</option>
                             <option value="1">ضعيف</option>
                             <option value="0">مخفي</option>
@@ -280,18 +150,17 @@
                     </div>
                     <div class="input-group">
                         <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateLive()">
+                        <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
                             <option value="3">جيدة</option>
                             <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- إعدادات المحادثة -->
+            <!-- القسم الثاني: معلومات الحساب -->
             <div class="control-section">
                 <div class="control-section-title">بيانات الحساب</div>
                 <div class="file-upload-grid">
@@ -302,36 +171,50 @@
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>اسم المستخدم (يوزر):</label>
-                        <input type="text" id="inName" value="yousef.iq" oninput="updateLive()" dir="ltr">
+                        <label>الاسم (العريض):</label>
+                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
                     </div>
                     <div class="input-group">
-                        <label>النشاط:</label>
-                        <input type="text" id="inStatus" value="Active 2h ago" oninput="updateLive()" dir="ltr">
+                        <label>المعرف (يوزرنيم):</label>
+                        <input type="text" id="inUsername" value="yousef_iq" oninput="updateStaticUI()" dir="ltr">
                     </div>
                 </div>
             </div>
 
-            <!-- الرسائل -->
+            <!-- القسم الثالث: النظام المركزي للمراسلة -->
             <div class="control-section">
-                <div class="control-section-title">الرسائل</div>
+                <div class="control-section-title">صانع الرسائل</div>
+                
                 <div class="input-group">
-                    <label>وقت المحادثة (في المنتصف):</label>
-                    <input type="text" id="inDate" value="Today 9:41 AM" oninput="updateLive()" dir="ltr">
+                    <label>تاريخ المحادثة (الوسام بالأعلى):</label>
+                    <input type="text" id="inChatDate" value="Today 2:40 PM" oninput="renderMessages()" dir="ltr">
                 </div>
 
                 <div class="input-group">
-                    <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">مرحباً، هل هذه واجهة انستغرام الجديدة؟</textarea>
+                    <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label>علامة الرؤية (فقط للرسائل المرسلة):</label>
+                    <select id="newMsgSeen">
+                        <option value="">بدون علامة (مخفي)</option>
+                        <option value="Seen">Seen</option>
+                        <option value="Seen just now">Seen just now</option>
+                        <option value="Seen 1h ago">Seen 1h ago</option>
+                    </select>
                 </div>
 
-                <div class="input-group">
-                    <label>رسالتك أنت:</label>
-                    <textarea id="inMsg2" oninput="updateLive()">نعم، وتم تطبيق شريط الإشعارات الديناميكي عليها بالكامل لتكون سكرين شوت احترافي.</textarea>
-                    <div style="margin-top: 8px;">
-                        <label>حالة الرؤية (Seen):</label>
-                        <input type="text" id="inSeen" value="Seen" oninput="updateLive()" dir="ltr">
-                    </div>
+                <div class="btn-add-group">
+                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
+                </div>
+                
+                <!-- قائمة الرسائل (الليست) -->
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة
+                </div>
+                <div id="messages-list">
+                    <!-- سيتم عرض الرسائل هنا -->
                 </div>
             </div>
 
@@ -343,156 +226,220 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16">
-                        <rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/>
-                        <rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/>
-                        <rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/>
-                        <rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/>
-                    </svg>
-
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18">
-                        <path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" />
-                        <path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" />
-                        <path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/>
-                    </svg>
-
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24">
-                        <rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                        <path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/>
-                    </svg>
+                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
+                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
+                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <!-- هيدر انستغرام -->
             <div class="ig-header">
                 <div class="ig-header-left">
-                    <div class="ig-back"><i class="fas fa-arrow-right"></i></div>
-                    <div class="ig-avatar outAvatarClass"></div>
+                    <i class="fas fa-arrow-left ig-back"></i>
                     <div class="ig-user-info">
-                        <span class="ig-name" id="outName">yousef.iq</span>
-                        <span class="ig-status" id="outStatus">Active 2h ago</span>
+                        <div class="ig-avatar outAvatarClass"></div>
+                        <div class="ig-name-block">
+                            <span class="ig-name" id="outName">Yousef <i class="fas fa-chevron-right" style="font-size:10px; color:var(--ig-muted);"></i></span>
+                            <span class="ig-username" id="outUsername">yousef_iq</span>
+                        </div>
                     </div>
                 </div>
                 <div class="ig-header-icons">
-                    <i class="fas fa-phone-alt"></i>
+                    <i class="fas fa-phone-alt" style="font-size: 20px;"></i>
                     <i class="fas fa-video"></i>
                 </div>
             </div>
 
-            <!-- منطقة المحادثة -->
-            <div class="ig-chat-area">
-                <div class="ig-timestamp" id="outDate">Today 9:41 AM</div>
-                
-                <div class="msg-row-received">
-                    <div class="msg-avatar-small outAvatarClass"></div>
-                    <div class="msg-received" id="outMsg1">مرحباً، هل هذه واجهة انستغرام الجديدة؟</div>
-                </div>
-                
-                <div class="msg-row-sent">
-                    <div class="msg-sent" id="outMsg2">نعم، وتم تطبيق شريط الإشعارات الديناميكي عليها بالكامل لتكون سكرين شوت احترافي.</div>
-                    <div class="msg-seen" id="outSeen">Seen</div>
-                </div>
+            <!-- الحاوية التي سيتم عرض الرسائل بداخلها -->
+            <div class="ig-chat-area" id="outChatArea">
+                <!-- الوسام والرسائل تتولد هنا ديناميكياً -->
             </div>
 
-            <!-- شريط الإدخال -->
+            <!-- شريط الإدخال الأصلي للإنستا -->
             <div class="ig-input-area">
-                <div class="ig-camera-btn">
+                <div class="ig-camera-icon">
                     <i class="fas fa-camera"></i>
                 </div>
                 <div class="ig-input-box">
                     <span class="ig-placeholder">Message...</span>
-                    <i class="fas fa-microphone"></i>
-                    <i class="far fa-image"></i>
-                    <i class="far fa-sticky-note"></i>
+                    <i class="fas fa-microphone" style="color: var(--ig-text); font-size: 18px;"></i>
+                    <i class="far fa-image" style="color: var(--ig-text); font-size: 18px;"></i>
+                    <i class="far fa-sticky-note" style="color: var(--ig-text); font-size: 18px;"></i>
                 </div>
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
 
         </div>
     </div>
 
     <script>
-        function updateLive() {
+        // 1. تحديث النظام (الوقت والبطارية والشبكة)
+        function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
-            document.getElementById('outName').innerText = document.getElementById('inName').value || 'Username';
-            document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
-            
-            document.getElementById('outDate').innerText = document.getElementById('inDate').value;
-            document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
-            document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
-            
-            const seenText = document.getElementById('inSeen').value;
-            const seenElement = document.getElementById('outSeen');
-            if (seenText.trim() === '') {
-                seenElement.style.display = 'none';
-            } else {
-                seenElement.style.display = 'block';
-                seenElement.innerText = seenText;
-            }
+            document.getElementById('outName').innerHTML = `${document.getElementById('inName').value || 'Name'} <i class="fas fa-chevron-right" style="font-size:10px; color:var(--ig-muted);"></i>`;
+            document.getElementById('outUsername').innerText = document.getElementById('inUsername').value;
 
-            // تحديث الواي فاي
+            // البطارية
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batFill = document.getElementById('bat-fill');
+            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
+
+            // الواي فاي
             const wifiLevel = parseInt(document.getElementById('inWifi').value);
             document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
             document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
             document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
             document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
 
-            // تحديث الشبكة
+            // الشبكة
             const sigLevel = parseInt(document.getElementById('inSignal').value);
             document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
             document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
             document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
             document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
             document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+        }
 
-            // تحديث البطارية
-            const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') {
-                batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'three-quarters') {
-                batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'half') {
-                batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'low') {
-                batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); 
+        // 2. نظام الرسائل المركزي السهل
+        let messages = [];
+
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const seenInput = document.getElementById('newMsgSeen');
+            
+            const text = textInput.value.trim();
+            if(!text) return; 
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text,
+                seen: type === 'sent' ? seenInput.value : '' // الـ Seen فقط للرسائل المرسلة
+            });
+
+            textInput.value = "";
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
+        }
+
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
             }
         }
 
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        // 3. بناء الشاشة والقائمة
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
+            const chatArea = document.getElementById('outChatArea');
+            const chatDate = document.getElementById('inChatDate').value || 'Today 2:40 PM';
+            
+            listArea.innerHTML = "";
+            chatArea.innerHTML = `<div class="ig-date-badge">${chatDate}</div>`;
+
+            messages.forEach((msg, index) => {
+                // القائمة
+                const badgeClass = msg.type === 'sent' ? 'badge-sent' : 'badge-received';
+                const typeText = msg.type === 'sent' ? 'مرسلة' : 'مستلمة';
+                
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})" title="أعلى"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})" title="أسفل"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})" title="حذف"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // الموبايل (سكرين شوت)
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                if (msg.type === 'received') {
+                    // رسالة المستلم دائماً بجانبها صورته المصغرة
+                    chatArea.innerHTML += `
+                        <div class="msg-row-received">
+                            <div class="msg-avatar-small outAvatarClass"></div>
+                            <div class="msg-received">${formattedText}</div>
+                        </div>
+                    `;
+                } else {
+                    // رسالتك المتدرجة مع علامة السين (إن وجدت)
+                    let seenHTML = msg.seen ? `<div class="msg-seen">${msg.seen}</div>` : '';
+                    chatArea.innerHTML += `
+                        <div class="msg-row-sent">
+                            <div class="msg-sent">${formattedText}</div>
+                            ${seenHTML}
+                        </div>
+                    `;
+                }
+            });
+
+            // تحديث خلفيات الصور المصغرة إذا كانت مرفوعة مسبقاً
+            const bgImage = document.getElementById('outAvatar').style.backgroundImage;
+            if(bgImage) {
+                document.querySelectorAll('.outAvatarClass').forEach(el => el.style.backgroundImage = bgImage);
+            }
+
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // 4. رفع الصور
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
-                // تغيير الصورة في الهيدر وفي المحادثة بجانب الرسالة
-                const avatars = document.querySelectorAll('.outAvatarClass');
-                avatars.forEach(avatar => {
-                    avatar.style.backgroundImage = `url(${reader.result})`;
-                });
+                const bgStr = `url(${reader.result})`;
+                document.getElementById('outAvatar').style.backgroundImage = bgStr;
+                // تطبيق الصورة على كل الصور المصغرة بالرسائل المستلمة
+                document.querySelectorAll('.outAvatarClass').forEach(el => el.style.backgroundImage = bgStr);
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
         function captureInstagram() {
-            const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { 
-                scale: 5, 
-                backgroundColor: '#000000', 
-                useCORS: true 
-            }).then(canvas => {
+            html2canvas(document.getElementById('captureArea'), { scale: 5, backgroundColor: '#000000', useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Instagram_DM_4K_${Date.now()}.png`;
+                link.download = `Instagram_MultiMsg_4K_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
             });
         }
         
-        window.onload = updateLive;
+        // تشغيل أولي
+        window.onload = () => {
+            updateStaticUI();
+            
+            document.getElementById('newMsgText').value = "شلون الانستا هسه؟ هم نظام ديناميكي؟";
+            addMessage('received');
+            
+            document.getElementById('newMsgSeen').value = "Seen"; // تفعيل السين
+            document.getElementById('newMsgText').value = "نعم يا هندسة! ونفس الترتيب المنطقي اللي طلبته بالضبط.";
+            addMessage('sent');
+            
+            // تصفير حقل السين للرسائل القادمة
+            document.getElementById('newMsgSeen').value = "";
+        };
     </script>
 </body>
 </html>
