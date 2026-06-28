@@ -46,7 +46,8 @@
         .input-group textarea { resize: vertical; min-height: 60px; }
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
         
         .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         .btn-download:hover { opacity: 0.9; }
@@ -116,7 +117,8 @@
             <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم السكرين شوت</h2>
             
             <div class="control-section">
-                <div class="control-section-title">إعدادات النظام والحساب</div>
+                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
@@ -130,28 +132,6 @@
                             <option value="half">نصف (50%)</option>
                             <option value="low">ضعيف (أحمر)</option>
                         </select>
-                    </div>
-                </div>
-                
-                <div class="file-upload-grid">
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> صورة الشخص
-                    </label>
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
-                        <i class="fas fa-image"></i> خلفية المحادثة 
-                    </label>
-                </div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="input-group">
-                        <label>اسم الشخص:</label>
-                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
-                    </div>
-                    <div class="input-group">
-                        <label>الحالة:</label>
-                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
                     </div>
                 </div>
                 
@@ -178,7 +158,33 @@
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">صانع الرسائل (أضف بسهولة)</div>
+                <div class="control-section-title">بيانات الشخص والخلفية</div>
+                
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-user-circle"></i> صورة الشخص
+                    </label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
+                        <i class="fas fa-image"></i> خلفية المحادثة 
+                    </label>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>اسم الشخص:</label>
+                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>الحالة:</label>
+                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">صانع الرسائل (أضف رسائل بسهولة)</div>
                 
                 <div class="input-group">
                     <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
@@ -205,7 +211,7 @@
                 </div>
                 
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود/نزول/حذف)
+                    <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list">
                     </div>
@@ -429,11 +435,11 @@
             updateStaticUI();
             
             // إضافة رسالتين افتراضية للتوضيح
-            document.getElementById('newMsgText').value = "السلام عليكم، هل هذه الطريقة أسهل للمستخدم؟";
+            document.getElementById('newMsgText').value = "هسه الترتيب صار منطقي ومريح جداً!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "وعليكم السلام! نعم، يمكنك إضافة ما تشاء بسرعة وبدون تعقيد.";
+            document.getElementById('newMsgText').value = "تماماً! إعدادات الإشعارات كلها بمكان، والشخص بمكان، والرسائل بمكان.";
             addMessage('sent');
         };
     </script>
