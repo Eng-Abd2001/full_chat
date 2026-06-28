@@ -33,6 +33,7 @@
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
+        /* ----- لوحة التحكم ----- */
         .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
@@ -51,12 +52,14 @@
         .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
 
+        /* أزرار الإضافة */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-add.received { background: #334155; color: #fff; }
         .btn-add.sent { background: #005c4b; color: #fff; }
         .btn-add:hover { opacity: 0.8; }
 
+        /* قائمة الرسائل المضافة */
         .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
         .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
         .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
@@ -66,11 +69,13 @@
         .action-btn:hover { color: #fff; }
         .action-btn.delete:hover { color: #ef4444; }
 
+        /* ----- السكرين شوت (خام) ----- */
         .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
-        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
-        .status-icons svg { display: block; height: 100%; }
+        
+        /* التعديل الجذري: استخدام FontAwesome بدل الـ SVGs المعقدة */
+        .status-icons { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #fff; }
 
         .wa-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px 12px 10px; background: var(--wa-header); }
         .wa-header-left { display: flex; align-items: center; gap: 8px; }
@@ -133,8 +138,6 @@
                         <label>الـ Wi-Fi:</label>
                         <select id="inWifi" onchange="updateStaticUI()">
                             <option value="3">قوي</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
@@ -142,8 +145,6 @@
                         <label>الشبكة (Signal):</label>
                         <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
@@ -202,7 +203,7 @@
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
+                    <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list"></div>
             </div>
@@ -211,14 +212,16 @@
         </div>
 
         <div class="capture-container" id="captureArea">
+            
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
+
             <div class="wa-header">
                 <div class="wa-header-left">
                     <div class="wa-back"><i class="fas fa-arrow-right"></i></div>
@@ -234,7 +237,9 @@
                     <i class="fas fa-ellipsis-v"></i>
                 </div>
             </div>
+
             <div class="wa-chat-area" id="outChatArea"></div>
+
             <div class="wa-input-area">
                 <div class="wa-input-box">
                     <i class="far fa-smile"></i>
@@ -246,37 +251,32 @@
                     <i class="fas fa-microphone"></i>
                 </div>
             </div>
+
             <div class="android-nav-bar">
                 <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
+
         </div>
     </div>
 
     <script>
+        // التحديث البسيط لشريط الإشعارات بدون تعقيد
         function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
 
+            // البطارية
             const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
 
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+            // الواي فاي والشبكة
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
         }
 
         let messages = [];
@@ -392,7 +392,7 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // نفس الكود الخاص بك بالحرف الواحد اللي يشتغل بدون أي مشاكل
+        // نفس الكود مالتك بالحرف الواحد، البسيط والفعال!
         function captureWhatsApp() {
             html2canvas(document.getElementById('captureArea'), { 
                 scale: 5, 
@@ -409,11 +409,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "تم تطبيق الكود الخاص بك بنجاح!";
+            document.getElementById('newMsgText').value = "تم إزالة كل الـ SVGs المزعجة اللي جانت تعلك المكتبة.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "البساطة دائماً هي الحل الأفضل.";
+            document.getElementById('newMsgText').value = "الآن الكود يشتغل مثل ملف الـ X مالتك بالضبط، حمل براحتك!";
             addMessage('sent');
         };
     </script>
