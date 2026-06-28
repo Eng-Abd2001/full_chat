@@ -10,8 +10,8 @@
     
     <style>
         :root {
-            --bg-site: #0b0f19; 
-            --panel-bg: #151b2b;
+            --bg-site: #0f172a; 
+            --panel-bg: #1e293b;
             --primary-color: #25D366; 
             
             --wa-bg: #0b141a; 
@@ -34,47 +34,48 @@
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls { background: var(--panel-bg); border: 1px solid #334155; padding: 25px; border-radius: 16px; flex: 1; min-width: 360px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
-        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
-        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+        .control-section { background: #0f172a; padding: 15px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #334155; padding-bottom: 8px; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 10px; outline: none; font-size: 14px; font-family: var(--font-ar); }
         .input-group textarea { resize: vertical; min-height: 60px; }
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
-        .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
+        .custom-file-upload { display: block; width: 100%; padding: 12px; background: #1e293b; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 10px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        .btn-download:hover { opacity: 0.9; }
+        /* زر التحميل المأخوذ من ملفك */
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 30px; cursor: pointer; transition: 0.2s; font-family: var(--font-ar); margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
 
         /* أزرار الإضافة */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 10px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-add.received { background: #334155; color: #fff; }
         .btn-add.sent { background: #005c4b; color: #fff; }
-        .btn-add:hover { opacity: 0.8; }
 
         /* قائمة الرسائل المضافة */
-        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item { background: #1e293b; border: 1px solid #334155; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
         .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
         .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
         .badge-sent { background: #005c4b; }
         .badge-received { background: #334155; }
-        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
-        .action-btn:hover { color: #fff; }
-        .action-btn.delete:hover { color: #ef4444; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; }
 
-        /* ----- السكرين شوت (خام) ----- */
-        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* ----- منطقة السكرين شوت (الخام) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 8px; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #222; }
+
+        /* الحل الجذري للخلفية: طبقات منفصلة بدل الدمج المعقد */
+        .wa-bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
+        .wa-bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(11, 20, 26, 0.4); z-index: 2; }
+
+        /* رفع كل المحتوى فوق الخلفية */
+        .content-layer { position: relative; z-index: 10; display: flex; flex-direction: column; height: 100%; width: 100%; }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
-        
-        /* التعديل الجذري: استخدام FontAwesome بدل الـ SVGs المعقدة */
         .status-icons { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #fff; }
 
         .wa-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px 12px 10px; background: var(--wa-header); }
@@ -86,7 +87,7 @@
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
+        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; /* تم تعطيل السكرول التلقائي برمجياً لمنع التجميد */ }
         .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
         
         .msg-received, .msg-sent { padding: 8px 10px 6px 10px; border-radius: 12px; max-width: 85%; font-size: 15px; line-height: 1.4; position: relative; }
@@ -114,10 +115,32 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم WhatsApp</h2>
+            <h2>إعدادات محادثة WhatsApp</h2>
             
             <div class="control-section">
-                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                <div class="control-section-title">شريط الإشعارات والحساب</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الاسم:</label>
+                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>الحالة:</label>
+                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
+                    </div>
+                </div>
+                
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-user-circle"></i> صورة الشخص
+                    </label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
+                        <i class="fas fa-image"></i> خلفية المحادثة
+                    </label>
+                </div>
+
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
@@ -131,46 +154,6 @@
                             <option value="half">نصف (50%)</option>
                             <option value="low">ضعيف (أحمر)</option>
                         </select>
-                    </div>
-                </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="input-group">
-                        <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateStaticUI()">
-                            <option value="3">قوي</option>
-                            <option value="0">مخفي</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateStaticUI()">
-                            <option value="4">تغطية كاملة</option>
-                            <option value="0">لا توجد خدمة</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-section">
-                <div class="control-section-title">بيانات الشخص والخلفية</div>
-                <div class="file-upload-grid">
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> صورة الشخص
-                    </label>
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
-                        <i class="fas fa-image"></i> خلفية المحادثة 
-                    </label>
-                </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="input-group">
-                        <label>اسم الشخص:</label>
-                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
-                    </div>
-                    <div class="input-group">
-                        <label>الحالة:</label>
-                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
                     </div>
                 </div>
             </div>
@@ -199,84 +182,78 @@
                     </div>
                 </div>
                 <div class="btn-add-group">
-                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
-                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
-                </div>
-                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة
+                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> إضافة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> إضافة مرسلة</button>
                 </div>
                 <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة للواتساب</button>
         </div>
 
         <div class="capture-container" id="captureArea">
-            
-            <div class="phone-status-bar">
-                <div class="status-icons">
-                    <i id="outSignal" class="fas fa-signal"></i>
-                    <i id="outWifi" class="fas fa-wifi"></i>
-                    <i id="outBattery" class="fas fa-battery-three-quarters"></i>
-                </div>
-                <div id="outPhoneTime">10:50</div>
-            </div>
+            <div class="wa-bg-layer" id="outBgLayer"></div>
+            <div class="wa-bg-overlay"></div>
 
-            <div class="wa-header">
-                <div class="wa-header-left">
-                    <div class="wa-back"><i class="fas fa-arrow-right"></i></div>
-                    <div class="wa-avatar" id="outAvatar"></div>
-                    <div class="wa-user-info">
-                        <span class="wa-name" id="outName">Yousef</span>
-                        <span class="wa-status" id="outStatus">متصل الآن</span>
+            <div class="content-layer">
+                <div class="phone-status-bar">
+                    <div class="status-icons">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i id="outBattery" class="fas fa-battery-three-quarters"></i>
+                    </div>
+                    <div id="outPhoneTime">10:50</div>
+                </div>
+
+                <div class="wa-header">
+                    <div class="wa-header-left">
+                        <div class="wa-back"><i class="fas fa-arrow-right"></i></div>
+                        <div class="wa-avatar" id="outAvatar"></div>
+                        <div class="wa-user-info">
+                            <span class="wa-name" id="outName">Yousef</span>
+                            <span class="wa-status" id="outStatus">متصل الآن</span>
+                        </div>
+                    </div>
+                    <div class="wa-header-icons">
+                        <i class="fas fa-video"></i>
+                        <i class="fas fa-phone-alt"></i>
+                        <i class="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
-                <div class="wa-header-icons">
-                    <i class="fas fa-video"></i>
-                    <i class="fas fa-phone-alt"></i>
-                    <i class="fas fa-ellipsis-v"></i>
+
+                <div class="wa-chat-area" id="outChatArea"></div>
+
+                <div class="wa-input-area">
+                    <div class="wa-input-box">
+                        <i class="far fa-smile"></i>
+                        <span class="wa-placeholder">مراسلة</span>
+                        <i class="fas fa-paperclip"></i>
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="wa-mic-btn">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                </div>
+
+                <div class="android-nav-bar">
+                    <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
                 </div>
             </div>
-
-            <div class="wa-chat-area" id="outChatArea"></div>
-
-            <div class="wa-input-area">
-                <div class="wa-input-box">
-                    <i class="far fa-smile"></i>
-                    <span class="wa-placeholder">مراسلة</span>
-                    <i class="fas fa-paperclip"></i>
-                    <i class="fas fa-camera"></i>
-                </div>
-                <div class="wa-mic-btn">
-                    <i class="fas fa-microphone"></i>
-                </div>
-            </div>
-
-            <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
-            </div>
-
         </div>
     </div>
 
     <script>
-        // التحديث البسيط لشريط الإشعارات بدون تعقيد
         function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
 
-            // البطارية
             const batteryStatus = document.getElementById('inBattery').value;
             const batIcon = document.getElementById('outBattery');
             if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
             else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
             else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
             else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
-
-            // الواي فاي والشبكة
-            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
-            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
         }
 
         let messages = [];
@@ -336,11 +313,10 @@
                     <div class="msg-list-item">
                         <span class="msg-type-badge ${badgeClass}">${typeText}</span>
                         <span class="msg-text-preview">${msg.text}</span>
-                        
                         <div style="display:flex; gap:2px;">
-                            <button class="action-btn" onclick="moveMsgUp(${index})" title="أعلى"><i class="fas fa-chevron-up"></i></button>
-                            <button class="action-btn" onclick="moveMsgDown(${index})" title="أسفل"><i class="fas fa-chevron-down"></i></button>
-                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})" title="حذف"><i class="fas fa-trash"></i></button>
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -371,8 +347,6 @@
                     `;
                 }
             });
-
-            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
         function updateAvatar(event) {
@@ -381,18 +355,17 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
+        /* تم تطبيق الطبقة المنفصلة لضمان عدم تجمد المكتبة */
         function updateChatBg(event) {
             const reader = new FileReader();
             reader.onload = function() { 
-                const chatArea = document.getElementById('outChatArea');
-                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.4), rgba(11, 20, 26, 0.4)), url(${reader.result})`;
-                chatArea.style.backgroundSize = 'cover';
-                chatArea.style.backgroundPosition = 'center';
+                document.getElementById('outBgLayer').style.backgroundImage = `url(${reader.result})`;
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // نفس الكود مالتك بالحرف الواحد، البسيط والفعال!
+        /* * الكود السحري: نفس الكود من ملف 32.html بالحرف الواحد
+         */
         function captureWhatsApp() {
             html2canvas(document.getElementById('captureArea'), { 
                 scale: 5, 
@@ -409,11 +382,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "تم إزالة كل الـ SVGs المزعجة اللي جانت تعلك المكتبة.";
+            document.getElementById('newMsgText').value = "تم أخذ الفكرة والحل من ملف X مباشرة.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "الآن الكود يشتغل مثل ملف الـ X مالتك بالضبط، حمل براحتك!";
+            document.getElementById('newMsgText').value = "جرب التحميل أكثر من مرة الآن!";
             addMessage('sent');
         };
     </script>
