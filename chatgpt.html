@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة ChatGPT | النسخة الأصلية المطابقة</title>
+    <title>محادثة ChatGPT | سكرين شوت خام ومطابق 100%</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -44,57 +44,85 @@
             flex-wrap: wrap;
             gap: 30px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1050px;
             justify-content: center;
+            align-items: flex-start;
         }
 
-        /* لوحة التحكم */
+        /* ----- لوحة التحكم ----- */
         .controls {
             background: var(--panel-bg);
             border: 1px solid #1e293b;
             padding: 25px;
-            border-radius: 16px;
+            border-radius: 12px;
             flex: 1;
-            min-width: 320px;
+            min-width: 340px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .controls h2 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--primary-neon);
+        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-neon); display: flex; align-items: center; gap: 10px; }
+        
+        .control-section {
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;
+            border: 1px solid #1e293b; margin-bottom: 20px;
+        }
+        .control-section-title {
+            font-size: 14px; color: var(--primary-neon); margin-bottom: 15px;
+            font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px;
         }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group select, .input-group textarea {
-            width: 100%; padding: 12px; background: #0f172a; border: 1px solid #1e293b;
-            color: #fff; border-radius: 10px; outline: none; font-size: 14px;
-            font-family: var(--font-ar);
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b;
+            color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar);
         }
-        .input-group textarea { resize: vertical; min-height: 80px; }
+        .input-group textarea { resize: vertical; min-height: 60px; }
 
         .btn-download {
-            width: 100%; background: #fff; color: #000; font-weight: bold;
-            padding: 15px; font-size: 16px; border: none; border-radius: 30px;
-            cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: var(--font-ar);
+            width: 100%; background: var(--primary-neon); color: #fff; font-weight: bold;
+            padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;
+            transition: 0.3s;
         }
-        .btn-download:hover { transform: translateY(-2px); }
+        .btn-download:hover { background: #0df0b9; }
 
-        /* شاشة الموبايل */
+        /* ----- منطقة الالتقاط (السكرين شوت الخام) ----- */
         .capture-container {
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 9 / 16;
+            width: 380px;
+            aspect-ratio: 9 / 19; 
             background-color: var(--gpt-bg);
-            border: 1px solid #222;
-            border-radius: 35px;
+            border-radius: 0; /* مسطح بالكامل مثل السكرين شوت */
             overflow: hidden;
             position: relative;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
+        /* شريط الإشعارات - محاذاة صارمة */
+        .phone-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 18px 4px 18px;
+            background: var(--gpt-bg);
+            font-family: var(--font-en);
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 14px; 
+        }
+        .status-icons svg {
+            display: block;
+            height: 100%;
+        }
+
+        /* هيدر ChatGPT */
         .gpt-header {
             display: flex;
             justify-content: space-between;
@@ -103,22 +131,16 @@
             background: var(--gpt-bg);
             z-index: 10;
         }
-
         .gpt-menu-icon { font-size: 20px; color: var(--gpt-text); cursor: pointer; }
-        
         .gpt-model-selector {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: var(--font-en);
-            font-weight: 600;
-            font-size: 17px;
-            color: var(--gpt-text);
+            display: flex; align-items: center; gap: 6px;
+            font-family: var(--font-en); font-weight: 600;
+            font-size: 17px; color: var(--gpt-text);
         }
-        
         .gpt-model-selector .chevron { font-size: 14px; color: var(--gpt-muted); }
         .gpt-new-chat { color: var(--gpt-text); cursor: pointer; }
 
+        /* منطقة المحادثة */
         .gpt-chat-area {
             flex: 1;
             padding: 20px 16px;
@@ -126,10 +148,11 @@
             display: flex;
             flex-direction: column;
             gap: 28px;
+            background: var(--gpt-bg);
         }
 
         .msg-user {
-            align-self: flex-end;
+            align-self: flex-end; /* لليسار في العربي */
             background: var(--gpt-user-bg);
             padding: 10px 16px;
             border-radius: 20px;
@@ -141,7 +164,6 @@
             white-space: pre-wrap;
         }
 
-        /* رسالة الذكاء الاصطناعي (تم حذف الأيقونة لتطابق التطبيق الرسمي) */
         .msg-ai {
             align-self: flex-start;
             max-width: 95%;
@@ -152,39 +174,34 @@
             white-space: pre-wrap;
         }
 
+        /* شريط الإدخال السفلي */
         .gpt-input-bar {
-            padding: 10px 16px 20px 16px;
+            padding: 10px 16px 15px 16px;
             background: var(--gpt-bg);
         }
-
         .gpt-input-wrapper {
-            display: flex;
-            align-items: center;
-            background: var(--gpt-user-bg);
-            border-radius: 24px;
-            padding: 8px 12px;
-            gap: 12px;
+            display: flex; align-items: center;
+            background: var(--gpt-user-bg); border-radius: 24px;
+            padding: 8px 12px; gap: 12px;
         }
-
         .gpt-plus-btn {
-            color: var(--gpt-text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--gpt-text); display: flex; align-items: center; justify-content: center;
         }
-
         .gpt-placeholder {
-            flex: 1;
-            color: var(--gpt-muted);
-            font-size: 15px;
-            font-family: var(--font-en);
+            flex: 1; color: var(--gpt-muted); font-size: 15px; font-family: var(--font-en);
+        }
+        .gpt-send-btn {
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .gpt-send-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* أزرار النظام السفلية */
+        .android-nav-bar {
+            display: flex; justify-content: space-around; align-items: center;
+            height: 44px; background: #000000; padding: 0 40px;
         }
+        .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
+        .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
+        .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
 
     </style>
 </head>
@@ -192,35 +209,114 @@
 
     <div class="workspace">
         
+        <!-- لوحة التحكم -->
         <div class="controls">
-            <h2><i class="fas fa-sliders-h"></i> إعدادات محادثة ChatGPT</h2>
+            <h2><i class="fas fa-robot"></i> إعدادات سكرين شوت ChatGPT</h2>
             
-            <div class="input-group">
-                <label>إصدار النموذج (Model):</label>
-                <select id="inModel" onchange="updateLive()">
-                    <option value="ChatGPT 4o">ChatGPT 4o</option>
-                    <option value="ChatGPT 4">ChatGPT 4</option>
-                    <option value="ChatGPT 3.5">ChatGPT 3.5</option>
-                </select>
+            <!-- إعدادات شريط النظام -->
+            <div class="control-section">
+                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>وقت الموبايل:</label>
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>البطارية:</label>
+                        <select id="inBattery" onchange="updateLive()">
+                            <option value="full">ممتلئ (100%)</option>
+                            <option value="three-quarters">جيد (75%)</option>
+                            <option value="half">نصف (50%)</option>
+                            <option value="low">ضعيف (أحمر)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateLive()">
+                            <option value="3">قوي جداً</option>
+                            <option value="2">متوسط</option>
+                            <option value="1">ضعيف</option>
+                            <option value="0">مخفي</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateLive()">
+                            <option value="4">تغطية كاملة</option>
+                            <option value="3">جيدة</option>
+                            <option value="2">متوسطة</option>
+                            <option value="1">ضعيفة</option>
+                            <option value="0">لا توجد خدمة</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label>رسالة المستخدم (أنت):</label>
-                <textarea id="inUserMsg" oninput="updateLive()">للمعلومة، شعار ChatGPT لا يوجد داخل المحادثة نفسها في التطبيق.</textarea>
+            <!-- إعدادات المحادثة الأساسية -->
+            <div class="control-section">
+                <div class="control-section-title">إعدادات المحادثة</div>
+                <div class="input-group">
+                    <label>إصدار النموذج (Model):</label>
+                    <select id="inModel" onchange="updateLive()">
+                        <option value="ChatGPT 4o">ChatGPT 4o</option>
+                        <option value="ChatGPT 4">ChatGPT 4</option>
+                        <option value="ChatGPT 3.5">ChatGPT 3.5</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label>رد الذكاء الاصطناعي (ChatGPT):</label>
-                <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">ملاحظة دقيقة جداً وممتازة! 
+            <!-- إعدادات الرسائل -->
+            <div class="control-section">
+                <div class="control-section-title">محتوى الرسائل</div>
+                <div class="input-group">
+                    <label>رسالة المستخدم (أنت):</label>
+                    <textarea id="inUserMsg" oninput="updateLive()">هل تم إضافة شريط الإشعارات بأيقوناته الديناميكية لهذه الصفحة أيضاً؟</textarea>
+                </div>
 
-تم حذف الشعار تماماً لكي تتطابق الواجهة مع التطبيق الرسمي بنسبة 100%. هذا الأمر أدى أيضاً إلى تنظيف الكود بالكامل، وحل مشكلة التشوه والسواد بشكل نهائي.</textarea>
+                <div class="input-group">
+                    <label>رد الذكاء الاصطناعي (ChatGPT):</label>
+                    <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم بالتأكيد! 
+
+تم دمج نفس المصفوفة الهندسية الخاصة بشريط الإشعارات (Status Bar) التي قمنا بإنشائها مسبقاً، مع الحفاظ على التصميم الخام للسكرين شوت وعدم وجود أي حواف دائرية لضمان تطابق الصورة 100%.</textarea>
+                </div>
             </div>
 
-            <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ السكرين شوت (4K)</button>
         </div>
 
+        <!-- السكرين شوت الخام -->
         <div class="capture-container" id="captureArea">
             
+            <div class="phone-status-bar">
+                <div class="status-icons">
+                    <!-- الشبكة (SVG دقيق) -->
+                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16">
+                        <rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/>
+                        <rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/>
+                        <rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/>
+                        <rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/>
+                    </svg>
+
+                    <!-- الواي فاي (SVG دقيق) -->
+                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18">
+                        <path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" />
+                        <path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" />
+                        <path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/>
+                    </svg>
+
+                    <!-- البطارية (SVG دقيق) -->
+                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24">
+                        <rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+                        <path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/>
+                    </svg>
+                </div>
+                <div id="outPhoneTime">10:50</div>
+            </div>
+
+            <!-- هيدر ChatGPT -->
             <div class="gpt-header">
                 <i class="fas fa-bars gpt-menu-icon"></i>
                 <div class="gpt-model-selector">
@@ -232,11 +328,11 @@
 
             <div class="gpt-chat-area">
                 
-                <div class="msg-user" id="outUserMsg">للمعلومة، شعار ChatGPT لا يوجد داخل المحادثة نفسها في التطبيق.</div>
+                <div class="msg-user" id="outUserMsg">هل تم إضافة شريط الإشعارات بأيقوناته الديناميكية لهذه الصفحة أيضاً؟</div>
                 
-                <div class="msg-ai" id="outAiMsg">ملاحظة دقيقة جداً وممتازة! 
+                <div class="msg-ai" id="outAiMsg">نعم بالتأكيد! 
 
-تم حذف الشعار تماماً لكي تتطابق الواجهة مع التطبيق الرسمي بنسبة 100%. هذا الأمر أدى أيضاً إلى تنظيف الكود بالكامل، وحل مشكلة التشوه والسواد بشكل نهائي.</div>
+تم دمج نفس المصفوفة الهندسية الخاصة بشريط الإشعارات (Status Bar) التي قمنا بإنشائها مسبقاً، مع الحفاظ على التصميم الخام للسكرين شوت وعدم وجود أي حواف دائرية لضمان تطابق الصورة 100%.</div>
 
             </div>
 
@@ -259,11 +355,19 @@
                 </div>
             </div>
 
+            <div class="android-nav-bar">
+                <div class="nav-btn-recent"></div> 
+                <div class="nav-btn-home"></div>   
+                <div class="nav-btn-back"></div>   
+            </div>
+
         </div>
     </div>
 
     <script>
         function updateLive() {
+            // النصوص
+            document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outModel').innerText = document.getElementById('inModel').value;
             
             const userMsg = document.getElementById('inUserMsg').value;
@@ -271,18 +375,49 @@
             
             const aiMsg = document.getElementById('inAiMsg').value;
             document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
+
+            // تحديث الواي فاي
+            const wifiLevel = parseInt(document.getElementById('inWifi').value);
+            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
+            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
+            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
+            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
+
+            // تحديث الشبكة
+            const sigLevel = parseInt(document.getElementById('inSignal').value);
+            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
+            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
+            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
+            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
+            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+
+            // تحديث البطارية
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batFill = document.getElementById('bat-fill');
+            if (batteryStatus === 'full') {
+                batFill.setAttribute('width', '16');
+                batFill.setAttribute('fill', '#ffffff');
+            } else if (batteryStatus === 'three-quarters') {
+                batFill.setAttribute('width', '12'); // نسبة 75% بدقة
+                batFill.setAttribute('fill', '#ffffff');
+            } else if (batteryStatus === 'half') {
+                batFill.setAttribute('width', '8');
+                batFill.setAttribute('fill', '#ffffff');
+            } else if (batteryStatus === 'low') {
+                batFill.setAttribute('width', '3');
+                batFill.setAttribute('fill', '#ff3b30'); // أحمر عند الضعف
+            }
         }
 
         function captureChatGPT() {
             const captureArea = document.getElementById('captureArea');
-            
-            // دقة 4K صريحة مع ضمان أداء سريع وخالي من الشوائب
             html2canvas(captureArea, { 
                 scale: 5, 
-                backgroundColor: '#000000'
+                backgroundColor: '#000000', 
+                useCORS: true 
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `ChatGPT_Mockup_4K_${Date.now()}.png`;
+                link.download = `ChatGPT_RawScreenshot_4K_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
             });
