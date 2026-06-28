@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محادثة WhatsApp | سكرين شوت ديناميكي 4K</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -33,7 +33,6 @@
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
-        /* ----- لوحة التحكم ----- */
         .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
@@ -49,18 +48,16 @@
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
         
-        .btn-process { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        .btn-process:hover { opacity: 0.9; }
-        .btn-process:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* أزرار الإضافة */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-add.received { background: #334155; color: #fff; }
         .btn-add.sent { background: #005c4b; color: #fff; }
         .btn-add:hover { opacity: 0.8; }
 
-        /* قائمة الرسائل المضافة */
         .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
         .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
         .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
@@ -70,7 +67,6 @@
         .action-btn:hover { color: #fff; }
         .action-btn.delete:hover { color: #ef4444; }
 
-        /* ----- السكرين شوت (خام) ----- */
         .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
@@ -86,7 +82,6 @@
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        /* منطقة المحادثة */
         .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
         .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
         
@@ -108,26 +103,6 @@
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
-
-        /* ----- تصميم الشاشة المنبثقة للتحميل المباشر (التغيير الجذري) ----- */
-        #resultModal {
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); 
-            z-index: 9999; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .modal-close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: #fff; cursor: pointer; transition: 0.3s; }
-        .modal-close:hover { color: var(--primary-color); }
-        .modal-img-container { max-height: 70vh; max-width: 90vw; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 25px; }
-        #finalResultImage { height: 100%; width: auto; object-fit: contain; display: block; }
-        .btn-direct-download { background: var(--primary-color); color: #000; font-weight: bold; padding: 15px 35px; font-size: 18px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-direct-download:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -228,12 +203,12 @@
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
+                    <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list"></div>
             </div>
 
-            <button class="btn-process" id="btnProcess" onclick="processScreenshot()"><i class="fas fa-magic"></i> توليد الصورة بدقة 4K</button>
+            <button class="btn-download" id="btnDownload" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
         <div class="capture-container" id="captureArea">
@@ -276,16 +251,6 @@
                 <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
         </div>
-    </div>
-
-    <div id="resultModal">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <div class="modal-img-container">
-            <img id="finalResultImage" src="" alt="Generated 4K Screenshot">
-        </div>
-        <a id="downloadLinkBtn" class="btn-direct-download" href="#" download="WhatsApp_4K.png">
-            <i class="fas fa-download"></i> اضغط هنا لتحميل الصورة
-        </a>
     </div>
 
     <script>
@@ -428,68 +393,48 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        function closeModal() {
-            document.getElementById('resultModal').style.display = 'none';
-        }
-
-        // --- المعالجة الجذرية بالتوليد والاستنساخ الخفي ---
-        function processScreenshot() {
-            const btn = document.getElementById('btnProcess');
+        // --- استخدام المكتبة الجديدة html-to-image ---
+        function captureWhatsApp() {
+            const btn = document.getElementById('btnDownload');
             if (btn.disabled) return;
             
-            const originalText = '<i class="fas fa-magic"></i> توليد الصورة بدقة 4K';
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري استنساخ ومعالجة الصورة...';
+            const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             btn.disabled = true;
 
-            const originalArea = document.getElementById('captureArea');
+            const captureArea = document.getElementById('captureArea');
             
-            // التغيير الجذري 1: استنساخ العنصر بالكامل (Cloning) لمنع تضارب الـ Canvas
-            const cloneArea = originalArea.cloneNode(true);
-            cloneArea.style.position = 'absolute';
-            cloneArea.style.left = '-9999px'; 
-            document.body.appendChild(cloneArea);
-
-            setTimeout(() => {
-                html2canvas(cloneArea, { 
-                    scale: 4, 
-                    backgroundColor: '#0b141a', 
-                    useCORS: true,
-                    allowTaint: false 
-                }).then(canvas => {
-                    const dataUrl = canvas.toDataURL("image/png", 1.0);
-                    
-                    // التغيير الجذري 2: عرض الصورة بنافذة منبثقة (باي باس حظر المتصفح)
-                    document.getElementById('finalResultImage').src = dataUrl;
-                    
-                    const downloadBtn = document.getElementById('downloadLinkBtn');
-                    downloadBtn.href = dataUrl;
-                    downloadBtn.download = `WhatsApp_4K_${Date.now()}.png`;
-                    
-                    document.getElementById('resultModal').style.display = 'flex';
-
-                    // تنظيف النسخة المستنسخة من الذاكرة
-                    document.body.removeChild(cloneArea);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-
-                }).catch(err => {
-                    alert("حدث خطأ تقني أثناء التوليد.");
-                    console.error("Cloning Canvas error:", err);
-                    document.body.removeChild(cloneArea);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                });
-            }, 100);
+            // html-to-image أسرع وما تقفل الذاكرة
+            window.htmlToImage.toPng(captureArea, { 
+                pixelRatio: 4, // يعادل دقة 4K
+                backgroundColor: '#0b141a'
+            })
+            .then(function (dataUrl) {
+                const link = document.createElement('a');
+                link.download = `WhatsApp_4K_${Date.now()}.png`;
+                link.href = dataUrl;
+                link.click();
+                
+                // يرجع الزر يشتغل فوراً وبدون أي تجميد
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            })
+            .catch(function (error) {
+                alert("حدث خطأ! يرجى التأكد من رفع صور صحيحة.");
+                console.error('oops, something went wrong!', error);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
         }
         
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "هسه التغيير صار جذري 100% وبدون أي بلوك من المتصفح.";
+            document.getElementById('newMsgText').value = "المكتبة القديمة انحذفت بالكامل من الكود!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "نظام الاستنساخ الوهمي والشاشة المنبثقة يحل كل مشاكل الذاكرة والتحميل المستمر.";
+            document.getElementById('newMsgText').value = "هسه دا نستخدم html-to-image، جرب حمل الف مرة متتالية وبدون تجميد.";
             addMessage('sent');
         };
     </script>
