@@ -31,14 +31,14 @@
 
         body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
-        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1100px; justify-content: center; align-items: flex-start; }
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
         .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
         .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
-        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
@@ -48,24 +48,27 @@
         .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;}
-        
-        /* أزرار إضافة الرسائل */
+        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
+        .btn-download:hover { opacity: 0.9; }
+
+        /* أزرار إضافة الرسائل المركزية */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn-add { flex: 1; padding: 10px; font-size: 13px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-add.received { background: #334155; color: #fff; }
         .btn-add.sent { background: #005c4b; color: #fff; }
         .btn-add:hover { opacity: 0.8; }
 
-        /* صندوق التحكم بالرسالة الفردية (Dynamic) */
-        .msg-ctrl-box { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 15px; margin-bottom: 15px; position: relative; border-right: 4px solid #334155; }
-        .msg-ctrl-box.sent-type { border-right-color: var(--primary-color); }
-        .msg-ctrl-box.received-type { border-right-color: #94a3b8; }
-        .btn-delete-msg { position: absolute; top: 10px; left: 10px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: none; border-radius: 4px; padding: 4px 8px; font-size: 12px; cursor: pointer; }
-        .btn-delete-msg:hover { background: #ef4444; color: #fff; }
-        .msg-label { font-size: 12px; font-weight: bold; margin-bottom: 10px; display: block; color: #cbd5e1; }
+        /* قائمة الرسائل المضافة */
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
+        .badge-sent { background: #005c4b; }
+        .badge-received { background: #334155; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
 
-        /* ----- منطقة الالتقاط (السكرين شوت الخام) ----- */
+        /* ----- السكرين شوت (خام) ----- */
         .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
@@ -81,7 +84,7 @@
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        /* منطقة المحادثة (الديناميكية) */
+        /* منطقة المحادثة */
         .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
         .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
         
@@ -129,7 +132,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="file-upload-grid" style="margin-top: 10px;">
+                
+                <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
                         <i class="fas fa-user-circle"></i> صورة الشخص
@@ -139,6 +143,7 @@
                         <i class="fas fa-image"></i> خلفية المحادثة 
                     </label>
                 </div>
+                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>اسم الشخص:</label>
@@ -149,30 +154,66 @@
                         <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
                     </div>
                 </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
+                            <option value="2">متوسط</option>
+                            <option value="1">ضعيف</option>
+                            <option value="0">مخفي</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateStaticUI()">
+                            <option value="4">تغطية كاملة</option>
+                            <option value="3">جيدة</option>
+                            <option value="2">متوسطة</option>
+                            <option value="0">لا توجد خدمة</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- قسم الرسائل الديناميكي -->
             <div class="control-section">
-                <div class="control-section-title">
-                    بناء المحادثة
-                    <span style="font-size: 11px; color: var(--wa-muted); font-weight: normal;">(أضف رسائل كما تشاء)</span>
+                <div class="control-section-title">صانع الرسائل (أضف بسهولة)</div>
+                
+                <div class="input-group">
+                    <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
                 </div>
                 
-                <div class="btn-add-group">
-                    <button class="btn-add received" onclick="addMessageControl('received')"><i class="fas fa-arrow-down"></i> إضافة رسالة مستلمة</button>
-                    <button class="btn-add sent" onclick="addMessageControl('sent')"><i class="fas fa-arrow-up"></i> إضافة رسالتك</button>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom: 15px;">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>وقت الرسالة:</label>
+                        <input type="text" id="newMsgTime" value="10:30 ص" dir="ltr">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>حالة الصح (للمرسلة):</label>
+                        <select id="newMsgTicks">
+                            <option value="blue">تمت القراءة (أزرق)</option>
+                            <option value="gray">تم الاستلام (رمادي)</option>
+                            <option value="single">تم الإرسال (صح واحد)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- حاوية التحكم بالرسائل -->
-                <div id="dynamic-messages-container">
-                    <!-- سيتم حقن صناديق التحكم بالرسائل هنا عبر الجافاسكريبت -->
+                <div class="btn-add-group">
+                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
+                
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود/نزول/حذف)
+                </div>
+                <div id="messages-list">
+                    </div>
             </div>
 
             <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
-        <!-- السكرين شوت الخام -->
         <div class="capture-container" id="captureArea">
             
             <div class="phone-status-bar">
@@ -200,11 +241,9 @@
                 </div>
             </div>
 
-            <!-- الحاوية التي سيتم عرض الرسائل بداخلها -->
             <div class="wa-chat-area" id="outChatArea">
                 <div class="wa-date-badge">اليوم</div>
-                <!-- سيتم حقن فقاعات المحادثة هنا -->
-            </div>
+                </div>
 
             <div class="wa-input-area">
                 <div class="wa-input-box">
@@ -226,99 +265,127 @@
     </div>
 
     <script>
-        // دالة تحديث العناصر الثابتة (الوقت، البطارية، الاسم)
+        // 1. تحديث النظام (الوقت والبطارية والشبكة)
         function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
 
+            // البطارية
             const batteryStatus = document.getElementById('inBattery').value;
             const batFill = document.getElementById('bat-fill');
             if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
             else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
             else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
             else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
+
+            // الواي فاي
+            const wifiLevel = parseInt(document.getElementById('inWifi').value);
+            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
+            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
+            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
+            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
+
+            // الشبكة
+            const sigLevel = parseInt(document.getElementById('inSignal').value);
+            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
+            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
+            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
+            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
+            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
         }
 
-        // ==========================================
-        // محرك الرسائل الديناميكي (Dynamic Messages Engine)
-        // ==========================================
-        
-        let msgCounter = 0; // لضمان IDs فريدة
+        // 2. نظام الرسائل المركزي السهل
+        let messages = [];
 
-        // دالة إضافة صندوق تحكم جديد للرسالة
-        function addMessageControl(type) {
-            msgCounter++;
-            const container = document.getElementById('dynamic-messages-container');
-            const isSent = type === 'sent';
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const timeInput = document.getElementById('newMsgTime');
+            const ticksInput = document.getElementById('newMsgTicks');
             
-            const html = `
-                <div class="msg-ctrl-box ${isSent ? 'sent-type' : 'received-type'}" id="ctrl-${msgCounter}" data-type="${type}">
-                    <button class="btn-delete-msg" onclick="removeMessageControl('ctrl-${msgCounter}')"><i class="fas fa-trash"></i></button>
-                    <span class="msg-label">${isSent ? 'رسالتك أنت (أخضر)' : 'رسالة الطرف الآخر (رصاصي)'}</span>
-                    
-                    <div class="input-group">
-                        <textarea class="ctrl-text" oninput="renderChatPreview()" placeholder="اكتب نص الرسالة..."></textarea>
-                    </div>
-                    
-                    <div style="display:grid; grid-template-columns: 1fr ${isSent ? '1fr' : ''}; gap:10px;">
-                        <div class="input-group" style="margin-bottom:0;">
-                            <input type="text" class="ctrl-time" value="10:30 ص" oninput="renderChatPreview()" dir="ltr">
-                        </div>
-                        ${isSent ? `
-                        <div class="input-group" style="margin-bottom:0;">
-                            <select class="ctrl-ticks" onchange="renderChatPreview()">
-                                <option value="blue">تمت القراءة (أزرق)</option>
-                                <option value="gray">تم الاستلام (رمادي)</option>
-                                <option value="single">تم الإرسال (صح واحد)</option>
-                            </select>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', html);
-            renderChatPreview(); // تحديث فوري للشاشة
+            const text = textInput.value.trim();
+            if(!text) return; // لا تقم بالإضافة إذا كان النص فارغاً
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text,
+                time: timeInput.value,
+                ticks: ticksInput.value
+            });
+
+            // تفريغ مربع النص بعد الإضافة لتسهيل كتابة الرسالة القادمة
+            textInput.value = "";
+            renderMessages();
         }
 
-        // دالة حذف رسالة
-        function removeMessageControl(id) {
-            document.getElementById(id).remove();
-            renderChatPreview(); // تحديث فوري بعد الحذف
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
         }
 
-        // دالة بناء شاشة الموبايل (تقرأ من صناديق التحكم وتولد الفقاعات)
-        function renderChatPreview() {
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        // 3. بناء الشاشة والقائمة بناءً على المصفوفة
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
             const chatArea = document.getElementById('outChatArea');
-            let chatHTML = '<div class="wa-date-badge">اليوم</div>'; // إبقاء تاريخ "اليوم" ثابت بالأعلى
-
-            const controls = document.querySelectorAll('.msg-ctrl-box');
             
-            controls.forEach(ctrl => {
-                const type = ctrl.getAttribute('data-type');
-                const text = ctrl.querySelector('.ctrl-text').value || '...';
-                const time = ctrl.querySelector('.ctrl-time').value || '';
+            // تصفير المحتوى
+            listArea.innerHTML = "";
+            chatArea.innerHTML = '<div class="wa-date-badge">اليوم</div>';
+
+            messages.forEach((msg, index) => {
+                // --- 1. بناء القائمة (لوحة التحكم) ---
+                const badgeClass = msg.type === 'sent' ? 'badge-sent' : 'badge-received';
+                const typeText = msg.type === 'sent' ? 'مرسلة' : 'مستلمة';
                 
-                if (type === 'received') {
-                    chatHTML += `
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})" title="أعلى"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})" title="أسفل"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})" title="حذف"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // --- 2. بناء الموبايل (السكرين شوت) ---
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                if (msg.type === 'received') {
+                    chatArea.innerHTML += `
                         <div class="msg-received">
-                            <span>${text.replace(/\\n/g, '<br>')}</span>
-                            <div class="msg-meta"><span>${time}</span></div>
+                            <span>${formattedText}</span>
+                            <div class="msg-meta"><span>${msg.time}</span></div>
                         </div>
                     `;
-                } else if (type === 'sent') {
-                    const ticksVal = ctrl.querySelector('.ctrl-ticks').value;
+                } else {
                     let ticksHTML = '';
-                    if (ticksVal === 'blue') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-blue-tick)"></i>';
-                    else if (ticksVal === 'gray') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-muted)"></i>';
+                    if (msg.ticks === 'blue') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-blue-tick)"></i>';
+                    else if (msg.ticks === 'gray') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-muted)"></i>';
                     else ticksHTML = '<i class="fas fa-check" style="color: var(--wa-muted)"></i>';
 
-                    chatHTML += `
+                    chatArea.innerHTML += `
                         <div class="msg-sent">
-                            <span>${text.replace(/\\n/g, '<br>')}</span>
+                            <span>${formattedText}</span>
                             <div class="msg-meta">
-                                <span>${time}</span>
+                                <span>${msg.time}</span>
                                 <div class="blue-ticks">${ticksHTML}</div>
                             </div>
                         </div>
@@ -326,13 +393,11 @@
                 }
             });
 
-            chatArea.innerHTML = chatHTML;
-            // النزول لأسفل المحادثة تلقائياً عند إضافة رسائل كثيرة
+            // تمرير تلقائي للأسفل في شاشة الموبايل
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
-        // ==========================================
-
+        // دوال الصور والتحميل
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; };
@@ -353,7 +418,7 @@
         function captureWhatsApp() {
             html2canvas(document.getElementById('captureArea'), { scale: 5, backgroundColor: '#0b141a', useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `WhatsApp_RawScreenshot_4K_${Date.now()}.png`;
+                link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
             });
@@ -362,15 +427,14 @@
         // تشغيل أولي
         window.onload = () => {
             updateStaticUI();
-            // إضافة رسالتين افتراضية عند فتح الصفحة لأول مرة لتوضيح الفكرة
-            addMessageControl('received');
-            addMessageControl('sent');
             
-            // وضع نصوص افتراضية لها
-            const ctrls = document.querySelectorAll('.msg-ctrl-box .ctrl-text');
-            if(ctrls[0]) ctrls[0].value = "السلام عليكم، هل يمكن إضافة رسائل غير محدودة؟";
-            if(ctrls[1]) ctrls[1].value = "وعليكم السلام، نعم يا هندسة! أضف العدد الذي تريده عبر الأزرار بالأعلى.";
-            renderChatPreview();
+            // إضافة رسالتين افتراضية للتوضيح
+            document.getElementById('newMsgText').value = "السلام عليكم، هل هذه الطريقة أسهل للمستخدم؟";
+            addMessage('received');
+            
+            document.getElementById('newMsgTime').value = "10:32 ص";
+            document.getElementById('newMsgText').value = "وعليكم السلام! نعم، يمكنك إضافة ما تشاء بسرعة وبدون تعقيد.";
+            addMessage('sent');
         };
     </script>
 </body>
