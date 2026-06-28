@@ -52,7 +52,7 @@
         .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         .btn-download:hover { opacity: 0.9; }
 
-        /* أزرار إضافة الرسائل المركزية */
+        /* أزرار الإضافة */
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-add.received { background: #334155; color: #fff; }
@@ -114,7 +114,7 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم السكرين شوت</h2>
+            <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم WhatsApp</h2>
             
             <!-- القسم الأول: شريط الإشعارات -->
             <div class="control-section">
@@ -283,13 +283,12 @@
     </div>
 
     <script>
-        // 1. تحديث النظام (الوقت والبطارية والشبكة)
+        // 1. تحديث النظام
         function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
 
-            // البطارية
             const batteryStatus = document.getElementById('inBattery').value;
             const batFill = document.getElementById('bat-fill');
             if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
@@ -297,14 +296,12 @@
             else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
             else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
 
-            // الواي فاي
             const wifiLevel = parseInt(document.getElementById('inWifi').value);
             document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
             document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
             document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
             document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
 
-            // الشبكة
             const sigLevel = parseInt(document.getElementById('inSignal').value);
             document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
             document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
@@ -313,7 +310,7 @@
             document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
         }
 
-        // 2. نظام الرسائل المركزي السهل
+        // 2. نظام الرسائل
         let messages = [];
 
         function addMessage(type) {
@@ -355,14 +352,12 @@
             }
         }
 
-        // 3. بناء الشاشة والقائمة بناءً على المصفوفة
         function renderMessages() {
             const listArea = document.getElementById('messages-list');
             const chatArea = document.getElementById('outChatArea');
-            const chatDate = document.getElementById('inChatDate').value || 'اليوم'; // سحب التاريخ الجديد
+            const chatDate = document.getElementById('inChatDate').value || 'اليوم'; 
             
             listArea.innerHTML = "";
-            // إضافة التاريخ الديناميكي بالأعلى
             chatArea.innerHTML = `<div class="wa-date-badge">${chatDate}</div>`;
 
             messages.forEach((msg, index) => {
@@ -412,7 +407,6 @@
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
-        // دوال الصور والتحميل
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; };
@@ -430,24 +424,38 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
+        // التحديث الجديد لدالة التحميل لمعالجة مشكلة CORS
         function captureWhatsApp() {
-            html2canvas(document.getElementById('captureArea'), { scale: 5, backgroundColor: '#0b141a', useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `WhatsApp_MultiMsg_4K_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
+            const captureArea = document.getElementById('captureArea');
+            html2canvas(captureArea, { 
+                scale: 5, 
+                backgroundColor: '#0b141a', 
+                useCORS: true, 
+                allowTaint: true 
+            }).then(canvas => {
+                try {
+                    const link = document.createElement('a');
+                    link.download = `WhatsApp_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                } catch (e) {
+                    alert("عذراً! المتصفح يمنع التحميل المباشر بسبب الخصوصية. يرجى فتح الملف عبر (Live Server) في VS Code لتشغيل التحميل بنجاح.");
+                    console.error("CORS Error:", e);
+                }
+            }).catch(err => {
+                alert("حدث خطأ أثناء التقاط الصورة.");
+                console.error("html2canvas error:", err);
             });
         }
         
-        // تشغيل أولي
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "هسه صار كلشي ديناميكي ومرتب!";
+            document.getElementById('newMsgText').value = "هذا الملف جاهز بكافة التحديثات";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "عاشت إيدك، هسه نكدر نعمم هاي الطريقة على الباقيات.";
+            document.getElementById('newMsgText').value = "مع نظام تحميل آمن يدعم الصور المرفوعة عبر السيرفر المحلي.";
             addMessage('sent');
         };
     </script>
