@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة WhatsApp | سكرين شوت خام ومطابق 100%</title>
+    <title>محادثة WhatsApp | سكرين شوت ديناميكي 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -29,176 +29,80 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: var(--bg-site);
-            color: #fff;
-            font-family: var(--font-ar);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 15px;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
-        .workspace {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
-            max-width: 1050px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1100px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls {
-            background: var(--panel-bg);
-            border: 1px solid #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            flex: 1;
-            min-width: 340px;
-        }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
-        .control-section {
-            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;
-            border: 1px solid #1e293b; margin-bottom: 20px;
-        }
-        .control-section-title {
-            font-size: 14px; color: var(--primary-color); margin-bottom: 15px;
-            font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px;
-        }
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group input, .input-group textarea, .input-group select {
-            width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b;
-            color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar);
-        }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
         .input-group textarea { resize: vertical; min-height: 60px; }
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload {
-            display: block; width: 100%; padding: 10px; background: #0f172a;
-            border: 1px dashed var(--primary-color); color: var(--primary-color);
-            border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px;
-        }
-        .btn-download {
-            width: 100%; background: var(--primary-color); color: #000; font-weight: bold;
-            padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;
-        }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; }
+        
+        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;}
+        
+        /* أزرار إضافة الرسائل */
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 10px; font-size: 13px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add.received { background: #334155; color: #fff; }
+        .btn-add.sent { background: #005c4b; color: #fff; }
+        .btn-add:hover { opacity: 0.8; }
+
+        /* صندوق التحكم بالرسالة الفردية (Dynamic) */
+        .msg-ctrl-box { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 15px; margin-bottom: 15px; position: relative; border-right: 4px solid #334155; }
+        .msg-ctrl-box.sent-type { border-right-color: var(--primary-color); }
+        .msg-ctrl-box.received-type { border-right-color: #94a3b8; }
+        .btn-delete-msg { position: absolute; top: 10px; left: 10px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: none; border-radius: 4px; padding: 4px 8px; font-size: 12px; cursor: pointer; }
+        .btn-delete-msg:hover { background: #ef4444; color: #fff; }
+        .msg-label { font-size: 12px; font-weight: bold; margin-bottom: 10px; display: block; color: #cbd5e1; }
 
         /* ----- منطقة الالتقاط (السكرين شوت الخام) ----- */
-        .capture-container {
-            width: 380px;
-            aspect-ratio: 9 / 19; 
-            background-color: var(--wa-bg);
-            border-radius: 0;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* شريط الإشعارات - محاذاة صارمة */
-        .phone-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px 4px 18px;
-            background: var(--wa-header);
-            font-family: var(--font-en);
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .status-icons {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            height: 14px; 
-        }
-        .status-icons svg {
-            display: block;
-            height: 100%;
-        }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
+        .status-icons svg { display: block; height: 100%; }
 
-        /* هيدر واتساب */
-        .wa-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 15px 12px 10px;
-            background: var(--wa-header);
-        }
+        .wa-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px 12px 10px; background: var(--wa-header); }
         .wa-header-left { display: flex; align-items: center; gap: 8px; }
         .wa-back { color: var(--wa-text); font-size: 18px; display: flex; align-items: center; gap: 4px; }
-        .wa-avatar {
-            width: 40px; height: 40px; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-        }
+        .wa-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
         .wa-user-info { display: flex; flex-direction: column; justify-content: center; }
         .wa-name { color: var(--wa-text); font-size: 16px; font-weight: 500; line-height: 1.2; font-family: var(--font-en); }
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        /* منطقة المحادثة */
-        .wa-chat-area {
-            flex: 1;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow: hidden;
-            background-color: var(--wa-bg); 
-        }
-        .wa-date-badge {
-            align-self: center; background: var(--wa-date-bg); color: var(--wa-muted);
-            font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px;
-        }
-        .msg-received, .msg-sent {
-            padding: 8px 10px 6px 10px; border-radius: 12px; max-width: 85%;
-            font-size: 15px; line-height: 1.4; position: relative;
-        }
+        /* منطقة المحادثة (الديناميكية) */
+        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
+        .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
+        
+        .msg-received, .msg-sent { padding: 8px 10px 6px 10px; border-radius: 12px; max-width: 85%; font-size: 15px; line-height: 1.4; position: relative; }
         .msg-received { align-self: flex-start; background: var(--wa-received); color: var(--wa-text); border-top-right-radius: 0; }
         .msg-sent { align-self: flex-end; background: var(--wa-sent); color: var(--wa-text); border-top-left-radius: 0; }
         
-        .msg-meta {
-            display: flex; justify-content: flex-end; align-items: center; gap: 4px;
-            margin-top: 2px; font-size: 11px; color: rgba(255,255,255,0.6);
-            float: left; margin-right: 15px; font-family: var(--font-en);
-        }
+        .msg-meta { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 2px; font-size: 11px; color: rgba(255,255,255,0.6); float: left; margin-right: 15px; font-family: var(--font-en); }
         .msg-received .msg-meta { float: left; margin-right: 15px; }
         .blue-ticks { color: var(--wa-blue-tick); font-size: 13px; display: flex; align-items: center; }
 
-        /* شريط الإدخال */
-        .wa-input-area {
-            padding: 8px 10px; background: var(--wa-bg);
-            display: flex; align-items: flex-end; gap: 10px;
-        }
-        .wa-input-box {
-            flex: 1; background: var(--wa-header); border-radius: 24px;
-            padding: 10px 15px; display: flex; align-items: center; gap: 15px;
-        }
+        .wa-input-area { padding: 8px 10px; background: var(--wa-bg); display: flex; align-items: flex-end; gap: 10px; }
+        .wa-input-box { flex: 1; background: var(--wa-header); border-radius: 24px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; }
         .wa-input-box i { color: var(--wa-muted); font-size: 20px; }
         .wa-placeholder { flex: 1; color: var(--wa-muted); font-size: 16px; }
-        .wa-mic-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: var(--primary-color); color: #fff;
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
-        }
+        .wa-mic-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--primary-color); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-        /* أزرار النظام السفلية */
-        .android-nav-bar {
-            display: flex; justify-content: space-around; align-items: center;
-            height: 44px; background: #000000; padding: 0 40px;
-        }
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
-
     </style>
 </head>
 <body>
@@ -208,17 +112,16 @@
         <div class="controls">
             <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم السكرين شوت</h2>
             
-            <!-- إعدادات شريط النظام -->
             <div class="control-section">
-                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                <div class="control-section-title">إعدادات النظام والحساب</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
@@ -226,76 +129,43 @@
                         </select>
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="input-group">
-                        <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
-                            <option value="0">مخفي</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateLive()">
-                            <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
-                            <option value="0">لا توجد خدمة</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- إعدادات المحادثة -->
-            <div class="control-section">
-                <div class="control-section-title">تفاصيل المحادثة والخلفية</div>
-                <div class="file-upload-grid">
+                <div class="file-upload-grid" style="margin-top: 10px;">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
                         <i class="fas fa-user-circle"></i> صورة الشخص
                     </label>
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateChatBg(event)" style="display:none;">
-                        <i class="fas fa-image"></i> خلفية مخصصة 
+                        <i class="fas fa-image"></i> خلفية المحادثة 
                     </label>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>اسم الشخص:</label>
-                        <input type="text" id="inName" value="Yousef" oninput="updateLive()">
+                        <input type="text" id="inName" value="Yousef" oninput="updateStaticUI()">
                     </div>
                     <div class="input-group">
                         <label>الحالة:</label>
-                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateLive()">
+                        <input type="text" id="inStatus" value="متصل الآن" oninput="updateStaticUI()">
                     </div>
                 </div>
             </div>
 
-            <!-- إعدادات الرسائل -->
+            <!-- قسم الرسائل الديناميكي -->
             <div class="control-section">
-                <div class="control-section-title">محتوى الرسائل</div>
-                <div class="input-group">
-                    <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">هل قمت بإضافة نسبة الـ 75% للبطارية؟</textarea>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
-                        <input type="text" id="inTime1" value="10:30 ص" oninput="updateLive()" dir="ltr">
-                    </div>
+                <div class="control-section-title">
+                    بناء المحادثة
+                    <span style="font-size: 11px; color: var(--wa-muted); font-weight: normal;">(أضف رسائل كما تشاء)</span>
+                </div>
+                
+                <div class="btn-add-group">
+                    <button class="btn-add received" onclick="addMessageControl('received')"><i class="fas fa-arrow-down"></i> إضافة رسالة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessageControl('sent')"><i class="fas fa-arrow-up"></i> إضافة رسالتك</button>
                 </div>
 
-                <div class="input-group">
-                    <label>رسالتك أنت:</label>
-                    <textarea id="inMsg2" oninput="updateLive()">نعم، تمت الإضافة بنجاح وبدون المساس بأي عنصر آخر في الواجهة لتظل بدقتها الهندسية.</textarea>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:5px;">
-                        <input type="text" id="inTime2" value="10:32 ص" oninput="updateLive()" dir="ltr">
-                        <select id="inTicks" onchange="updateLive()">
-                            <option value="blue">تمت القراءة (أزرق)</option>
-                            <option value="gray">تم الاستلام (رمادي)</option>
-                            <option value="single">تم الإرسال (صح واحد)</option>
-                        </select>
-                    </div>
+                <!-- حاوية التحكم بالرسائل -->
+                <div id="dynamic-messages-container">
+                    <!-- سيتم حقن صناديق التحكم بالرسائل هنا عبر الجافاسكريبت -->
                 </div>
             </div>
 
@@ -307,27 +177,9 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <!-- الشبكة (SVG دقيق) -->
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16">
-                        <rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/>
-                        <rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/>
-                        <rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/>
-                        <rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/>
-                    </svg>
-
-                    <!-- الواي فاي (SVG دقيق) -->
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18">
-                        <path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" />
-                        <path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" />
-                        <path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/>
-                    </svg>
-
-                    <!-- البطارية (SVG دقيق) -->
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24">
-                        <rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                        <path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/>
-                    </svg>
+                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
+                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
+                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
@@ -348,21 +200,10 @@
                 </div>
             </div>
 
+            <!-- الحاوية التي سيتم عرض الرسائل بداخلها -->
             <div class="wa-chat-area" id="outChatArea">
                 <div class="wa-date-badge">اليوم</div>
-                
-                <div class="msg-received">
-                    <span id="outMsg1">هل قمت بإضافة نسبة الـ 75% للبطارية؟</span>
-                    <div class="msg-meta"><span id="outTime1">10:30 ص</span></div>
-                </div>
-                
-                <div class="msg-sent">
-                    <span id="outMsg2">نعم، تمت الإضافة بنجاح وبدون المساس بأي عنصر آخر في الواجهة لتظل بدقتها الهندسية.</span>
-                    <div class="msg-meta">
-                        <span id="outTime2">10:32 ص</span>
-                        <div class="blue-ticks" id="outTicks"><i class="fas fa-check-double"></i></div>
-                    </div>
-                </div>
+                <!-- سيتم حقن فقاعات المحادثة هنا -->
             </div>
 
             <div class="wa-input-area">
@@ -378,70 +219,119 @@
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
 
         </div>
     </div>
 
     <script>
-        function updateLive() {
+        // دالة تحديث العناصر الثابتة (الوقت، البطارية، الاسم)
+        function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
-            document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
-            document.getElementById('outTime1').innerText = document.getElementById('inTime1').value;
-            document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
-            document.getElementById('outTime2').innerText = document.getElementById('inTime2').value;
 
-            // تحديث الواي فاي
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            // تحديث الشبكة
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
-
-            // تحديث البطارية
             const batteryStatus = document.getElementById('inBattery').value;
             const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') {
-                batFill.setAttribute('width', '16');
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'three-quarters') {
-                batFill.setAttribute('width', '12'); // 75% من أصل 16
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'half') {
-                batFill.setAttribute('width', '8');
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'low') {
-                batFill.setAttribute('width', '3');
-                batFill.setAttribute('fill', '#ff3b30'); 
-            }
-
-            // تحديث حالة الصح
-            const tickStatus = document.getElementById('inTicks').value;
-            const tickBox = document.getElementById('outTicks');
-            if (tickStatus === 'blue') {
-                tickBox.innerHTML = '<i class="fas fa-check-double"></i>';
-                tickBox.style.color = 'var(--wa-blue-tick)';
-            } else if (tickStatus === 'gray') {
-                tickBox.innerHTML = '<i class="fas fa-check-double"></i>';
-                tickBox.style.color = 'var(--wa-muted)';
-            } else {
-                tickBox.innerHTML = '<i class="fas fa-check"></i>';
-                tickBox.style.color = 'var(--wa-muted)';
-            }
+            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
         }
+
+        // ==========================================
+        // محرك الرسائل الديناميكي (Dynamic Messages Engine)
+        // ==========================================
+        
+        let msgCounter = 0; // لضمان IDs فريدة
+
+        // دالة إضافة صندوق تحكم جديد للرسالة
+        function addMessageControl(type) {
+            msgCounter++;
+            const container = document.getElementById('dynamic-messages-container');
+            const isSent = type === 'sent';
+            
+            const html = `
+                <div class="msg-ctrl-box ${isSent ? 'sent-type' : 'received-type'}" id="ctrl-${msgCounter}" data-type="${type}">
+                    <button class="btn-delete-msg" onclick="removeMessageControl('ctrl-${msgCounter}')"><i class="fas fa-trash"></i></button>
+                    <span class="msg-label">${isSent ? 'رسالتك أنت (أخضر)' : 'رسالة الطرف الآخر (رصاصي)'}</span>
+                    
+                    <div class="input-group">
+                        <textarea class="ctrl-text" oninput="renderChatPreview()" placeholder="اكتب نص الرسالة..."></textarea>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr ${isSent ? '1fr' : ''}; gap:10px;">
+                        <div class="input-group" style="margin-bottom:0;">
+                            <input type="text" class="ctrl-time" value="10:30 ص" oninput="renderChatPreview()" dir="ltr">
+                        </div>
+                        ${isSent ? `
+                        <div class="input-group" style="margin-bottom:0;">
+                            <select class="ctrl-ticks" onchange="renderChatPreview()">
+                                <option value="blue">تمت القراءة (أزرق)</option>
+                                <option value="gray">تم الاستلام (رمادي)</option>
+                                <option value="single">تم الإرسال (صح واحد)</option>
+                            </select>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', html);
+            renderChatPreview(); // تحديث فوري للشاشة
+        }
+
+        // دالة حذف رسالة
+        function removeMessageControl(id) {
+            document.getElementById(id).remove();
+            renderChatPreview(); // تحديث فوري بعد الحذف
+        }
+
+        // دالة بناء شاشة الموبايل (تقرأ من صناديق التحكم وتولد الفقاعات)
+        function renderChatPreview() {
+            const chatArea = document.getElementById('outChatArea');
+            let chatHTML = '<div class="wa-date-badge">اليوم</div>'; // إبقاء تاريخ "اليوم" ثابت بالأعلى
+
+            const controls = document.querySelectorAll('.msg-ctrl-box');
+            
+            controls.forEach(ctrl => {
+                const type = ctrl.getAttribute('data-type');
+                const text = ctrl.querySelector('.ctrl-text').value || '...';
+                const time = ctrl.querySelector('.ctrl-time').value || '';
+                
+                if (type === 'received') {
+                    chatHTML += `
+                        <div class="msg-received">
+                            <span>${text.replace(/\\n/g, '<br>')}</span>
+                            <div class="msg-meta"><span>${time}</span></div>
+                        </div>
+                    `;
+                } else if (type === 'sent') {
+                    const ticksVal = ctrl.querySelector('.ctrl-ticks').value;
+                    let ticksHTML = '';
+                    if (ticksVal === 'blue') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-blue-tick)"></i>';
+                    else if (ticksVal === 'gray') ticksHTML = '<i class="fas fa-check-double" style="color: var(--wa-muted)"></i>';
+                    else ticksHTML = '<i class="fas fa-check" style="color: var(--wa-muted)"></i>';
+
+                    chatHTML += `
+                        <div class="msg-sent">
+                            <span>${text.replace(/\\n/g, '<br>')}</span>
+                            <div class="msg-meta">
+                                <span>${time}</span>
+                                <div class="blue-ticks">${ticksHTML}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            chatArea.innerHTML = chatHTML;
+            // النزول لأسفل المحادثة تلقائياً عند إضافة رسائل كثيرة
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // ==========================================
 
         function updateAvatar(event) {
             const reader = new FileReader();
@@ -461,12 +351,7 @@
         }
 
         function captureWhatsApp() {
-            const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { 
-                scale: 5, 
-                backgroundColor: '#0b141a', 
-                useCORS: true 
-            }).then(canvas => {
+            html2canvas(document.getElementById('captureArea'), { scale: 5, backgroundColor: '#0b141a', useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `WhatsApp_RawScreenshot_4K_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
@@ -474,7 +359,19 @@
             });
         }
         
-        window.onload = updateLive;
+        // تشغيل أولي
+        window.onload = () => {
+            updateStaticUI();
+            // إضافة رسالتين افتراضية عند فتح الصفحة لأول مرة لتوضيح الفكرة
+            addMessageControl('received');
+            addMessageControl('sent');
+            
+            // وضع نصوص افتراضية لها
+            const ctrls = document.querySelectorAll('.msg-ctrl-box .ctrl-text');
+            if(ctrls[0]) ctrls[0].value = "السلام عليكم، هل يمكن إضافة رسائل غير محدودة؟";
+            if(ctrls[1]) ctrls[1].value = "وعليكم السلام، نعم يا هندسة! أضف العدد الذي تريده عبر الأزرار بالأعلى.";
+            renderChatPreview();
+        };
     </script>
 </body>
 </html>
