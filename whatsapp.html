@@ -116,6 +116,7 @@
         <div class="controls">
             <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم السكرين شوت</h2>
             
+            <!-- القسم الأول: شريط الإشعارات -->
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 
@@ -157,6 +158,7 @@
                 </div>
             </div>
 
+            <!-- القسم الثاني: معلومات الشخص والخلفية -->
             <div class="control-section">
                 <div class="control-section-title">بيانات الشخص والخلفية</div>
                 
@@ -183,9 +185,15 @@
                 </div>
             </div>
 
+            <!-- القسم الثالث: النظام المركزي للمراسلة -->
             <div class="control-section">
-                <div class="control-section-title">صانع الرسائل (أضف رسائل بسهولة)</div>
+                <div class="control-section-title">صانع الرسائل</div>
                 
+                <div class="input-group">
+                    <label>تاريخ المحادثة (الوسام بالأعلى):</label>
+                    <input type="text" id="inChatDate" value="اليوم" oninput="renderMessages()">
+                </div>
+
                 <div class="input-group">
                     <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
                 </div>
@@ -210,16 +218,19 @@
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
                 
+                <!-- قائمة الرسائل (الليست) -->
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
                     <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list">
-                    </div>
+                    <!-- سيتم عرض الرسائل هنا -->
+                </div>
             </div>
 
             <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
+        <!-- السكرين شوت الخام -->
         <div class="capture-container" id="captureArea">
             
             <div class="phone-status-bar">
@@ -247,9 +258,10 @@
                 </div>
             </div>
 
+            <!-- الحاوية التي سيتم عرض الرسائل بداخلها -->
             <div class="wa-chat-area" id="outChatArea">
-                <div class="wa-date-badge">اليوم</div>
-                </div>
+                <!-- الوسام والرسائل تتولد هنا -->
+            </div>
 
             <div class="wa-input-area">
                 <div class="wa-input-box">
@@ -310,7 +322,7 @@
             const ticksInput = document.getElementById('newMsgTicks');
             
             const text = textInput.value.trim();
-            if(!text) return; // لا تقم بالإضافة إذا كان النص فارغاً
+            if(!text) return; 
 
             messages.push({
                 id: Date.now(),
@@ -320,7 +332,6 @@
                 ticks: ticksInput.value
             });
 
-            // تفريغ مربع النص بعد الإضافة لتسهيل كتابة الرسالة القادمة
             textInput.value = "";
             renderMessages();
         }
@@ -348,13 +359,13 @@
         function renderMessages() {
             const listArea = document.getElementById('messages-list');
             const chatArea = document.getElementById('outChatArea');
+            const chatDate = document.getElementById('inChatDate').value || 'اليوم'; // سحب التاريخ الجديد
             
-            // تصفير المحتوى
             listArea.innerHTML = "";
-            chatArea.innerHTML = '<div class="wa-date-badge">اليوم</div>';
+            // إضافة التاريخ الديناميكي بالأعلى
+            chatArea.innerHTML = `<div class="wa-date-badge">${chatDate}</div>`;
 
             messages.forEach((msg, index) => {
-                // --- 1. بناء القائمة (لوحة التحكم) ---
                 const badgeClass = msg.type === 'sent' ? 'badge-sent' : 'badge-received';
                 const typeText = msg.type === 'sent' ? 'مرسلة' : 'مستلمة';
                 
@@ -371,7 +382,6 @@
                     </div>
                 `;
 
-                // --- 2. بناء الموبايل (السكرين شوت) ---
                 let formattedText = msg.text.replace(/\n/g, '<br>');
                 
                 if (msg.type === 'received') {
@@ -399,7 +409,6 @@
                 }
             });
 
-            // تمرير تلقائي للأسفل في شاشة الموبايل
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
@@ -434,12 +443,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            // إضافة رسالتين افتراضية للتوضيح
-            document.getElementById('newMsgText').value = "هسه الترتيب صار منطقي ومريح جداً!";
+            document.getElementById('newMsgText').value = "هسه صار كلشي ديناميكي ومرتب!";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "تماماً! إعدادات الإشعارات كلها بمكان، والشخص بمكان، والرسائل بمكان.";
+            document.getElementById('newMsgText').value = "عاشت إيدك، هسه نكدر نعمم هاي الطريقة على الباقيات.";
             addMessage('sent');
         };
     </script>
