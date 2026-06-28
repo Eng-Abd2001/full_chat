@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة X (Twitter) | سكرين شوت خام 4K</title>
+    <title>توليد منشور X (Twitter) | سكرين شوت خام 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #1d9bf0; /* أزرق X/تويتر */
+            --primary-color: #1d9bf0; /* أزرق X */
             
-            /* ألوان X الرسمية (Lights Out Dark Mode) */
+            /* ألوان X الرسمية للمنشورات (Lights Out Dark Mode) */
             --x-bg: #000000; 
-            --x-header: #000000;
-            --x-received: #2f3336;
-            --x-sent: #1d9bf0; 
+            --x-border: #2f3336;
             --x-text: #e7e9ea;
             --x-muted: #71767b;
-            --x-input-bg: #202327;
+            --x-link: #1d9bf0;
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,7 +28,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased; }
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
@@ -44,58 +42,61 @@
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
         .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
-        .input-group textarea { resize: vertical; min-height: 60px; }
+        .input-group textarea { resize: vertical; min-height: 80px; }
         
-        .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
-        .custom-file-upload:hover { background: rgba(29, 155, 240, 0.1); }
+        .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #fff; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .btn-download:hover { opacity: 0.9; }
+        .btn-download { width: 100%; background: var(--primary-color); color: #fff; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; }
 
-        /* ----- السكرين شوت (خام) ----- */
+        /* ----- شاشة السكرين شوت الخام لـ X ----- */
         .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--x-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         /* شريط الإشعارات (الماتريكس) */
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--x-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; z-index: 20;}
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--x-bg); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; z-index: 20; }
         .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
         .status-icons svg { display: block; height: 100%; }
 
-        /* هيدر X */
-        .x-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; background: var(--x-header); }
-        .x-header-left { display: flex; align-items: center; gap: 15px; }
-        .x-back { color: var(--x-text); font-size: 18px; cursor: pointer; }
-        .x-avatar { width: 36px; height: 36px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
-        .x-user-info { display: flex; flex-direction: column; justify-content: center; }
-        .x-name { color: var(--x-text); font-size: 16px; font-weight: 700; font-family: var(--font-en); line-height: 1.2; }
-        .x-handle { color: var(--x-muted); font-size: 13px; font-family: var(--font-en); line-height: 1.2; }
+        /* هيدر المنشور */
+        .x-post-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: var(--x-bg); }
+        .x-header-right-side { display: flex; align-items: center; gap: 25px; }
+        .x-post-title { color: var(--x-text); font-size: 18px; font-weight: 700; }
+        .x-icon { color: var(--x-text); font-size: 16px; cursor: pointer; }
+
+        /* منطقة محتوى التغريدة */
+        .x-post-body { flex: 1; padding: 15px; display: flex; flex-direction: column; background: var(--x-bg); overflow: hidden; }
         
-        .x-info-icon { color: var(--x-text); font-size: 20px; }
+        /* بيانات كاتب التغريدة */
+        .x-user-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        .x-user-info-block { display: flex; align-items: center; gap: 10px; }
+        .x-avatar { width: 42px; height: 42px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        .x-meta-names { display: flex; flex-direction: column; }
+        .x-display-name { color: var(--x-text); font-size: 15px; font-weight: 700; line-height: 1.2; }
+        .x-handle { color: var(--x-muted); font-size: 14px; font-family: var(--font-en); line-height: 1.2; }
+        .x-btn-follow { background: #fff; color: #000; font-weight: 700; font-size: 13px; padding: 6px 14px; border-radius: 20px; }
 
-        /* منطقة المحادثة */
-        .x-chat-area { flex: 1; padding: 15px 15px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; background-color: var(--x-bg); }
-        .x-date-badge { align-self: center; color: var(--x-muted); font-size: 13px; margin-bottom: 5px; font-family: var(--font-en); }
+        /* نص التغريدة */
+        .x-post-text { color: var(--x-text); font-size: 16px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 15px; text-align: right; }
 
-        /* رسالة المستلم (مع صورة مصغرة) */
-        .msg-row-received { display: flex; align-items: flex-end; gap: 8px; max-width: 85%; }
-        .x-avatar-small { width: 28px; height: 28px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; flex-shrink: 0; }
-        .msg-received { background: var(--x-received); color: var(--x-text); padding: 12px 16px; border-radius: 18px; border-bottom-left-radius: 4px; font-size: 15px; line-height: 1.4; }
+        /* صورة التغريدة (اختيارية واحترافية) */
+        .x-post-image-container { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid var(--x-border); margin-bottom: 15px; display: none; }
+        .x-post-image { width: 100%; display: block; }
 
-        /* رسالتك (أزرق تويتر) */
-        .msg-row-sent { display: flex; flex-direction: column; align-items: flex-end; align-self: flex-end; max-width: 80%; }
-        .msg-sent { background: var(--x-sent); color: #ffffff; padding: 12px 16px; border-radius: 18px; border-bottom-right-radius: 4px; font-size: 15px; line-height: 1.4; }
-        .msg-seen { font-size: 12px; color: var(--x-muted); margin-top: 4px; font-family: var(--font-en); display: none; }
+        /* الوقت والتاريخ والمشاهدات (طراز X الجديد) */
+        .x-post-details-row { display: flex; align-items: center; gap: 5px; color: var(--x-muted); font-size: 13px; font-family: var(--font-en); padding-bottom: 12px; border-bottom: 1px solid var(--x-border); margin-bottom: 12px; }
+        .x-dot { font-size: 8px; color: var(--x-muted); }
+        .x-views-count { color: var(--x-text); font-weight: 600; }
 
-        /* شريط الإدخال في X */
-        .x-input-area { padding: 10px 15px; background: var(--x-bg); display: flex; align-items: center; gap: 12px; border-top: 1px solid #2f3336; }
-        .x-icon-btn { color: var(--primary-color); font-size: 20px; flex-shrink: 0; }
-        
-        .x-input-box { flex: 1; background: var(--x-input-bg); border-radius: 20px; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; }
-        .x-placeholder { color: var(--x-muted); font-size: 15px; font-family: var(--font-en); }
-        .x-input-box i { color: var(--primary-color); font-size: 18px; }
+        /* عدادات التفاعل الكبيرة (الريتويت، اللايك) */
+        .x-metrics-row { display: flex; gap: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--x-border); margin-bottom: 12px; font-size: 14px; font-family: var(--font-en); }
+        .x-metric-item { color: var(--x-muted); }
+        .x-metric-item span { color: var(--x-text); font-weight: 700; margin-left: 3px; }
 
-        /* أزرار النظام السفلية */
-        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
+        /* أزرار التفاعل (أيقونات فقط) */
+        .x-actions-bar { display: flex; justify-content: space-between; padding: 5px 10px 15px 10px; border-bottom: 1px solid var(--x-border); color: var(--x-muted); font-size: 18px; }
+
+        /* أزرار النظام السفلية للأندرويد */
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; margin-top: auto; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
@@ -105,20 +106,20 @@
 
     <div class="workspace">
         <div class="controls">
-            <h2><i class="fa-brands fa-x-twitter"></i> إعدادات سكرين شوت X (Twitter)</h2>
+            <h2><i class="fa-brands fa-x-twitter"></i> صانع منشورات X (Twitter)</h2>
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>وقت الموبايل:</label>
+                        <label>وقت الموبايل فوق:</label>
                         <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
                         <select id="inBattery" onchange="updateLive()">
-                            <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
+                            <option value="full">ممتلئ (100%)</option>
                             <option value="half">نصف (50%)</option>
                             <option value="low">ضعيف (أحمر)</option>
                         </select>
@@ -126,7 +127,7 @@
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>الـ Wi-Fi:</label>
+                        <label>درجة الـ Wi-Fi:</label>
                         <select id="inWifi" onchange="updateLive()">
                             <option value="3">قوي جداً</option>
                             <option value="2">متوسط</option>
@@ -135,12 +136,11 @@
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>الشبكة (Signal):</label>
+                        <label>درجة الشبكة:</label>
                         <select id="inSignal" onchange="updateLive()">
                             <option value="4">تغطية كاملة</option>
                             <option value="3">جيدة</option>
                             <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
@@ -148,52 +148,70 @@
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">بيانات الحساب</div>
+                <div class="control-section-title">بيانات الحساب والمنشور</div>
                 <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> رفع صورة الشخص
+                        <i class="fas fa-user-circle"></i> صورة الحساب شخصية
+                    </label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updatePostImage(event)" style="display:none;">
+                        <i class="fas fa-image"></i> صورة داخل المنشور
                     </label>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الاسم (عريض):</label>
-                        <input type="text" id="inName" value="Abdullah" oninput="updateLive()">
+                        <input type="text" id="inName" value="صدام حسين" oninput="updateLive()">
                     </div>
                     <div class="input-group">
                         <label>المعرف (يوزر):</label>
-                        <input type="text" id="inHandle" value="@eng_abd2001" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inHandle" value="@Saddam_IQ" oninput="updateLive()" dir="ltr">
                     </div>
+                </div>
+                <div class="input-group">
+                    <label>نص التغريدة / المنشور:</label>
+                    <textarea id="inPostText" oninput="updateLive()">عاش العراق العظيم حراً أبياً شامخاً، وعاشت الأمة العربية مجيدة ولا نامت أعين الجبناء.</textarea>
                 </div>
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">الرسائل</div>
-                <div class="input-group">
-                    <label>تاريخ/وقت المحادثة:</label>
-                    <input type="text" id="inDate" value="Jun 28, 2026, 12:47 PM" oninput="updateLive()" dir="ltr">
+                <div class="control-section-title">التوقيت والتفاعلات (اللايكات والمشاهدات)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الوقت (تحت النص):</label>
+                        <input type="text" id="inTime" value="12:47 PM" oninput="updateLive()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>التاريخ:</label>
+                        <input type="text" id="inDate" value="Jun 28, 2026" oninput="updateLive()" dir="ltr">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">واجهة منصة X في الداشبورد صارت جاهزة، عاشت إيدك!</textarea>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>عدد المشاهدات:</label>
+                        <input type="text" id="inViews" value="5.4M" oninput="updateLive()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>إعادة النشر (Retweets):</label>
+                        <input type="text" id="inRetweets" value="12.5K" oninput="updateLive()" dir="ltr">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>رسالتك أنت (الأزرق):</label>
-                    <textarea id="inMsg2" oninput="updateLive()">ممتاز جداً! الدقة الهندسية والـ Lights Out Dark Mode طالعة رهيبة.</textarea>
-                    <div style="margin-top: 8px;">
-                        <label>حالة القراءة:</label>
-                        <select id="inSeen" onchange="updateLive()">
-                            <option value="seen">Seen (تم العرض)</option>
-                            <option value="none">مخفي</option>
-                        </select>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الإعجابات (Likes):</label>
+                        <input type="text" id="inLikes" value="84.2K" oninput="updateLive()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>الإشارات (Bookmarks):</label>
+                        <input type="text" id="inBookmarks" value="3,150" oninput="updateLive()" dir="ltr">
                     </div>
                 </div>
             </div>
 
-            <button class="btn-download" onclick="captureX()"><i class="fas fa-camera"></i> حفظ الصورة (4K)</button>
+            <button class="btn-download" onclick="capturePostX()"><i class="fas fa-camera"></i> حفظ سكرين شوت المنشور (4K)</button>
         </div>
 
-        <!-- السكرين شوت الخام لـ X -->
         <div class="capture-container" id="captureArea">
             <div class="phone-status-bar">
                 <div class="status-icons">
@@ -204,98 +222,128 @@
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <div class="x-header">
-                <div class="x-header-left">
-                    <i class="fas fa-arrow-left x-back"></i>
-                    <div class="x-avatar outAvatarClass"></div>
-                    <div class="x-user-info">
-                        <span class="x-name" id="outName">Abdullah</span>
-                        <span class="x-handle" id="outHandle">@eng_abd2001</span>
+            <div class="x-post-header">
+                <div class="x-header-right-side">
+                    <i class="fas fa-arrow-right x-icon"></i>
+                    <span class="x-post-title">Post</span>
+                </div>
+                <i class="fas fa-search x-icon"></i>
+            </div>
+
+            <div class="x-post-body">
+                <div class="x-user-row">
+                    <div class="x-user-info-block">
+                        <div class="x-avatar" id="outAvatar"></div>
+                        <div class="x-meta-names">
+                            <span class="x-display-name" id="outName">صدام حسين</span>
+                            <span class="x-handle" id="outHandle">@Saddam_IQ</span>
+                        </div>
                     </div>
+                    <button class="x-btn-follow">Follow</button>
                 </div>
-                <i class="fas fa-info-circle x-info-icon"></i>
-            </div>
 
-            <div class="x-chat-area">
-                <div class="x-date-badge" id="outDate">Jun 28, 2026, 12:47 PM</div>
-                
-                <div class="msg-row-received">
-                    <div class="x-avatar-small outAvatarClass"></div>
-                    <div class="msg-received" id="outMsg1">واجهة منصة X في الداشبورد صارت جاهزة، عاشت إيدك!</div>
-                </div>
-                
-                <div class="msg-row-sent">
-                    <div class="msg-sent" id="outMsg2">ممتاز جداً! الدقة الهندسية والـ Lights Out Dark Mode طالعة رهيبة.</div>
-                    <div class="msg-seen" id="outSeen">Seen</div>
-                </div>
-            </div>
+                <div class="x-post-text" id="outPostText">عاش العراق العظيم حراً أبياً شامخاً، وعاشت الأمة العربية مجيدة ولا نامت أعين الجبناء.</div>
 
-            <div class="x-input-area">
-                <i class="far fa-image x-icon-btn"></i>
-                <div class="x-input-box">
-                    <span class="x-placeholder">Start a message</span>
-                    <i class="far fa-paper-plane"></i>
+                <div class="x-post-image-container" id="outPostImgContainer">
+                    <img class="x-post-image" id="outPostImg" src="" alt="">
+                </div>
+
+                <div class="x-post-details-row">
+                    <span id="outTime">12:47 PM</span>
+                    <span class="x-dot">·</span>
+                    <span id="outDate">Jun 28, 2026</span>
+                    <span class="x-dot">·</span>
+                    <span class="x-views-count" id="outViews">5.4M</span>
+                    <span style="color:var(--x-muted)">Views</span>
+                </div>
+
+                <div class="x-metrics-row">
+                    <div class="x-metric-item"><span id="outRetweets">12.5K</span> Retweets</div>
+                    <div class="x-metric-item"><span id="outLikes">84.2K</span> Likes</div>
+                    <div class="x-metric-item"><span id="outBookmarks">3,150</span> Bookmarks</div>
+                </div>
+
+                <div class="x-actions-bar">
+                    <i class="far fa-comment"></i>
+                    <i class="fas fa-retweet"></i>
+                    <i class="far fa-heart"></i>
+                    <i class="far fa-bookmark"></i>
+                    <i class="far fa-share-square"></i>
                 </div>
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>
+                <div class="nav-btn-recent"></div> 
+                <div class="nav-btn-home"></div>   
+                <div class="nav-btn-back"></div>   
             </div>
         </div>
     </div>
 
     <script>
         function updateLive() {
+            // تحديث شريط النظام والنصوص
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
             document.getElementById('outName').innerText = document.getElementById('inName').value || 'Name';
             document.getElementById('outHandle').innerText = document.getElementById('inHandle').value || '@handle';
+            document.getElementById('outPostText').innerText = document.getElementById('inPostText').value;
+            
+            document.getElementById('outTime').innerText = document.getElementById('inTime').value;
             document.getElementById('outDate').innerText = document.getElementById('inDate').value;
-            document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
-            document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
+            document.getElementById('outViews').innerText = document.getElementById('inViews').value;
+            
+            document.getElementById('outRetweets').innerText = document.getElementById('inRetweets').value;
+            document.getElementById('outLikes').innerText = document.getElementById('inLikes').value;
+            document.getElementById('outBookmarks').innerText = document.getElementById('inBookmarks').value;
 
-            const seenStatus = document.getElementById('inSeen').value;
-            const seenEl = document.getElementById('outSeen');
-            if(seenStatus === 'seen') {
-                seenEl.style.display = 'block';
-            } else {
-                seenEl.style.display = 'none';
-            }
-
-            // الماتريكس
-            const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
-
+            // التحكم في درجات الواي فاي
             const wifiLevel = parseInt(document.getElementById('inWifi').value);
             document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
             document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
             document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
             document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
 
+            // التحكم في درجات شبكة الاتصال
             const sigLevel = parseInt(document.getElementById('inSignal').value);
             document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
             document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
             document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
             document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
             document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+
+            // التحكم في نسبة شحن البطارية (بما فيها خيار 75%)
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batFill = document.getElementById('bat-fill');
+            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
+            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
         }
 
+        // رفع صورة الحساب الشخصية
         function updateAvatar(event) {
             const reader = new FileReader();
+            reader.onload = function() { document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // رفع صورة التغريدة الداخلية (تظهر باحترافية وتناسق عند الرفع)
+        function updatePostImage(event) {
+            const reader = new FileReader();
             reader.onload = function() { 
-                const avatars = document.querySelectorAll('.outAvatarClass');
-                avatars.forEach(avatar => avatar.style.backgroundImage = `url(${reader.result})`);
+                const imgContainer = document.getElementById('outPostImgContainer');
+                const img = document.getElementById('outPostImg');
+                img.src = reader.result;
+                imgContainer.style.display = 'block'; // إظهار حاوية الصورة عند الرفع
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        function captureX() {
-            html2canvas(document.getElementById('captureArea'), { scale: 5, backgroundColor: '#000000', useCORS: true }).then(canvas => {
+        function capturePostX() {
+            const captureArea = document.getElementById('captureArea');
+            html2canvas(captureArea, { scale: 5, backgroundColor: '#000000', useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `X_Screenshot_4K_${Date.now()}.png`;
+                link.download = `X_Post_4KScreenshot_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
             });
