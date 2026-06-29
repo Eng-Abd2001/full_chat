@@ -33,7 +33,7 @@
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
-        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
         .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
@@ -48,9 +48,9 @@
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
         
-        /* نفس زر التحميل اللي بملفك */
         .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 30px; cursor: pointer; transition: 0.2s; font-family: var(--font-ar); margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -67,12 +67,9 @@
         .action-btn:hover { color: #fff; }
         .action-btn.delete:hover { color: #ef4444; }
 
-        /* منطقة التصوير: تم إزالة الـ box-shadow المسبب للتجمد واستبداله بحدود آمنة */
-        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 8px; border: 1px solid #334155; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
-        
-        /* أيقونات نظيفة (FontAwesome) */
         .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
         .status-icons i { font-size: 11px; }
 
@@ -85,7 +82,7 @@
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; background-color: var(--wa-bg); }
+        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
         .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
         
         .msg-received, .msg-sent { padding: 8px 10px 6px 10px; border-radius: 12px; max-width: 85%; font-size: 15px; line-height: 1.4; position: relative; }
@@ -113,7 +110,7 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-whatsapp"></i> إعدادات محادثة WhatsApp</h2>
+            <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم WhatsApp</h2>
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
@@ -207,7 +204,7 @@
                 <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" id="btnDownload" onclick="captureWhatsApp()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
         <div class="capture-container" id="captureArea">
@@ -216,7 +213,7 @@
                 <div class="status-icons">
                     <i id="outSignal" class="fas fa-signal"></i>
                     <i id="outWifi" class="fas fa-wifi"></i>
-                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
@@ -367,7 +364,6 @@
                 }
             });
 
-            // هذا السطر تم إضافته لضمان نزول السكرول تلقائياً بدون أن يسبب تجميد
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
@@ -381,35 +377,53 @@
             const reader = new FileReader();
             reader.onload = function() { 
                 const chatArea = document.getElementById('outChatArea');
-                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.6), rgba(11, 20, 26, 0.6)), url(${reader.result})`;
+                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.4), rgba(11, 20, 26, 0.4)), url(${reader.result})`;
                 chatArea.style.backgroundSize = 'cover';
                 chatArea.style.backgroundPosition = 'center';
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // نفس دالة التحميل بالحرف الواحد من ملفك 32.html
         function captureWhatsApp() {
-            html2canvas(document.getElementById('captureArea'), { 
-                scale: 5, 
-                backgroundColor: '#0b141a', 
-                useCORS: true 
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `WhatsApp_4K_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            });
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            const originalText = '<i class="fas fa-camera"></i> حفظ الصورة بدقة 4K';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
+            const captureArea = document.getElementById('captureArea');
+
+            // نعطي المتصفح وقت قصير حتى يعرض رسالة (جاري المعالجة)
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#0b141a', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `WhatsApp_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }, 150);
         }
         
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "تمت إزالة الظل الخارجي المسبب للتجمد.";
+            document.getElementById('newMsgText').value = "تم إرجاع الملف السابق مع زر المعالجة.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "الآن التحميل سيعمل 100% مثل ملف X وبدون أي نوافذ منبثقة.";
+            document.getElementById('newMsgText').value = "الآن يظهر 'جاري المعالجة...' عند الضغط.";
             addMessage('sent');
         };
     </script>
