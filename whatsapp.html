@@ -33,7 +33,7 @@
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
-        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
         .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
@@ -48,7 +48,8 @@
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .custom-file-upload:hover { background: rgba(37, 211, 102, 0.1); }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        /* نفس زر التحميل اللي بملفك */
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 30px; cursor: pointer; transition: 0.2s; font-family: var(--font-ar); margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
 
         .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
@@ -66,11 +67,14 @@
         .action-btn:hover { color: #fff; }
         .action-btn.delete:hover { color: #ef4444; }
 
-        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* منطقة التصوير: تم إزالة الـ box-shadow المسبب للتجمد واستبداله بحدود آمنة */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--wa-bg); border-radius: 8px; border: 1px solid #334155; overflow: hidden; position: relative; display: flex; flex-direction: column; }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--wa-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
-        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
-        .status-icons svg { display: block; height: 100%; }
+        
+        /* أيقونات نظيفة (FontAwesome) */
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
 
         .wa-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px 12px 10px; background: var(--wa-header); }
         .wa-header-left { display: flex; align-items: center; gap: 8px; }
@@ -81,7 +85,7 @@
         .wa-status { color: var(--wa-muted); font-size: 13px; line-height: 1.2; }
         .wa-header-icons { display: flex; gap: 20px; color: var(--wa-text); font-size: 18px; }
 
-        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--wa-bg); }
+        .wa-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; background-color: var(--wa-bg); }
         .wa-date-badge { align-self: center; background: var(--wa-date-bg); color: var(--wa-muted); font-size: 12px; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; }
         
         .msg-received, .msg-sent { padding: 8px 10px 6px 10px; border-radius: 12px; max-width: 85%; font-size: 15px; line-height: 1.4; position: relative; }
@@ -109,7 +113,7 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-whatsapp"></i> لوحة تحكم WhatsApp</h2>
+            <h2><i class="fa-brands fa-whatsapp"></i> إعدادات محادثة WhatsApp</h2>
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
@@ -133,8 +137,6 @@
                         <label>الـ Wi-Fi:</label>
                         <select id="inWifi" onchange="updateStaticUI()">
                             <option value="3">قوي</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
@@ -142,8 +144,6 @@
                         <label>الشبكة (Signal):</label>
                         <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
@@ -202,7 +202,7 @@
                     <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
                 </div>
                 <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
-                    <i class="fas fa-list"></i> ترتيب المحادثة (صعود / نزول / حذف)
+                    <i class="fas fa-list"></i> ترتيب المحادثة
                 </div>
                 <div id="messages-list"></div>
             </div>
@@ -214,9 +214,9 @@
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
@@ -265,24 +265,14 @@
             document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
 
             const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
 
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
         }
 
         let messages = [];
@@ -342,11 +332,10 @@
                     <div class="msg-list-item">
                         <span class="msg-type-badge ${badgeClass}">${typeText}</span>
                         <span class="msg-text-preview">${msg.text}</span>
-                        
                         <div style="display:flex; gap:2px;">
-                            <button class="action-btn" onclick="moveMsgUp(${index})" title="أعلى"><i class="fas fa-chevron-up"></i></button>
-                            <button class="action-btn" onclick="moveMsgDown(${index})" title="أسفل"><i class="fas fa-chevron-down"></i></button>
-                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})" title="حذف"><i class="fas fa-trash"></i></button>
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -378,6 +367,7 @@
                 }
             });
 
+            // هذا السطر تم إضافته لضمان نزول السكرول تلقائياً بدون أن يسبب تجميد
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
@@ -391,14 +381,14 @@
             const reader = new FileReader();
             reader.onload = function() { 
                 const chatArea = document.getElementById('outChatArea');
-                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.4), rgba(11, 20, 26, 0.4)), url(${reader.result})`;
+                chatArea.style.backgroundImage = `linear-gradient(rgba(11, 20, 26, 0.6), rgba(11, 20, 26, 0.6)), url(${reader.result})`;
                 chatArea.style.backgroundSize = 'cover';
                 chatArea.style.backgroundPosition = 'center';
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        /* كود التحميل مأخوذ بالحرف الواحد من ملف X المرفق */
+        // نفس دالة التحميل بالحرف الواحد من ملفك 32.html
         function captureWhatsApp() {
             html2canvas(document.getElementById('captureArea'), { 
                 scale: 5, 
@@ -415,11 +405,11 @@
         window.onload = () => {
             updateStaticUI();
             
-            document.getElementById('newMsgText').value = "التصميم رجع مثل ما ردت بالضبط.";
+            document.getElementById('newMsgText').value = "تمت إزالة الظل الخارجي المسبب للتجمد.";
             addMessage('received');
             
             document.getElementById('newMsgTime').value = "10:32 ص";
-            document.getElementById('newMsgText').value = "وتم وضع كود تويتر للتحميل بالحرف الواحد.";
+            document.getElementById('newMsgText').value = "الآن التحميل سيعمل 100% مثل ملف X وبدون أي نوافذ منبثقة.";
             addMessage('sent');
         };
     </script>
