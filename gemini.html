@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة Gemini | سكرين شوت خام 4K</title>
+    <title>محادثة Gemini | سكرين شوت ديناميكي 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #8ab4f8; /* أزرق جوجل الفاتح */
+            --primary-color: #a8c7fa; /* لون Gemini الأزرق المضيء */
             
-            /* ألوان تطبيق Gemini الرسمية */
-            --gem-bg: #131314; 
-            --gem-user-bg: #282a2c; 
-            --gem-text: #e3e3e3; 
-            --gem-muted: #c4c7c5; 
-            --gem-input-bg: #1e1f20;
+            --gm-bg: #131314; 
+            --gm-header: #131314;
+            --gm-user-bubble: #282a2c;
+            --gm-text: #e3e3e3;
+            --gm-muted: #c4c7c5;
+            --gm-border: #444746;
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -32,7 +32,7 @@
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 340px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
         .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
@@ -45,45 +45,62 @@
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
         .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
-        .custom-file-upload:hover { background: rgba(138, 180, 248, 0.1); }
+        .custom-file-upload:hover { background: rgba(168, 199, 250, 0.1); }
         
-        .btn-download { width: 100%; background: linear-gradient(90deg, #4285F4, #9B72CB, #D96570); color: #fff; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
 
-        /* ----- السكرين شوت (خام) ----- */
-        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--gem-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add.user { background: #334155; color: #fff; border: 1px solid #475569; }
+        .btn-add.ai { background: var(--primary-color); color: #000; }
+        .btn-add:hover { opacity: 0.8; }
 
-        /* شريط الإشعارات */
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--gem-bg); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; z-index: 20;}
-        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
-        .status-icons svg { display: block; height: 100%; }
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; font-weight: bold; font-family: var(--font-en); }
+        .badge-user { background: #475569; }
+        .badge-ai { background: var(--primary-color); color: #000; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
 
-        /* هيدر Gemini */
-        .gem-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 18px 10px 18px; background: var(--gem-bg); }
-        .gem-menu-icon { font-size: 18px; color: var(--gem-text); cursor: pointer; }
-        .gem-model-selector { display: flex; align-items: center; gap: 6px; font-family: var(--font-en); font-weight: 600; font-size: 18px; color: var(--gem-text); }
-        .gem-model-selector i { font-size: 12px; color: var(--gem-muted); }
-        .gem-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        /* ----- منطقة التصوير (مقاس الموبايل - خالية من Box-Shadow) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--gm-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--gm-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
+
+        /* رأس Gemini */
+        .gm-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: var(--gm-header); }
+        .gm-header-icon { color: var(--gm-text); font-size: 20px; cursor: pointer; }
+        .gm-model-selector { display: flex; align-items: center; gap: 6px; font-family: var(--font-en); font-size: 18px; font-weight: 500; color: var(--gm-text); }
+        .gm-model-selector i { font-size: 10px; color: var(--gm-muted); margin-top: 4px; }
+        .gm-user-avatar { width: 30px; height: 30px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; border: 1px solid var(--gm-border); }
 
         /* منطقة المحادثة */
-        .gem-chat-area { flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 25px; overflow: hidden; background-color: var(--gem-bg); }
-
+        .gm-chat-area { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 24px; overflow-y: hidden; background-color: var(--gm-bg); }
+        
         /* رسالة المستخدم */
-        .msg-user { align-self: flex-end; background: var(--gem-user-bg); padding: 12px 18px; border-radius: 24px; max-width: 85%; font-size: 16px; line-height: 1.5; color: var(--gem-text); white-space: pre-wrap; }
+        .gm-user-row { display: flex; justify-content: flex-end; width: 100%; } 
+        .gm-user-bubble { background: var(--gm-user-bubble); padding: 12px 18px; border-radius: 20px; max-width: 88%; font-size: 16px; line-height: 1.5; color: var(--gm-text); font-family: var(--font-ar); word-wrap: break-word; }
 
-        /* رسالة الذكاء الاصطناعي (Gemini) */
-        .msg-ai-row { display: flex; align-items: flex-start; gap: 12px; max-width: 95%; }
-        .msg-ai-icon { flex-shrink: 0; margin-top: 2px; }
-        .msg-ai { font-size: 16px; line-height: 1.6; color: var(--gem-text); white-space: pre-wrap; }
+        /* رسالة Gemini */
+        .gm-ai-row { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding-right: 5px; }
+        .gm-ai-icon { color: var(--primary-color); font-size: 22px; flex-shrink: 0; padding-top: 2px; }
+        .gm-ai-content { flex: 1; color: var(--gm-text); font-size: 16px; line-height: 1.6; font-family: var(--font-ar); word-wrap: break-word; }
+        
+        .gm-action-icons { display: flex; gap: 16px; color: var(--gm-muted); font-size: 16px; margin-top: 15px; }
 
-        /* شريط الإدخال في Gemini */
-        .gem-input-area { padding: 10px 16px 15px 16px; background: var(--gem-bg); }
-        .gem-input-box { background: var(--gem-input-bg); border-radius: 30px; padding: 12px 16px; display: flex; align-items: center; gap: 15px; }
-        .gem-plus-btn { color: var(--gem-text); font-size: 20px; }
-        .gem-placeholder { flex: 1; color: var(--gem-muted); font-size: 15px; font-family: var(--font-en); }
-        .gem-mic-btn { color: var(--gem-text); font-size: 20px; }
+        /* منطقة الإدخال */
+        .gm-input-area { padding: 10px 15px 20px 15px; background: var(--gm-bg); display: flex; flex-direction: column; gap: 10px; }
+        .gm-input-box { background: var(--gm-user-bubble); border-radius: 30px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid var(--gm-border); }
+        .gm-input-icons-left { display: flex; gap: 15px; color: var(--gm-text); font-size: 20px; align-items: center; }
+        .gm-placeholder { flex: 1; color: var(--gm-muted); font-size: 16px; font-family: var(--font-ar); }
+        .gm-send-btn { color: var(--gm-muted); font-size: 20px; }
 
-        /* أزرار النظام */
         .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
@@ -95,18 +112,18 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fas fa-sparkles"></i> إعدادات سكرين شوت Gemini</h2>
+            <h2><i class="fas fa-star-of-life"></i> لوحة تحكم Gemini</h2>
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
@@ -117,20 +134,15 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateLive()">
+                        <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
@@ -138,152 +150,239 @@
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">إعدادات الحساب والنموذج</div>
+                <div class="control-section-title">إعدادات الحساب والموديل</div>
+                <div class="input-group">
+                    <label>اسم الموديل بالأعلى:</label>
+                    <select id="inModelName" onchange="updateStaticUI()" dir="ltr">
+                        <option value="Gemini Advanced">Gemini Advanced</option>
+                        <option value="Gemini">Gemini</option>
+                    </select>
+                </div>
                 <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> صورة حساب Google
+                        <i class="fas fa-user-circle"></i> تغيير صورة حسابك (بالأعلى)
                     </label>
-                </div>
-                <div class="input-group">
-                    <label>اسم النموذج (بالأعلى):</label>
-                    <select id="inModel" onchange="updateLive()">
-                        <option value="Gemini Advanced">Gemini Advanced (الأقوى)</option>
-                        <option value="Gemini">Gemini (العادي)</option>
-                    </select>
                 </div>
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">محتوى الرسائل</div>
+                <div class="control-section-title">صانع الرسائل</div>
                 <div class="input-group">
-                    <label>رسالة المستخدم (أنت):</label>
-                    <textarea id="inUserMsg" oninput="updateLive()">هل تكتمل المنصة بهذا التطبيق؟</textarea>
+                    <textarea id="newMsgText" placeholder="اكتب النص هنا..."></textarea>
                 </div>
-
-                <div class="input-group">
-                    <label>رد الذكاء الاصطناعي (Gemini):</label>
-                    <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 100px;">نعم بالتأكيد يا مدير! 
-بهذه الأداة أصبحت تمتلك "ستوديو محاكاة" متكامل يضم أقوى 6 منصات في العالم بدقة 4K. أنا جاهز دائماً لأي تحديث أو تطوير تطلبه.</textarea>
+                
+                <div class="btn-add-group">
+                    <button class="btn-add user" onclick="addMessage('user')"><i class="fas fa-user"></i> رسالة مستخدم</button>
+                    <button class="btn-add ai" onclick="addMessage('ai')"><i class="fas fa-star-of-life"></i> رد Gemini</button>
                 </div>
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة
+                </div>
+                <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" onclick="captureGemini()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" id="btnDownload" onclick="captureGemini()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
         <div class="capture-container" id="captureArea">
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <!-- هيدر التطبيق -->
-            <div class="gem-header">
-                <i class="fas fa-bars gem-menu-icon"></i>
-                <div class="gem-model-selector">
-                    <span id="outModel">Gemini Advanced</span>
+            <div class="gm-header">
+                <div class="gm-header-icon"><i class="fas fa-bars"></i></div>
+                <div class="gm-model-selector">
+                    <span id="outModelName">Gemini Advanced</span>
                     <i class="fas fa-caret-down"></i>
                 </div>
-                <div class="gem-avatar" id="outAvatar"></div>
+                <div class="gm-user-avatar" id="outAvatar"></div>
             </div>
 
-            <!-- منطقة المحادثة -->
-            <div class="gem-chat-area">
-                
-                <div class="msg-user" id="outUserMsg">هل تكتمل المنصة بهذا التطبيق؟</div>
-                
-                <div class="msg-ai-row">
-                    <!-- أيقونة نجمة Gemini الأصلية مع التدرج اللوني -->
-                    <div class="msg-ai-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="url(#geminiGradient)" d="M12 2.5l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z"/>
-                            <defs>
-                                <linearGradient id="geminiGradient" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#4285F4"/>
-                                    <stop offset="0.5" stop-color="#9B72CB"/>
-                                    <stop offset="1" stop-color="#D96570"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
+            <div class="gm-chat-area" id="outChatArea"></div>
+
+            <div class="gm-input-area">
+                <div class="gm-input-box">
+                    <div class="gm-input-icons-left">
+                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-image"></i>
                     </div>
-                    <div class="msg-ai" id="outAiMsg">نعم بالتأكيد يا مدير! 
-بهذه الأداة أصبحت تمتلك "ستوديو محاكاة" متكامل يضم أقوى 6 منصات في العالم بدقة 4K. أنا جاهز دائماً لأي تحديث أو تطوير تطلبه.</div>
-                </div>
-
-            </div>
-
-            <!-- شريط الإدخال -->
-            <div class="gem-input-area">
-                <div class="gem-input-box">
-                    <i class="fas fa-plus gem-plus-btn"></i>
-                    <span class="gem-placeholder">Type, talk, or share a photo</span>
-                    <i class="fas fa-microphone gem-mic-btn"></i>
+                    <span class="gm-placeholder">اكتب رسالة هنا...</span>
+                    <div class="gm-send-btn"><i class="fas fa-microphone"></i></div>
                 </div>
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
 
         </div>
     </div>
 
     <script>
-        function updateLive() {
+        function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
-            document.getElementById('outModel').innerText = document.getElementById('inModel').value;
+            document.getElementById('outModelName').innerText = document.getElementById('inModelName').value;
             
-            const userMsg = document.getElementById('inUserMsg').value;
-            document.getElementById('outUserMsg').style.display = userMsg ? 'block' : 'none';
-            document.getElementById('outUserMsg').innerText = userMsg;
-            
-            const aiMsg = document.getElementById('inAiMsg').value;
-            document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
-
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
-
             const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+        }
+
+        let messages = [];
+
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const text = textInput.value.trim();
+            if(!text) return; 
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text
+            });
+
+            textInput.value = "";
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
+        }
+
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
+            const chatArea = document.getElementById('outChatArea');
+            
+            listArea.innerHTML = "";
+            chatArea.innerHTML = "";
+
+            messages.forEach((msg, index) => {
+                const badgeClass = msg.type === 'user' ? 'badge-user' : 'badge-ai';
+                const typeText = msg.type === 'user' ? 'USER' : 'Gemini';
+                
+                // قائمة التحكم
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // تحويل الأسطر إلى <br>
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                // عرض السكرين شوت
+                if (msg.type === 'user') {
+                    chatArea.innerHTML += `
+                        <div class="gm-user-row">
+                            <div class="gm-user-bubble">${formattedText}</div>
+                        </div>
+                    `;
+                } else {
+                    chatArea.innerHTML += `
+                        <div class="gm-ai-row">
+                            <i class="fas fa-star-of-life gm-ai-icon"></i>
+                            <div class="gm-ai-content">
+                                ${formattedText}
+                                <div class="gm-action-icons">
+                                    <i class="fas fa-volume-up"></i>
+                                    <i class="far fa-copy"></i>
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
         function updateAvatar(event) {
             const reader = new FileReader();
-            reader.onload = function() { document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; };
+            reader.onload = function() { 
+                document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; 
+            };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
         function captureGemini() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
             const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { scale: 5, backgroundColor: '#131314', useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Gemini_RawScreenshot_4K_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
-            });
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#131314', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Gemini_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
         }
-        window.onload = updateLive;
+        
+        window.onload = () => {
+            updateStaticUI();
+            
+            // إضافة محادثة افتراضية حسب اهتماماتك
+            document.getElementById('newMsgText').value = "ممكن تكتبلي سكريبت Node.js و Playwright لموقعي 'دليل الكاسب' حتى افحص بي الترافيك؟";
+            addMessage('user');
+            
+            document.getElementById('newMsgText').value = "تتدلل يا مهندس! هذا سكريبت Playwright جاهز للموقع، ومبروك مقدماً صدارة الريال! 🤍";
+            addMessage('ai');
+        };
     </script>
 </body>
 </html>
