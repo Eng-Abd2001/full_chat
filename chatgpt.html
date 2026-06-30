@@ -342,7 +342,8 @@
                     link.href = canvas.toDataURL("image/png");
                     link.click();
 
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> تم تحميل الصورة بنجاح <br> <i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    btn.innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; gap: 5px; line-height: 1.2;"><span style="font-size: 16px; color: #10b981;"><i class="fas fa-check-circle"></i> تم تحميل الصورة بنجاح</span><span style="font-size: 13px; font-weight: 500; color: #475569;"><i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً</span></div>';
+
 
                     
                     setTimeout(() => {
