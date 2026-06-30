@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة Messenger | سكرين شوت خام 4K</title>
+    <title>محادثة Messenger | سكرين شوت ديناميكي 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #0084ff; /* أزرق ماسنجر للوحة التحكم */
+            --primary-color: #0084ff; /* لون ماسنجر الأزرق */
             
-            /* ألوان ماسنجر الرسمية (Dark Mode) */
             --ms-bg: #000000; 
             --ms-header: #000000;
-            --ms-received: #303030;
-            --ms-sent: #0084ff;
-            --ms-text: #e4e6eb;
-            --ms-muted: #b0b3b8;
-            --ms-active-dot: #31a24c; /* أخضر ماسنجر */
+            --ms-sent: linear-gradient(83deg, #0084ff, #00c6ff);
+            --ms-received: #3e4042;
+            --ms-text: #ffffff;
+            --ms-muted: #8a8d91;
+            --ms-border: #2f3031;
+            
+            --user-avatar: url(''); /* متغير للصورة المصغرة */
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,237 +30,95 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: var(--bg-site);
-            color: #fff;
-            font-family: var(--font-ar);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 15px;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
-        .workspace {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
-            max-width: 1050px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls {
-            background: var(--panel-bg);
-            border: 1px solid #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            flex: 1;
-            min-width: 340px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
-        .control-section {
-            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;
-            border: 1px solid #1e293b; margin-bottom: 20px;
-        }
-        .control-section-title {
-            font-size: 14px; color: var(--primary-color); margin-bottom: 15px;
-            font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px;
-        }
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group input, .input-group textarea, .input-group select {
-            width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b;
-            color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar);
-        }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
         .input-group textarea { resize: vertical; min-height: 60px; }
         
         .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload {
-            display: block; width: 100%; padding: 10px; background: #0f172a;
-            border: 1px dashed var(--primary-color); color: var(--primary-color);
-            border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px;
-            transition: 0.3s;
-        }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .custom-file-upload:hover { background: rgba(0, 132, 255, 0.1); }
-        .btn-download {
-            width: 100%; background: var(--primary-color); color: #fff; font-weight: bold;
-            padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;
-            transition: 0.3s;
-        }
+        
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
 
-        /* ----- السكرين شوت الخام ----- */
-        .capture-container {
-            width: 380px;
-            aspect-ratio: 9 / 19; 
-            background-color: var(--ms-bg);
-            border-radius: 0; 
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add.received { background: #3e4042; color: #fff; }
+        .btn-add.sent { background: #0084ff; color: #fff; }
+        .btn-add:hover { opacity: 0.8; }
 
-        /* شريط الإشعارات (الماتريكس الثابت) */
-        .phone-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px 4px 18px;
-            background: var(--ms-header);
-            font-family: var(--font-en);
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-            z-index: 20;
-        }
-        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
-        .status-icons svg { display: block; height: 100%; }
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
+        .badge-sent { background: #0084ff; }
+        .badge-received { background: #3e4042; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
 
-        /* هيدر ماسنجر */
-        .ms-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 15px 12px 15px;
-            background: var(--ms-header);
-        }
+        /* ----- منطقة التصوير (خالية من Box-Shadow لتفادي التجميد) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--ms-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--ms-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
+
+        /* رأس الماسنجر */
+        .ms-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px 12px 10px; background: var(--ms-header); border-bottom: 1px solid var(--ms-border); }
         .ms-header-left { display: flex; align-items: center; gap: 12px; }
-        .ms-back { color: var(--ms-text); font-size: 20px; display: flex; align-items: center; cursor: pointer; }
-        
-        .ms-avatar-container {
-            position: relative;
-            width: 36px; height: 36px;
-        }
-        .ms-avatar {
-            width: 100%; height: 100%; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-        }
-        /* النقطة الخضراء (متصل الآن) */
-        .ms-active-dot {
-            position: absolute;
-            bottom: 0; right: 0;
-            width: 10px; height: 10px;
-            background-color: var(--ms-active-dot);
-            border: 2px solid var(--ms-bg);
-            border-radius: 50%;
-        }
-
-        .ms-user-info { display: flex; flex-direction: column; justify-content: center; gap: 2px; }
-        .ms-name { color: var(--ms-text); font-size: 16px; font-weight: 600; line-height: 1; font-family: var(--font-en); }
-        .ms-status { color: var(--ms-muted); font-size: 12px; line-height: 1; font-family: var(--font-en); }
-        
-        .ms-header-icons { display: flex; gap: 22px; color: var(--ms-text); font-size: 20px; }
+        .ms-back { color: var(--primary-color); font-size: 20px; display: flex; align-items: center; }
+        .ms-avatar-container { position: relative; }
+        .ms-avatar { width: 36px; height: 36px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        .ms-online-dot { width: 12px; height: 12px; background-color: #31a24c; border: 2px solid var(--ms-header); border-radius: 50%; position: absolute; bottom: -2px; right: -2px; }
+        .ms-user-info { display: flex; flex-direction: column; justify-content: center; }
+        .ms-name { color: var(--ms-text); font-size: 16px; font-weight: 600; line-height: 1.2; font-family: var(--font-en); }
+        .ms-status { color: var(--ms-muted); font-size: 12px; line-height: 1.2; margin-top: 2px;}
+        .ms-header-icons { display: flex; gap: 18px; color: var(--primary-color); font-size: 18px; }
 
         /* منطقة المحادثة */
-        .ms-chat-area {
-            flex: 1;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            overflow: hidden;
-            background-color: var(--ms-bg); 
-        }
-
-        .ms-timestamp {
-            align-self: center;
-            color: var(--ms-muted);
-            font-size: 12px;
-            margin-bottom: 10px;
-            font-family: var(--font-en);
-            font-weight: 500;
-        }
-
-        /* رسالة الطرف الآخر */
-        .msg-row-received {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            max-width: 85%;
-        }
-        .msg-avatar-small {
-            width: 28px; height: 28px; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-            flex-shrink: 0;
-        }
-        .msg-received {
-            background: var(--ms-received);
-            color: var(--ms-text);
-            padding: 10px 14px;
-            border-radius: 18px 18px 18px 4px; /* زاوية ماسنجر المميزة للاستلام */
-            font-size: 15px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-
-        /* رسالتك */
-        .msg-row-sent {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            align-self: flex-end;
-            max-width: 80%;
-        }
-        .msg-sent {
-            background: var(--ms-sent);
-            color: #ffffff;
-            padding: 10px 14px;
-            border-radius: 18px 18px 4px 18px; /* زاوية ماسنجر المميزة للإرسال */
-            font-size: 15px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
+        .ms-chat-area { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: hidden; background-color: var(--ms-bg); }
+        .ms-date-badge { align-self: center; color: var(--ms-muted); font-size: 12px; margin-bottom: 10px; font-family: var(--font-ar); }
         
-        /* علامة الرؤية بالماسنجر (صورة مصغرة) */
-        .ms-seen-avatar {
-            width: 14px; height: 14px; border-radius: 50%;
-            background-color: #333; background-size: cover; background-position: center;
-            margin-top: 4px;
-            margin-right: 2px;
-        }
+        /* تصميم الفقاعات */
+        .msg-row { display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+        .msg-row.received { justify-content: flex-start; }
+        .msg-row.sent { justify-content: flex-end; }
 
-        /* شريط الإدخال في الماسنجر */
-        .ms-input-area {
-            padding: 10px 15px;
-            background: var(--ms-bg);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .ms-input-icons {
-            display: flex;
-            gap: 14px;
-            color: var(--ms-sent);
-            font-size: 20px;
-        }
-        .ms-input-box {
-            flex: 1; background: var(--ms-received); border-radius: 20px;
-            padding: 8px 15px; display: flex; align-items: center; gap: 10px;
-            justify-content: space-between;
-        }
+        .ms-mini-avatar { width: 28px; height: 28px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; background-image: var(--user-avatar); flex-shrink: 0; }
+        
+        .ms-bubble { padding: 10px 14px; max-width: 75%; font-size: 15px; line-height: 1.4; color: var(--ms-text); word-wrap: break-word; }
+        .received .ms-bubble { background: var(--ms-received); border-radius: 18px 18px 18px 4px; }
+        .sent .ms-bubble { background: var(--ms-sent); border-radius: 18px 18px 4px 18px; }
+        
+        .ms-status-icon { width: 14px; height: 14px; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-bottom: 2px; }
+        .ms-status-delivered { color: var(--ms-muted); border: 1px solid var(--ms-muted); }
+        .ms-status-seen { background-size: cover; background-position: center; background-image: var(--user-avatar); border: none; }
+
+        /* منطقة الإدخال */
+        .ms-input-area { padding: 10px 12px; background: var(--ms-bg); display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--ms-border); }
+        .ms-input-icons { display: flex; gap: 15px; color: var(--primary-color); font-size: 20px; }
+        .ms-input-box { flex: 1; background: #3a3b3c; border-radius: 20px; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; }
         .ms-placeholder { color: var(--ms-muted); font-size: 15px; }
-        .ms-input-box i { color: var(--ms-sent); font-size: 18px; }
-        
-        .ms-like-btn { color: var(--ms-sent); font-size: 22px; }
+        .ms-input-box i { color: var(--primary-color); font-size: 20px; }
+        .ms-like-btn { color: var(--primary-color); font-size: 22px; }
 
-        /* أزرار النظام السفلية */
-        .android-nav-bar {
-            display: flex; justify-content: space-around; align-items: center;
-            height: 44px; background: #000000; padding: 0 40px;
-        }
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
-
     </style>
 </head>
 <body>
@@ -268,19 +126,18 @@
     <div class="workspace">
         
         <div class="controls">
-            <h2><i class="fa-brands fa-facebook-messenger"></i> إعدادات سكرين شوت Messenger</h2>
+            <h2><i class="fa-brands fa-facebook-messenger"></i> لوحة تحكم Messenger</h2>
             
-            <!-- شريط الإشعارات (الماتريكس) -->
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
@@ -291,119 +148,93 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateLive()">
+                        <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- إعدادات المحادثة -->
             <div class="control-section">
-                <div class="control-section-title">بيانات الحساب</div>
+                <div class="control-section-title">بيانات الشخص</div>
                 <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> رفع صورة الشخص
+                        <i class="fas fa-user-circle"></i> صورة الشخص
                     </label>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>اسم الشخص:</label>
-                        <input type="text" id="inName" value="Yousef" oninput="updateLive()">
+                        <label>الاسم:</label>
+                        <input type="text" id="inName" value="Cristiano" oninput="updateStaticUI()">
                     </div>
                     <div class="input-group">
-                        <label>حالة الاتصال:</label>
-                        <select id="inStatusType" onchange="updateLive()">
-                            <option value="online">متصل (أخضر + Active now)</option>
-                            <option value="offline">غير متصل (نص مخصص)</option>
-                        </select>
+                        <label>الحالة:</label>
+                        <input type="text" id="inStatus" value="نشط الآن" oninput="updateStaticUI()">
                     </div>
-                </div>
-                <div class="input-group" id="offlineStatusDiv" style="display:none;">
-                    <label>النص (مثال: Active 1h ago):</label>
-                    <input type="text" id="inStatusText" value="Active 1h ago" oninput="updateLive()" dir="ltr">
                 </div>
             </div>
 
-            <!-- الرسائل -->
             <div class="control-section">
-                <div class="control-section-title">الرسائل</div>
+                <div class="control-section-title">صانع الرسائل</div>
                 <div class="input-group">
-                    <label>وقت المحادثة (في المنتصف):</label>
-                    <input type="text" id="inDate" value="OCT 24 AT 9:41 AM" oninput="updateLive()" dir="ltr">
+                    <label>وقت المحادثة (الوسام بالأعلى):</label>
+                    <input type="text" id="inChatDate" value="١٠:٤٥ ص" oninput="renderMessages()">
                 </div>
-
                 <div class="input-group">
-                    <label>رسالة الطرف الآخر:</label>
-                    <textarea id="inMsg1" oninput="updateLive()">السلام عليكم، هل واجهة الماسنجر جاهزة؟</textarea>
+                    <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
                 </div>
-
                 <div class="input-group">
-                    <label>رسالتك أنت:</label>
-                    <textarea id="inMsg2" oninput="updateLive()">وعليكم السلام، نعم واجهة الماسنجر تمت برمجتها وتتضمن أيقونات الاتصال وشريط الموبايل المطابق 100%.</textarea>
-                    <div style="margin-top: 8px;">
-                        <label>هل شاهد الرسالة؟ (تظهر صورته المصغرة)</label>
-                        <select id="inSeen" onchange="updateLive()">
-                            <option value="seen">نعم (تمت المشاهدة)</option>
-                            <option value="unseen">لا (بدون صورة)</option>
-                        </select>
-                    </div>
+                    <label>حالة الصح (للمرسلة فقط):</label>
+                    <select id="newMsgTicks">
+                        <option value="seen">تمت المشاهدة (صورة الشخص)</option>
+                        <option value="delivered">تم التسليم (دائرة صح)</option>
+                        <option value="none">بدون أيقونة (رسالة متتالية)</option>
+                    </select>
                 </div>
+                
+                <div class="btn-add-group">
+                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
+                </div>
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة
+                </div>
+                <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" onclick="captureMessenger()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+            <button class="btn-download" id="btnDownload" onclick="captureMessenger()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
-        <!-- السكرين شوت الخام -->
         <div class="capture-container" id="captureArea">
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16">
-                        <rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/>
-                        <rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/>
-                        <rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/>
-                        <rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/>
-                    </svg>
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18">
-                        <path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" />
-                        <path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" />
-                        <path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/>
-                    </svg>
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24">
-                        <rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                        <path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/>
-                    </svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <!-- هيدر ماسنجر -->
             <div class="ms-header">
                 <div class="ms-header-left">
-                    <div class="ms-back"><i class="fas fa-arrow-left"></i></div> <!-- سهم الماسنجر بالعكس -->
+                    <div class="ms-back"><i class="fas fa-arrow-right"></i></div>
                     <div class="ms-avatar-container">
-                        <div class="ms-avatar outAvatarClass"></div>
-                        <div class="ms-active-dot" id="outActiveDot"></div>
+                        <div class="ms-avatar" id="outAvatar"></div>
+                        <div class="ms-online-dot" id="outOnlineDot"></div>
                     </div>
                     <div class="ms-user-info">
-                        <span class="ms-name" id="outName">Yousef</span>
-                        <span class="ms-status" id="outStatus">Active now</span>
+                        <span class="ms-name" id="outName">Cristiano</span>
+                        <span class="ms-status" id="outStatus">نشط الآن</span>
                     </div>
                 </div>
                 <div class="ms-header-icons">
@@ -413,132 +244,199 @@
                 </div>
             </div>
 
-            <!-- منطقة المحادثة -->
-            <div class="ms-chat-area">
-                <div class="ms-timestamp" id="outDate">OCT 24 AT 9:41 AM</div>
-                
-                <div class="msg-row-received">
-                    <div class="msg-avatar-small outAvatarClass"></div>
-                    <div class="msg-received" id="outMsg1">السلام عليكم، هل واجهة الماسنجر جاهزة؟</div>
-                </div>
-                
-                <div class="msg-row-sent">
-                    <div class="msg-sent" id="outMsg2">وعليكم السلام، نعم واجهة الماسنجر تمت برمجتها وتتضمن أيقونات الاتصال وشريط الموبايل المطابق 100%.</div>
-                    <!-- صورة الرؤية (Seen) أسفل رسالتك -->
-                    <div class="ms-seen-avatar outAvatarClass" id="outSeen"></div>
-                </div>
-            </div>
+            <div class="ms-chat-area" id="outChatArea"></div>
 
-            <!-- شريط الإدخال -->
             <div class="ms-input-area">
                 <div class="ms-input-icons">
-                    <i class="fas fa-plus-circle"></i>
+                    <i class="fas fa-th"></i>
                     <i class="fas fa-camera"></i>
-                    <i class="far fa-image"></i>
+                    <i class="fas fa-image"></i>
                     <i class="fas fa-microphone"></i>
                 </div>
                 <div class="ms-input-box">
-                    <span class="ms-placeholder">Message</span>
-                    <i class="far fa-smile"></i>
+                    <span class="ms-placeholder">مراسلة</span>
+                    <i class="fas fa-smile"></i>
                 </div>
                 <i class="fas fa-thumbs-up ms-like-btn"></i>
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
 
         </div>
     </div>
 
     <script>
-        function updateLive() {
-            // شريط النظام
+        function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
+            document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
             
-            // بيانات الحساب
-            document.getElementById('outName').innerText = document.getElementById('inName').value || 'Name';
-            
-            const statusType = document.getElementById('inStatusType').value;
-            const activeDot = document.getElementById('outActiveDot');
-            const statusText = document.getElementById('outStatus');
-            const offlineDiv = document.getElementById('offlineStatusDiv');
-
-            if (statusType === 'online') {
-                activeDot.style.display = 'block';
-                statusText.innerText = 'Active now';
-                offlineDiv.style.display = 'none';
-            } else {
-                activeDot.style.display = 'none';
-                statusText.innerText = document.getElementById('inStatusText').value;
-                offlineDiv.style.display = 'block';
-            }
-
-            // الرسائل
-            document.getElementById('outDate').innerText = document.getElementById('inDate').value;
-            document.getElementById('outMsg1').innerText = document.getElementById('inMsg1').value;
-            document.getElementById('outMsg2').innerText = document.getElementById('inMsg2').value;
-            
-            // حالة الرؤية
-            const isSeen = document.getElementById('inSeen').value;
-            document.getElementById('outSeen').style.display = isSeen === 'seen' ? 'block' : 'none';
-
-            // الماتريكس (الشبكة والواي فاي والبطارية)
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
+            const statusTxt = document.getElementById('inStatus').value;
+            document.getElementById('outStatus').innerText = statusTxt;
+            // إخفاء النقطة الخضراء إذا كان غير نشط
+            document.getElementById('outOnlineDot').style.display = statusTxt.includes('نشط') ? 'block' : 'none';
 
             const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') {
-                batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'three-quarters') {
-                batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'half') {
-                batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'low') {
-                batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); 
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+        }
+
+        let messages = [];
+
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const ticksInput = document.getElementById('newMsgTicks');
+            
+            const text = textInput.value.trim();
+            if(!text) return; 
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text,
+                ticks: ticksInput.value
+            });
+
+            textInput.value = "";
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
+        }
+
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
             }
+        }
+
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
+            const chatArea = document.getElementById('outChatArea');
+            const chatDate = document.getElementById('inChatDate').value || ''; 
+            
+            listArea.innerHTML = "";
+            chatArea.innerHTML = chatDate ? `<div class="ms-date-badge">${chatDate}</div>` : '';
+
+            messages.forEach((msg, index) => {
+                const badgeClass = msg.type === 'sent' ? 'badge-sent' : 'badge-received';
+                const typeText = msg.type === 'sent' ? 'مرسلة' : 'مستلمة';
+                
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                if (msg.type === 'received') {
+                    chatArea.innerHTML += `
+                        <div class="msg-row received">
+                            <div class="ms-mini-avatar"></div>
+                            <div class="ms-bubble">${formattedText}</div>
+                        </div>
+                    `;
+                } else {
+                    let statusIconHtml = '';
+                    if (msg.ticks === 'seen') {
+                        statusIconHtml = `<div class="ms-status-icon ms-status-seen"></div>`;
+                    } else if (msg.ticks === 'delivered') {
+                        statusIconHtml = `<div class="ms-status-icon ms-status-delivered"><i class="fas fa-check"></i></div>`;
+                    }
+
+                    chatArea.innerHTML += `
+                        <div class="msg-row sent">
+                            <div class="ms-bubble">${formattedText}</div>
+                            ${statusIconHtml}
+                        </div>
+                    `;
+                }
+            });
+
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
         function updateAvatar(event) {
             const reader = new FileReader();
             reader.onload = function() { 
-                // تغيير الصورة بـ 3 أماكن (الهيدر، فقاعة المستلم، فقاعة الـ Seen)
-                const avatars = document.querySelectorAll('.outAvatarClass');
-                avatars.forEach(avatar => {
-                    avatar.style.backgroundImage = `url(${reader.result})`;
-                });
+                const imgUrl = `url(${reader.result})`;
+                // تحديث الصورة بالأعلى
+                document.getElementById('outAvatar').style.backgroundImage = imgUrl;
+                // تحديث الصور المصغرة بالرسائل (باستخدام متغير CSS مركزي)
+                document.documentElement.style.setProperty('--user-avatar', imgUrl);
             };
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
         function captureMessenger() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
             const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { 
-                scale: 5, 
-                backgroundColor: '#000000', 
-                useCORS: true 
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Messenger_Mockup_4K_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
-            });
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#000000', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Messenger_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
         }
         
-        window.onload = updateLive;
+        window.onload = () => {
+            updateStaticUI();
+            
+            // إضافة رسائل افتراضية مدريدية 🤍
+            document.getElementById('newMsgText').value = "هلا مدريد! مباراة البارحة كانت خيالية 🔥";
+            addMessage('received');
+            
+            document.getElementById('newMsgTicks').value = "seen";
+            document.getElementById('newMsgText').value = "أكيد يا أسطورة، دائماً بالقمة! 👑";
+            addMessage('sent');
+        };
     </script>
 </body>
 </html>
