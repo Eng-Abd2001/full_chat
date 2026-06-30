@@ -80,8 +80,11 @@
         .fb-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); }
         .fb-user-info { display: flex; flex-direction: column; justify-content: center; }
         .fb-name-wrapper { display: flex; align-items: center; gap: 5px; }
-        .fb-name { color: var(--fb-text); font-size: 15px; font-weight: bold; font-family: var(--font-ar); }
-        .fb-verified { color: var(--primary-color); font-size: 13px; }
+        .fb-name { color: var(--fb-text); font-size: 15px; font-weight: bold; font-family: var(--font-ar); line-height: 1; }
+        
+        /* التعديل هنا: رفع الأيقونة قليلاً لتتوازى مع الخط العربي */
+        .fb-verified { color: var(--primary-color); font-size: 13px; transform: translateY(-2px); display: inline-flex; }
+        
         .fb-time-privacy { display: flex; align-items: center; gap: 5px; color: var(--fb-muted); font-size: 12px; font-family: var(--font-ar); margin-top: 2px; }
         .fb-more { color: var(--fb-muted); font-size: 18px; cursor: pointer; }
 
@@ -336,10 +339,12 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // نفس دالة التحميل المعالجة والمستقرة 100%
         function captureFacebook() {
             const btn = document.getElementById('btnDownload');
             if (btn.disabled) return;
+
+            // 🚀 فتح الإعلان المباشر فور الضغط
+            window.open('ضع_رابط_الإعلان_المباشر_هنا', '_blank');
 
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             btn.disabled = true;
