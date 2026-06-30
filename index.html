@@ -21,12 +21,13 @@
             
             /* ألوان هوية المنصات */
             --brand-chatgpt: #10a37f;
-            --brand-gemini: #1a73e8; /* أزرق جوجل */
+            --brand-gemini: #1a73e8; 
             --brand-x: #ffffff;
             --brand-whatsapp: #25d366;
             --brand-messenger: #0084ff;
             --brand-instagram: #e1306c;
             --brand-tiktok: #00f2fe;
+            --brand-facebook: #1877f2;
             
             --font-main: 'Tajawal', sans-serif;
             --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -164,6 +165,7 @@
         .tool-card[data-brand="messenger"]:hover .icon-wrapper { color: var(--brand-messenger); border-color: var(--brand-messenger); background: rgba(0, 132, 255, 0.1); }
         .tool-card[data-brand="instagram"]:hover .icon-wrapper { color: var(--brand-instagram); border-color: var(--brand-instagram); background: rgba(225, 48, 108, 0.1); }
         .tool-card[data-brand="tiktok"]:hover .icon-wrapper { color: var(--brand-tiktok); border-color: var(--brand-tiktok); background: rgba(0, 242, 254, 0.1); }
+        .tool-card[data-brand="facebook"]:hover .icon-wrapper { color: var(--brand-facebook); border-color: var(--brand-facebook); background: rgba(24, 119, 242, 0.1); }
 
         /* نصوص البطاقة */
         .card-info {
@@ -178,6 +180,7 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.2px;
+            font-family: var(--font-main);
         }
 
         .card-info p {
@@ -205,7 +208,7 @@
         }
         
         .tool-card:hover .card-info {
-            padding-left: 20px; /* إزاحة النص قليلاً لإعطاء مساحة للسهم */
+            padding-left: 20px;
             transition: var(--transition-smooth);
         }
 
@@ -233,7 +236,7 @@
 
         <!-- الأداة 2: Gemini -->
         <a href="gemini.html" class="tool-card" data-brand="gemini">
-            <div class="icon-wrapper"><i class="fas fa-sparkles"></i></div>
+            <div class="icon-wrapper"><i class="fas fa-star-of-life"></i></div>
             <div class="card-info">
                 <h3>محادثة Gemini</h3>
                 <p>أنشئ حوارات تفاعلية بتصميم جوجل الرسمي الحديث.</p>
@@ -245,7 +248,7 @@
         <a href="x-post.html" class="tool-card" data-brand="x">
             <div class="icon-wrapper"><i class="fa-brands fa-x-twitter"></i></div>
             <div class="card-info">
-                <h3>منشور منصة X</h3>
+                <h3>منشور X</h3>
                 <p>صانع تغريدات بتوثيق رسمي ومقاسات مثالية لكل الشاشات.</p>
             </div>
             <i class="fas fa-arrow-left arrow-indicator"></i>
@@ -265,28 +268,48 @@
         <a href="messenger.html" class="tool-card" data-brand="messenger">
             <div class="icon-wrapper"><i class="fa-brands fa-facebook-messenger"></i></div>
             <div class="card-info">
-                <h3>شات Messenger</h3>
+                <h3>محادثة Messenger</h3>
                 <p>تصميم فقاعات رسائل ماسنجر مطابقة للتطبيق الأساسي.</p>
             </div>
             <i class="fas fa-arrow-left arrow-indicator"></i>
         </a>
 
-        <!-- الأداة 6: Instagram -->
-        <a href="instagram.html" class="tool-card" data-brand="instagram">
-            <div class="icon-wrapper"><i class="fa-brands fa-instagram"></i></div>
+        <!-- الأداة 6: Facebook Post -->
+        <a href="facebook-post.html" class="tool-card" data-brand="facebook">
+            <div class="icon-wrapper"><i class="fa-brands fa-facebook"></i></div>
             <div class="card-info">
-                <h3>منشورات Instagram</h3>
-                <p>مولد بوستات ومحادثات انستغرام بدقة وتفاصيل خرافية.</p>
+                <h3>منشور Facebook</h3>
+                <p>صناعة بوستات فيسبوك تفاعلية مع أرقام الإعجابات والتعليقات.</p>
             </div>
             <i class="fas fa-arrow-left arrow-indicator"></i>
         </a>
 
-        <!-- الأداة 7: TikTok -->
+        <!-- الأداة 7: Instagram Post -->
+        <a href="instagram.html" class="tool-card" data-brand="instagram">
+            <div class="icon-wrapper"><i class="fa-brands fa-instagram"></i></div>
+            <div class="card-info">
+                <h3>منشور Instagram</h3>
+                <p>مولد بوستات انستغرام بدقة وتفاصيل خرافية.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 8: Instagram Chat -->
+        <a href="instagram-chat.html" class="tool-card" data-brand="instagram">
+            <div class="icon-wrapper"><i class="fa-brands fa-instagram"></i></div>
+            <div class="card-info">
+                <h3>محادثة Instagram</h3>
+                <p>محاكاة دايركت انستغرام لصناعة رسائل وتفاعلات واقعية.</p>
+            </div>
+            <i class="fas fa-arrow-left arrow-indicator"></i>
+        </a>
+
+        <!-- الأداة 9: TikTok Chat -->
         <a href="tiktok.html" class="tool-card" data-brand="tiktok">
             <div class="icon-wrapper"><i class="fa-brands fa-tiktok"></i></div>
             <div class="card-info">
-                <h3>واجهة TikTok</h3>
-                <p>محاكاة كاملة لواجهة الفيديوهات القصيرة بتصميم دقيق.</p>
+                <h3>محادثة TikTok</h3>
+                <p>محاكاة كاملة لرسائل التيك توك بتصميم دقيق ومباشر.</p>
             </div>
             <i class="fas fa-arrow-left arrow-indicator"></i>
         </a>
