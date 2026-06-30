@@ -396,6 +396,12 @@
             const btn = document.getElementById('btnDownload');
             if (btn.disabled) return;
 
+
+
+ // 🚀 فتح الإعلان المباشر فور الضغط
+            window.open('https://www.effectivecpmnetwork.com/eekt4f7tz?key=65261256f343b49baa62f9a3fd6f401a');
+
+
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             btn.disabled = true;
 
@@ -412,7 +418,8 @@
                     link.href = canvas.toDataURL("image/png");
                     link.click();
 
-                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    btn.innerHTML = '<div style="display: flex; flex-direction: column; gap: 4px; text-align: center;"><span style="color: #10b981; font-size: 16px;"><i class="fas fa-check-circle"></i> تم تحميل الصورة بنجاح</span><span style="color: #e2e8f0; font-size: 13px; font-weight: normal;">يرجى تحديث الصفحة للتحميل مجدداً <i class="fas fa-sync-alt"></i></span></div>';
+
                     
                     setTimeout(() => {
                         alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
