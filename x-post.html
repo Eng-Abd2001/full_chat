@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توليد منشور X (Twitter) | سكرين شوت خام 4K</title>
+    <title>منشور X (تويتر) | سكرين شوت مقاس تيك توك 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -12,13 +12,13 @@
         :root {
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-color: #1d9bf0; 
+            --primary-color: #1d9bf0; /* لون X الأزرق */
             
             --x-bg: #000000; 
-            --x-border: #2f3336;
+            --x-card-bg: #000000;
             --x-text: #e7e9ea;
             --x-muted: #71767b;
-            --x-link: #1d9bf0;
+            --x-border: #2f3336;
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -26,103 +26,106 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
         .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
-        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 340px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
+        /* ----- لوحة التحكم ----- */
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--x-text); display: flex; align-items: center; gap: 10px; }
+        .controls h2 i { color: #fff; }
         
         .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
         .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
-        
+
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
         .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
         .input-group textarea { resize: vertical; min-height: 80px; }
         
-        .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; }
+        .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(29, 155, 240, 0.1); }
+
+        .toggle-container { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 15px; }
+        .toggle-checkbox { display: none; }
+        .toggle-btn { width: 44px; height: 24px; background: #334155; border-radius: 20px; position: relative; transition: 0.3s; }
+        .toggle-btn::after { content: ''; position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: 0.3s; }
+        .toggle-checkbox:checked + .toggle-btn { background: var(--primary-color); }
+        .toggle-checkbox:checked + .toggle-btn::after { transform: translateX(-20px); }
         
-        .btn-download { width: 100%; background: var(--primary-color); color: #fff; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; }
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
 
-        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--x-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* ----- منطقة التصوير (مقاس تيك توك 9:16) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 16; background-color: var(--x-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
 
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--x-bg); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; z-index: 20; }
-        .status-icons { display: flex; align-items: center; gap: 6px; height: 14px; }
-        .status-icons svg { display: block; height: 100%; }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: transparent; font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
 
-        .x-post-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: var(--x-bg); }
-        .x-header-right-side { display: flex; align-items: center; gap: 25px; }
-        .x-post-title { color: var(--x-text); font-size: 18px; font-weight: 700; }
-        .x-icon { color: var(--x-text); font-size: 16px; cursor: pointer; }
-
-        .x-post-body { flex: 1; padding: 15px; display: flex; flex-direction: column; background: var(--x-bg); overflow: hidden; }
+        /* حاوية التغريدة المنتصفة */
+        .x-card-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 15px; }
         
-        .x-user-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-        .x-user-info-block { display: flex; align-items: center; gap: 10px; }
-        .x-avatar { width: 42px; height: 42px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
-        .x-meta-names { display: flex; flex-direction: column; }
-        .x-display-name { color: var(--x-text); font-size: 15px; font-weight: 700; line-height: 1.2; }
-        .x-handle { color: var(--x-muted); font-size: 14px; font-family: var(--font-en); line-height: 1.2; }
+        .x-card { width: 100%; background-color: var(--x-card-bg); border: 1px solid var(--x-border); padding: 16px; border-radius: 16px; color: var(--x-text); }
+
+        /* رأس التغريدة */
+        .x-header { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .x-header-left { display: flex; gap: 10px; }
+        .x-avatar { width: 44px; height: 44px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        .x-user-meta { display: flex; flex-direction: column; justify-content: center; }
+        .x-name-wrapper { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
+        .x-name { font-family: var(--font-en); font-weight: 700; font-size: 15px; color: var(--x-text); line-height: 1; }
         
-        /* التصليح الهندسي لزر الفولو */
-        .x-btn-follow { 
-            background-color: #eff3f4; 
-            color: #0f1419; 
-            font-weight: 700; 
-            font-size: 14px; 
-            padding: 0 16px; 
-            height: 32px; 
-            border: none; 
-            outline: none;
-            border-radius: 9999px; 
-            cursor: pointer;
-            font-family: var(--font-en);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        /* علامة التوثيق */
+        .x-verified-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; position: relative; }
+        .x-verified-icon .fa-certificate { color: var(--primary-color); position: absolute; font-size: 18px; }
+        .x-verified-icon .fa-check { color: var(--x-bg); position: absolute; font-size: 10px; z-index: 1; }
 
-        .x-post-text { color: var(--x-text); font-size: 16px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 15px; text-align: right; }
+        .x-handle { font-family: var(--font-en); font-size: 15px; color: var(--x-muted); direction: ltr; text-align: right; line-height: 1; }
+        .x-more-icon { color: var(--x-muted); font-size: 18px; }
 
-        .x-post-image-container { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid var(--x-border); margin-bottom: 15px; display: none; }
-        .x-post-image { width: 100%; display: block; }
+        /* نص التغريدة */
+        .x-body { font-family: var(--font-ar); font-size: 17px; line-height: 1.5; margin-bottom: 12px; white-space: pre-wrap; word-wrap: break-word; color: var(--x-text); }
 
-        .x-post-details-row { display: flex; align-items: center; gap: 5px; color: var(--x-muted); font-size: 13px; font-family: var(--font-en); padding-bottom: 12px; border-bottom: 1px solid var(--x-border); margin-bottom: 12px; }
-        .x-dot { font-size: 8px; color: var(--x-muted); }
-        .x-views-count { color: var(--x-text); font-weight: 600; }
+        /* الوقت والتاريخ والمشاهدات */
+        .x-datetime { font-family: var(--font-ar); font-size: 15px; color: var(--x-muted); display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+        .x-datetime .x-views { color: var(--x-text); font-weight: bold; font-family: var(--font-en); }
+        .x-dot { padding: 0 4px; font-family: var(--font-en); }
 
-        .x-metrics-row { display: flex; gap: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--x-border); margin-bottom: 12px; font-size: 14px; font-family: var(--font-en); }
-        .x-metric-item { color: var(--x-muted); }
-        .x-metric-item span { color: var(--x-text); font-weight: 700; margin-left: 3px; }
+        .x-hr { height: 1px; background-color: var(--x-border); margin: 0; width: 100%; border: none; margin-bottom: 12px;}
 
-        .x-actions-bar { display: flex; justify-content: space-between; padding: 5px 10px 15px 10px; border-bottom: 1px solid var(--x-border); color: var(--x-muted); font-size: 18px; }
+        /* أزرار التفاعل */
+        .x-action-bar { display: flex; justify-content: space-between; align-items: center; color: var(--x-muted); font-family: var(--font-en); font-size: 13px; }
+        .x-action-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .x-action-item i { font-size: 18px; }
+        
+        /* التلوين عند تفاعل محدد (اختياري) */
+        .action-liked { color: #f91880; }
+        .action-reposted { color: #00ba7c; }
 
-        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; margin-top: auto; }
-        .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
-        .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
-        .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
     </style>
 </head>
 <body>
 
     <div class="workspace">
+        
         <div class="controls">
-            <h2><i class="fa-brands fa-x-twitter"></i> صانع منشورات X (Twitter)</h2>
+            <h2><i class="fa-brands fa-x-twitter"></i> صانع منشورات X (مقاس تيك توك)</h2>
             
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>وقت الموبايل فوق:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <label>وقت الموبايل:</label>
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
-                            <option value="three-quarters">جيد (75%)</option>
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
+                            <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
                             <option value="low">ضعيف (أحمر)</option>
                         </select>
@@ -130,20 +133,16 @@
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>درجة الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>درجة الشبكة:</label>
-                        <select id="inSignal" onchange="updateLive()">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
@@ -151,172 +150,156 @@
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">بيانات الحساب والمنشور</div>
+                <div class="control-section-title">بيانات الحساب</div>
                 <div class="file-upload-grid">
                     <label class="custom-file-upload">
                         <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
-                        <i class="fas fa-user-circle"></i> صورة الحساب شخصية
-                    </label>
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" onchange="updatePostImage(event)" style="display:none;">
-                        <i class="fas fa-image"></i> صورة داخل المنشور
+                        <i class="fas fa-user-circle"></i> صورة الحساب
                     </label>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>الاسم (عريض):</label>
-                        <input type="text" id="inName" value="صدام حسين" oninput="updateLive()">
+                        <label>الاسم:</label>
+                        <input type="text" id="inName" value="Eng. Abd" oninput="updateStaticUI()">
                     </div>
                     <div class="input-group">
-                        <label>المعرف (يوزر):</label>
-                        <input type="text" id="inHandle" value="@Saddam_IQ" oninput="updateLive()" dir="ltr">
+                        <label>المعرف (يوزرنيم):</label>
+                        <input type="text" id="inUsername" value="eng_abd2001" oninput="updateStaticUI()" dir="ltr">
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>نص التغريدة / المنشور:</label>
-                    <textarea id="inPostText" oninput="updateLive()">عاش العراق العظيم حراً أبياً شامخاً، وعاشت الأمة العربية مجيدة ولا نامت أعين الجبناء.</textarea>
-                </div>
+                <label class="toggle-container">
+                    <input type="checkbox" id="inVerified" class="toggle-checkbox" onchange="updateStaticUI()" checked>
+                    <div class="toggle-btn"></div>
+                    <span style="font-size: 14px; color: #cbd5e1; margin-right: 10px;">توثيق الحساب (العلامة الزرقاء)</span>
+                </label>
             </div>
 
             <div class="control-section">
-                <div class="control-section-title">التوقيت والتفاعلات (اللايكات والمشاهدات)</div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div class="control-section-title">نص التغريدة والتفاعل</div>
+                <div class="input-group">
+                    <label>نص التغريدة:</label>
+                    <textarea id="inText" oninput="updateStaticUI()">هلا مدريد! نحن أسياد أوروبا مرة أخرى! 🏆🤍 الملوك دائماً في القمة.&#10;#RealMadrid #UCL</textarea>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>الوقت (تحت النص):</label>
-                        <input type="text" id="inTime" value="12:47 PM" oninput="updateLive()" dir="ltr">
+                        <label>الوقت:</label>
+                        <input type="text" id="inTime" value="١٠:٠٤ م" oninput="updateStaticUI()">
                     </div>
                     <div class="input-group">
                         <label>التاريخ:</label>
-                        <input type="text" id="inDate" value="Jun 28, 2026" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inDate" value="٢٣ أبريل ٢٦" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>المشاهدات:</label>
+                        <input type="text" id="inViews" value="1.5M" oninput="updateStaticUI()" dir="ltr">
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
                     <div class="input-group">
-                        <label>عدد المشاهدات:</label>
-                        <input type="text" id="inViews" value="5.4M" oninput="updateLive()" dir="ltr">
+                        <label>الردود:</label>
+                        <input type="text" id="inReplies" value="12K" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
-                        <label>إعادة النشر (Retweets):</label>
-                        <input type="text" id="inRetweets" value="12.5K" oninput="updateLive()" dir="ltr">
-                    </div>
-                </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="input-group">
-                        <label>الإعجابات (Likes):</label>
-                        <input type="text" id="inLikes" value="84.2K" oninput="updateLive()" dir="ltr">
+                        <label>إعادة النشر:</label>
+                        <input type="text" id="inReposts" value="5K" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
-                        <label>الإشارات (Bookmarks):</label>
-                        <input type="text" id="inBookmarks" value="3,150" oninput="updateLive()" dir="ltr">
+                        <label>الإعجابات:</label>
+                        <input type="text" id="inLikes" value="45K" oninput="updateStaticUI()" dir="ltr">
                     </div>
                 </div>
             </div>
 
-            <button class="btn-download" onclick="capturePostX()"><i class="fas fa-camera"></i> حفظ سكرين شوت المنشور (4K)</button>
+            <button class="btn-download" id="btnDownload" onclick="captureX()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
+        <!-- ----- السكرين شوت (الخام) ----- -->
         <div class="capture-container" id="captureArea">
+            
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16"><rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/><rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/><rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/><rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18"><path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" /><path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" /><path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/></svg>
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24"><rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/></svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <div class="x-post-header">
-                <div class="x-header-right-side">
-                    <i class="fas fa-arrow-right x-icon"></i>
-                    <span class="x-post-title">Post</span>
-                </div>
-                <i class="fas fa-search x-icon"></i>
-            </div>
-
-            <div class="x-post-body">
-                <div class="x-user-row">
-                    <div class="x-user-info-block">
-                        <div class="x-avatar" id="outAvatar"></div>
-                        <div class="x-meta-names">
-                            <span class="x-display-name" id="outName">صدام حسين</span>
-                            <span class="x-handle" id="outHandle">@Saddam_IQ</span>
+            <div class="x-card-wrapper">
+                <div class="x-card">
+                    <div class="x-header">
+                        <div class="x-header-left">
+                            <div class="x-avatar" id="outAvatar"></div>
+                            <div class="x-user-meta">
+                                <div class="x-name-wrapper">
+                                    <span class="x-name" id="outName">Eng. Abd</span>
+                                    <div class="x-verified-icon" id="outVerified">
+                                        <i class="fas fa-certificate"></i>
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                                <span class="x-handle" id="outUsername">@eng_abd2001</span>
+                            </div>
                         </div>
+                        <i class="fas fa-ellipsis-h x-more-icon"></i>
                     </div>
-                    <button class="x-btn-follow">Follow</button>
-                </div>
 
-                <div class="x-post-text" id="outPostText">عاش العراق العظيم حراً أبياً شامخاً، وعاشت الأمة العربية مجيدة ولا نامت أعين الجبناء.</div>
+                    <div class="x-body" id="outText">هلا مدريد! نحن أسياد أوروبا مرة أخرى! 🏆🤍 الملوك دائماً في القمة.<br>#RealMadrid #UCL</div>
 
-                <div class="x-post-image-container" id="outPostImgContainer">
-                    <img class="x-post-image" id="outPostImg" src="" alt="">
-                </div>
+                    <div class="x-datetime">
+                        <span id="outTime">١٠:٠٤ م</span>
+                        <span class="x-dot">·</span>
+                        <span id="outDate">٢٣ أبريل ٢٦</span>
+                        <span class="x-dot">·</span>
+                        <span><span class="x-views" id="outViews">1.5M</span> Views</span>
+                    </div>
 
-                <div class="x-post-details-row">
-                    <span id="outTime">12:47 PM</span>
-                    <span class="x-dot">·</span>
-                    <span id="outDate">Jun 28, 2026</span>
-                    <span class="x-dot">·</span>
-                    <span class="x-views-count" id="outViews">5.4M</span>
-                    <span style="color:var(--x-muted)">Views</span>
-                </div>
+                    <hr class="x-hr">
 
-                <div class="x-metrics-row">
-                    <div class="x-metric-item"><span id="outRetweets">12.5K</span> Retweets</div>
-                    <div class="x-metric-item"><span id="outLikes">84.2K</span> Likes</div>
-                    <div class="x-metric-item"><span id="outBookmarks">3,150</span> Bookmarks</div>
-                </div>
-
-                <div class="x-actions-bar">
-                    <i class="far fa-comment"></i>
-                    <i class="fas fa-retweet"></i>
-                    <i class="far fa-heart"></i>
-                    <i class="far fa-bookmark"></i>
-                    <i class="far fa-share-square"></i>
+                    <div class="x-action-bar">
+                        <div class="x-action-item"><i class="far fa-comment"></i> <span id="outReplies">12K</span></div>
+                        <div class="x-action-item action-reposted"><i class="fas fa-retweet"></i> <span id="outReposts">5K</span></div>
+                        <div class="x-action-item action-liked"><i class="fas fa-heart"></i> <span id="outLikes">45K</span></div>
+                        <div class="x-action-item"><i class="far fa-bookmark"></i></div>
+                        <div class="x-action-item"><i class="fas fa-external-link-alt"></i></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
-            </div>
         </div>
     </div>
 
     <script>
-        function updateLive() {
+        function updateStaticUI() {
+            // شريط الإشعارات
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
-            document.getElementById('outName').innerText = document.getElementById('inName').value || 'Name';
-            document.getElementById('outHandle').innerText = document.getElementById('inHandle').value || '@handle';
-            document.getElementById('outPostText').innerText = document.getElementById('inPostText').value;
+            
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+
+            // بيانات التغريدة
+            document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
+            document.getElementById('outUsername').innerText = '@' + (document.getElementById('inUsername').value || 'username');
+            document.getElementById('outVerified').style.display = document.getElementById('inVerified').checked ? 'inline-flex' : 'none';
+            
+            document.getElementById('outText').innerHTML = document.getElementById('inText').value.replace(/\n/g, '<br>');
             
             document.getElementById('outTime').innerText = document.getElementById('inTime').value;
             document.getElementById('outDate').innerText = document.getElementById('inDate').value;
             document.getElementById('outViews').innerText = document.getElementById('inViews').value;
             
-            document.getElementById('outRetweets').innerText = document.getElementById('inRetweets').value;
+            document.getElementById('outReplies').innerText = document.getElementById('inReplies').value;
+            document.getElementById('outReposts').innerText = document.getElementById('inReposts').value;
             document.getElementById('outLikes').innerText = document.getElementById('inLikes').value;
-            document.getElementById('outBookmarks').innerText = document.getElementById('inBookmarks').value;
-
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
-
-            const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') { batFill.setAttribute('width', '16'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'three-quarters') { batFill.setAttribute('width', '12'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'half') { batFill.setAttribute('width', '8'); batFill.setAttribute('fill', '#ffffff'); }
-            else if (batteryStatus === 'low') { batFill.setAttribute('width', '3'); batFill.setAttribute('fill', '#ff3b30'); }
         }
 
         function updateAvatar(event) {
@@ -325,27 +308,43 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        function updatePostImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() { 
-                const imgContainer = document.getElementById('outPostImgContainer');
-                const img = document.getElementById('outPostImg');
-                img.src = reader.result;
-                imgContainer.style.display = 'block'; 
-            };
-            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
-        }
+        function captureX() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
 
-        function capturePostX() {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
             const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { scale: 5, backgroundColor: '#000000', useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `X_Post_4KScreenshot_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
-            });
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#000000', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `X_Post_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
         }
-        window.onload = updateLive;
+        
+        window.onload = () => {
+            updateStaticUI();
+        };
     </script>
 </body>
 </html>
