@@ -342,7 +342,8 @@
                     link.href = canvas.toDataURL("image/png");
                     link.click();
 
-                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> تم تحميل الصورة بنجاح <br> <i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+
                     
                     setTimeout(() => {
                         alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
