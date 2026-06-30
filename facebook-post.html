@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشور Facebook | سكرين شوت ديناميكي 4K</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-site: #0b0f19; 
+            --panel-bg: #151b2b;
+            --primary-color: #1877f2; /* لون فيسبوك الأزرق */
+            
+            --fb-bg: #242526; 
+            --fb-text: #e4e6eb;
+            --fb-muted: #b0b3b8;
+            --fb-border: #3e4042;
+            --fb-hover: #3a3b3c;
+            
+            --font-ar: 'Tajawal', sans-serif;
+            --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
+
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
+
+        /* ----- لوحة التحكم ----- */
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
+        
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
+        .input-group textarea { resize: vertical; min-height: 60px; }
+        
+        .file-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(24, 119, 242, 0.1); }
+
+        .toggle-container { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 15px; }
+        .toggle-checkbox { display: none; }
+        .toggle-btn { width: 44px; height: 24px; background: #334155; border-radius: 20px; position: relative; transition: 0.3s; }
+        .toggle-btn::after { content: ''; position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: 0.3s; }
+        .toggle-checkbox:checked + .toggle-btn { background: var(--primary-color); }
+        .toggle-checkbox:checked + .toggle-btn::after { transform: translateX(-20px); }
+        
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
+
+        /* ----- منطقة التصوير ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: #18191a; border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
+
+        /* شريط الإشعارات */
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: #18191a; font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
+
+        /* رأس الفيسبوك (علوي) */
+        .fb-top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: var(--fb-bg); border-bottom: 1px solid var(--fb-border); }
+        .fb-logo { color: var(--fb-text); font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 15px;}
+        .fb-top-icons { display: flex; gap: 15px; color: var(--fb-text); font-size: 18px; }
+        .fb-icon-circle { width: 36px; height: 36px; background: var(--fb-hover); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        /* حاوية المنشور */
+        .fb-post { background: var(--fb-bg); margin-top: 8px; padding-top: 12px; display: flex; flex-direction: column; }
+        
+        /* معلومات الناشر */
+        .fb-header { display: flex; justify-content: space-between; padding: 0 15px 10px 15px; }
+        .fb-header-left { display: flex; gap: 10px; }
+        .fb-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); }
+        .fb-user-info { display: flex; flex-direction: column; justify-content: center; }
+        .fb-name-wrapper { display: flex; align-items: center; gap: 5px; }
+        .fb-name { color: var(--fb-text); font-size: 15px; font-weight: bold; font-family: var(--font-ar); }
+        .fb-verified { color: var(--primary-color); font-size: 13px; }
+        .fb-time-privacy { display: flex; align-items: center; gap: 5px; color: var(--fb-muted); font-size: 12px; font-family: var(--font-ar); margin-top: 2px; }
+        .fb-more { color: var(--fb-muted); font-size: 18px; cursor: pointer; }
+
+        /* النص */
+        .fb-content-text { color: var(--fb-text); font-size: 15px; line-height: 1.5; padding: 0 15px 12px 15px; font-family: var(--font-ar); }
+
+        /* الصورة */
+        .fb-post-image { width: 100%; aspect-ratio: 4 / 3; background-color: #111; background-size: cover; background-position: center; }
+
+        /* التفاعل (الإعجابات والتعليقات) */
+        .fb-engagement { padding: 10px 15px; border-bottom: 1px solid var(--fb-border); display: flex; justify-content: space-between; align-items: center; color: var(--fb-muted); font-size: 13px; }
+        .fb-reactions { display: flex; align-items: center; gap: 5px; }
+        .fb-reaction-icons { display: flex; align-items: center; }
+        .fb-reaction-icon { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--fb-bg); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; margin-left: -4px; }
+        .reaction-like { background: var(--primary-color); z-index: 3; }
+        .reaction-love { background: #f02849; z-index: 2; }
+        .fb-engagement-stats { display: flex; gap: 10px; }
+
+        /* أزرار الإجراءات */
+        .fb-actions { display: flex; justify-content: space-between; padding: 4px 15px; }
+        .fb-action-btn { flex: 1; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 0; color: var(--fb-muted); font-size: 14px; font-weight: 500; cursor: pointer; border-radius: 4px; transition: 0.2s; }
+        .fb-action-btn i { font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        
+        <div class="controls">
+            <h2><i class="fa-brands fa-facebook"></i> لوحة تحكم Facebook</h2>
+            
+            <div class="control-section">
+                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>وقت الموبايل:</label>
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>البطارية:</label>
+                        <select id="inBattery" onchange="updateStaticUI()">
+                            <option value="full">ممتلئ (100%)</option>
+                            <option value="three-quarters">جيد (75%)</option>
+                            <option value="half">نصف (50%)</option>
+                            <option value="low">ضعيف (أحمر)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
+                            <option value="0">مخفي</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateStaticUI()">
+                            <option value="4">تغطية كاملة</option>
+                            <option value="0">لا توجد خدمة</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">بيانات المنشور والصور</div>
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-user-circle"></i> صورة الحساب
+                    </label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updatePostImg(event)" style="display:none;">
+                        <i class="fas fa-image"></i> صورة المنشور
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label>اسم الصفحة / الحساب:</label>
+                    <input type="text" id="inName" value="Real Madrid C.F." oninput="updateStaticUI()">
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>وقت النشر:</label>
+                        <input type="text" id="inPostTime" value="٢ س" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>الخصوصية:</label>
+                        <select id="inPrivacy" onchange="updateStaticUI()">
+                            <option value="globe">العامة (كرة أرضية)</option>
+                            <option value="user-friends">الأصدقاء</option>
+                            <option value="lock">أنا فقط</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="toggle-container">
+                    <input type="checkbox" id="inVerified" class="toggle-checkbox" onchange="updateStaticUI()" checked>
+                    <div class="toggle-btn"></div>
+                    <span style="font-size: 14px; color: #cbd5e1; margin-right: 10px;">علامة التوثيق الزرقاء</span>
+                </label>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">النص والتفاعل</div>
+                <div class="input-group">
+                    <label>نص المنشور:</label>
+                    <textarea id="inPostText" oninput="updateStaticUI()">جاهزين للمباراة القادمة! 💪⚽&#10;#HalaMadrid #RealMadrid</textarea>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الإعجابات:</label>
+                        <input type="text" id="inLikes" value="125 ألف" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>التعليقات:</label>
+                        <input type="text" id="inComments" value="4.2 ألف تعليق" oninput="updateStaticUI()">
+                    </div>
+                    <div class="input-group">
+                        <label>المشاركات:</label>
+                        <input type="text" id="inShares" value="1.1 ألف مشاركة" oninput="updateStaticUI()">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-download" id="btnDownload" onclick="captureFacebook()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+        </div>
+
+        <div class="capture-container" id="captureArea">
+            
+            <div class="phone-status-bar">
+                <div class="status-icons">
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
+                </div>
+                <div id="outPhoneTime">10:50</div>
+            </div>
+
+            <div class="fb-top-bar">
+                <div class="fb-logo">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>المنشور</span>
+                </div>
+                <div class="fb-top-icons">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="fb-post">
+                <div class="fb-header">
+                    <div class="fb-header-left">
+                        <div class="fb-avatar" id="outAvatar"></div>
+                        <div class="fb-user-info">
+                            <div class="fb-name-wrapper">
+                                <span class="fb-name" id="outName">Real Madrid C.F.</span>
+                                <i class="fas fa-check-circle fb-verified" id="outVerified"></i>
+                            </div>
+                            <div class="fb-time-privacy">
+                                <span id="outPostTime">٢ س</span>
+                                <span>•</span>
+                                <i id="outPrivacy" class="fas fa-globe"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fb-more"><i class="fas fa-ellipsis-h"></i></div>
+                </div>
+
+                <div class="fb-content-text" id="outPostText">جاهزين للمباراة القادمة! 💪⚽<br>#HalaMadrid #RealMadrid</div>
+
+                <div class="fb-post-image" id="outPostImage"></div>
+
+                <div class="fb-engagement">
+                    <div class="fb-reactions">
+                        <div class="fb-reaction-icons">
+                            <div class="fb-reaction-icon reaction-like"><i class="fas fa-thumbs-up"></i></div>
+                            <div class="fb-reaction-icon reaction-love"><i class="fas fa-heart"></i></div>
+                        </div>
+                        <span id="outLikes">125 ألف</span>
+                    </div>
+                    <div class="fb-engagement-stats">
+                        <span id="outComments">4.2 ألف تعليق</span>
+                        <span id="outShares">1.1 ألف مشاركة</span>
+                    </div>
+                </div>
+
+                <div class="fb-actions">
+                    <div class="fb-action-btn">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>أعجبني</span>
+                    </div>
+                    <div class="fb-action-btn">
+                        <i class="far fa-comment"></i>
+                        <span>تعليق</span>
+                    </div>
+                    <div class="fb-action-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>إرسال</span>
+                    </div>
+                    <div class="fb-action-btn">
+                        <i class="fas fa-share"></i>
+                        <span>مشاركة</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function updateStaticUI() {
+            // شريط الإشعارات
+            document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
+            
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+
+            // بيانات المنشور
+            document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
+            document.getElementById('outVerified').style.display = document.getElementById('inVerified').checked ? 'inline-block' : 'none';
+            document.getElementById('outPostTime').innerText = document.getElementById('inPostTime').value;
+            
+            const privacyIcon = document.getElementById('outPrivacy');
+            privacyIcon.className = 'fas fa-' + document.getElementById('inPrivacy').value;
+
+            document.getElementById('outPostText').innerHTML = document.getElementById('inPostText').value.replace(/\n/g, '<br>');
+            document.getElementById('outLikes').innerText = document.getElementById('inLikes').value;
+            document.getElementById('outComments').innerText = document.getElementById('inComments').value;
+            document.getElementById('outShares').innerText = document.getElementById('inShares').value;
+        }
+
+        function updateAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function() { document.getElementById('outAvatar').style.backgroundImage = `url(${reader.result})`; };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function updatePostImg(event) {
+            const reader = new FileReader();
+            reader.onload = function() { document.getElementById('outPostImage').style.backgroundImage = `url(${reader.result})`; };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // نفس دالة التحميل المعالجة والمستقرة 100%
+        function captureFacebook() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
+            const captureArea = document.getElementById('captureArea');
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#18191a', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `FB_Post_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ بسبب الدقة الفائقة (4K)، يرجى تحديث الصفحة (Refresh) للتمكن من تصميم وتحميل صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
+        }
+        
+        window.onload = () => {
+            updateStaticUI();
+        };
+    </script>
+</body>
+</html>
