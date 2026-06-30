@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محادثة Instagram | سكرين شوت ديناميكي 4K</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-site: #0b0f19; 
+            --panel-bg: #151b2b;
+            --primary-color: #3797f0; /* لون انستغرام الأزرق للمحادثات */
+            --brand-ig: #e1306c;
+            
+            --ig-bg: #000000; 
+            --ig-header: #000000;
+            --ig-sent: #3797f0;
+            --ig-received: #262626;
+            --ig-text: #ffffff;
+            --ig-muted: #a8a8a8;
+            --ig-border: #262626;
+            
+            --user-avatar: url(''); 
+            
+            --font-ar: 'Tajawal', sans-serif;
+            --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
+
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
+
+        /* ----- لوحة التحكم ----- */
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--brand-ig); display: flex; align-items: center; gap: 10px; }
+        
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--brand-ig); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
+        .input-group textarea { resize: vertical; min-height: 60px; }
+        
+        .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--brand-ig); color: var(--brand-ig); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(225, 48, 108, 0.1); }
+        
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
+
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add.received { background: #262626; color: #fff; border: 1px solid #333; }
+        .btn-add.sent { background: var(--primary-color); color: #fff; }
+        .btn-add:hover { opacity: 0.8; }
+
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
+        .badge-sent { background: var(--primary-color); }
+        .badge-received { background: #333; }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
+
+        /* ----- منطقة التصوير (خالية من Box-Shadow لتفادي التجميد) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--ig-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--ig-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
+
+        /* رأس الانستغرام */
+        .ig-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: var(--ig-header); border-bottom: 1px solid var(--ig-border); }
+        .ig-header-left { display: flex; align-items: center; gap: 15px; }
+        .ig-back { color: var(--ig-text); font-size: 20px; cursor: pointer; }
+        
+        .ig-user-meta { display: flex; align-items: center; gap: 10px; }
+        .ig-avatar-main { width: 34px; height: 34px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; }
+        .ig-user-info { display: flex; flex-direction: column; justify-content: center; }
+        .ig-name-wrapper { display: flex; align-items: center; gap: 4px; }
+        .ig-name { color: var(--ig-text); font-size: 15px; font-weight: 600; line-height: 1.2; font-family: var(--font-en); }
+        .ig-status { color: var(--ig-muted); font-size: 12px; line-height: 1.2; font-family: var(--font-ar); margin-top: 2px; }
+        
+        .ig-header-icons { display: flex; gap: 20px; color: var(--ig-text); font-size: 22px; }
+
+        /* منطقة المحادثة */
+        .ig-chat-area { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 14px; overflow-y: hidden; background-color: var(--ig-bg); }
+        .ig-date-badge { align-self: center; color: var(--ig-muted); font-size: 12px; margin-bottom: 5px; font-family: var(--font-ar); }
+        
+        /* تصميم الفقاعات */
+        .msg-row { display: flex; align-items: flex-end; gap: 10px; width: 100%; flex-direction: column; }
+        .msg-row.received { align-items: flex-start; }
+        .msg-row.sent { align-items: flex-end; }
+
+        .msg-content-wrapper { display: flex; align-items: flex-end; gap: 8px; max-width: 75%; }
+        
+        .ig-mini-avatar { width: 28px; height: 28px; border-radius: 50%; background-color: #333; background-size: cover; background-position: center; flex-shrink: 0; background-image: var(--user-avatar); }
+        
+        .ig-bubble { padding: 12px 16px; font-size: 15px; line-height: 1.4; color: var(--ig-text); word-wrap: break-word; font-family: var(--font-ar); border-radius: 22px; }
+        .received .ig-bubble { background: var(--ig-received); border-bottom-right-radius: 4px; /* لليسار بالانجليزي، باليمين للعربي */ }
+        .sent .ig-bubble { background: var(--ig-sent); border-bottom-left-radius: 4px; }
+        
+        .ig-seen-status { font-size: 12px; color: var(--ig-muted); margin-top: -6px; margin-right: 5px; font-family: var(--font-ar); align-self: flex-end; }
+
+        /* منطقة الإدخال */
+        .ig-input-area { padding: 10px 15px 15px 15px; background: var(--ig-bg); display: flex; align-items: center; gap: 12px; }
+        
+        .ig-camera-btn { width: 40px; height: 40px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; flex-shrink: 0; }
+        
+        .ig-input-box { flex: 1; background: #262626; border-radius: 30px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; }
+        .ig-placeholder { flex: 1; color: var(--ig-muted); font-size: 15px; font-family: var(--font-ar); }
+        
+        .ig-input-icons { display: flex; gap: 12px; color: var(--ig-text); font-size: 20px; }
+
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
+        .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
+        .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
+        .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        
+        <div class="controls">
+            <h2><i class="fa-brands fa-instagram"></i> لوحة تحكم محادثة Instagram</h2>
+            
+            <div class="control-section">
+                <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>وقت الموبايل:</label>
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>البطارية:</label>
+                        <select id="inBattery" onchange="updateStaticUI()">
+                            <option value="full">ممتلئ (100%)</option>
+                            <option value="three-quarters">جيد (75%)</option>
+                            <option value="half">نصف (50%)</option>
+                            <option value="low">ضعيف (أحمر)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الـ Wi-Fi:</label>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
+                            <option value="0">مخفي</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>الشبكة (Signal):</label>
+                        <select id="inSignal" onchange="updateStaticUI()">
+                            <option value="4">تغطية كاملة</option>
+                            <option value="0">لا توجد خدمة</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">بيانات الشخص</div>
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-user-circle"></i> صورة الشخص
+                    </label>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="input-group">
+                        <label>الاسم / اليوزر:</label>
+                        <input type="text" id="inName" value="cristiano" oninput="updateStaticUI()" dir="ltr">
+                    </div>
+                    <div class="input-group">
+                        <label>الحالة:</label>
+                        <input type="text" id="inStatus" value="نشط الآن" oninput="updateStaticUI()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">صانع الرسائل</div>
+                <div class="input-group">
+                    <label>وقت المحادثة (التاريخ بالأعلى):</label>
+                    <input type="text" id="inChatDate" value="اليوم 10:45 ص" oninput="renderMessages()">
+                </div>
+                <div class="input-group">
+                    <textarea id="newMsgText" placeholder="اكتب نص الرسالة هنا..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>حالة العرض (للمرسلة فقط):</label>
+                    <select id="newMsgStatus">
+                        <option value="none">بدون (رسالة متتالية)</option>
+                        <option value="seen">تم العرض للتو</option>
+                        <option value="sent">تم الإرسال</option>
+                    </select>
+                </div>
+                
+                <div class="btn-add-group">
+                    <button class="btn-add received" onclick="addMessage('received')"><i class="fas fa-arrow-down"></i> رسالة مستلمة</button>
+                    <button class="btn-add sent" onclick="addMessage('sent')"><i class="fas fa-arrow-up"></i> رسالة مرسلة</button>
+                </div>
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة
+                </div>
+                <div id="messages-list"></div>
+            </div>
+
+            <button class="btn-download" id="btnDownload" onclick="captureInstaChat()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
+        </div>
+
+        <div class="capture-container" id="captureArea">
+            
+            <div class="phone-status-bar">
+                <div class="status-icons">
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
+                </div>
+                <div id="outPhoneTime">10:50</div>
+            </div>
+
+            <div class="ig-header">
+                <div class="ig-header-left">
+                    <div class="ig-back"><i class="fas fa-arrow-right"></i></div>
+                    <div class="ig-user-meta">
+                        <div class="ig-avatar-main" id="outAvatar"></div>
+                        <div class="ig-user-info">
+                            <div class="ig-name-wrapper">
+                                <span class="ig-name" id="outName">cristiano</span>
+                            </div>
+                            <span class="ig-status" id="outStatus">نشط الآن</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ig-header-icons">
+                    <i class="fas fa-phone-alt"></i>
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
+
+            <div class="ig-chat-area" id="outChatArea"></div>
+
+            <div class="ig-input-area">
+                <div class="ig-camera-btn">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="ig-input-box">
+                    <span class="ig-placeholder">مراسلة...</span>
+                    <div class="ig-input-icons">
+                        <i class="fas fa-microphone"></i>
+                        <i class="far fa-image"></i>
+                        <i class="far fa-sticky-note"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="android-nav-bar">
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function updateStaticUI() {
+            document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
+            document.getElementById('outName').innerText = document.getElementById('inName').value || 'الاسم';
+            document.getElementById('outStatus').innerText = document.getElementById('inStatus').value;
+
+            const batteryStatus = document.getElementById('inBattery').value;
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+        }
+
+        let messages = [];
+
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const statusInput = document.getElementById('newMsgStatus');
+            
+            const text = textInput.value.trim();
+            if(!text) return; 
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text,
+                status: statusInput.value
+            });
+
+            textInput.value = "";
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
+        }
+
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
+            const chatArea = document.getElementById('outChatArea');
+            const chatDate = document.getElementById('inChatDate').value || ''; 
+            
+            listArea.innerHTML = "";
+            chatArea.innerHTML = chatDate ? `<div class="ig-date-badge">${chatDate}</div>` : '';
+
+            messages.forEach((msg, index) => {
+                const badgeClass = msg.type === 'sent' ? 'badge-sent' : 'badge-received';
+                const typeText = msg.type === 'sent' ? 'مرسلة' : 'مستلمة';
+                
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                if (msg.type === 'received') {
+                    chatArea.innerHTML += `
+                        <div class="msg-row received">
+                            <div class="msg-content-wrapper">
+                                <div class="ig-mini-avatar"></div>
+                                <div class="ig-bubble">${formattedText}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    let statusHtml = '';
+                    if (msg.status === 'seen') {
+                        statusHtml = `<div class="ig-seen-status">تم العرض للتو</div>`;
+                    } else if (msg.status === 'sent') {
+                        statusHtml = `<div class="ig-seen-status">تم الإرسال</div>`;
+                    }
+
+                    chatArea.innerHTML += `
+                        <div class="msg-row sent">
+                            <div class="msg-content-wrapper" style="max-width: 100%; justify-content: flex-end;">
+                                <div class="ig-bubble">${formattedText}</div>
+                            </div>
+                            ${statusHtml}
+                        </div>
+                    `;
+                }
+            });
+
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function updateAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function() { 
+                const imgUrl = `url(${reader.result})`;
+                document.getElementById('outAvatar').style.backgroundImage = imgUrl;
+                document.documentElement.style.setProperty('--user-avatar', imgUrl);
+            };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function captureInstaChat() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            // 🚀 فتح الإعلان المباشر فور الضغط
+            window.open('ضع_رابط_الإعلان_المباشر_هنا', '_blank');
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
+            const captureArea = document.getElementById('captureArea');
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#000000', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Insta_Chat_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
+        }
+        
+        window.onload = () => {
+            updateStaticUI();
+            
+            // إضافة محادثة افتراضية مدريدية 🤍
+            document.getElementById('newMsgText').value = "شفت تصميم المنصة الجديد؟ خرافي وعاشت إيدك يا مدير 🔥";
+            addMessage('received');
+            
+            document.getElementById('newMsgStatus').value = "seen";
+            document.getElementById('newMsgText').value = "أكيد، هاي المجموعة الماسية كملت، والقادم أعظم! 👑";
+            addMessage('sent');
+        };
+    </script>
+</body>
+</html>
