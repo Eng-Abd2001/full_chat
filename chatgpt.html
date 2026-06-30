@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محادثة ChatGPT | سكرين شوت خام ومطابق 100%</title>
+    <title>محادثة ChatGPT | سكرين شوت ديناميكي 4K</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* ألوان بيئة العمل */
             --bg-site: #0b0f19; 
             --panel-bg: #151b2b;
-            --primary-neon: #10a37f;
+            --primary-color: #10a37f; /* لون OpenAI الأخضر */
             
-            /* ألوان تطبيق ChatGPT الرسمية */
-            --gpt-bg: #000000; 
-            --gpt-user-bg: #2f2f2f; 
-            --gpt-text: #ececec; 
-            --gpt-muted: #8e8e8e; 
+            --cg-bg: #212121; 
+            --cg-header: #212121;
+            --cg-user-bubble: #2f2f2f;
+            --cg-text: #ececec;
+            --cg-muted: #b4b4b4;
+            --cg-border: #424242;
             
             --font-ar: 'Tajawal', sans-serif;
             --font-en: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -27,203 +27,103 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: var(--bg-site);
-            color: #fff;
-            font-family: var(--font-ar);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 15px;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-site); color: #fff; font-family: var(--font-ar); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 15px; -webkit-font-smoothing: antialiased;}
 
-        .workspace {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
-            max-width: 1050px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        .workspace { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1050px; justify-content: center; align-items: flex-start; }
 
         /* ----- لوحة التحكم ----- */
-        .controls {
-            background: var(--panel-bg);
-            border: 1px solid #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            flex: 1;
-            min-width: 340px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-neon); display: flex; align-items: center; gap: 10px; }
+        .controls { background: var(--panel-bg); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; flex: 1; min-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .controls h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
         
-        .control-section {
-            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;
-            border: 1px solid #1e293b; margin-bottom: 20px;
-        }
-        .control-section-title {
-            font-size: 14px; color: var(--primary-neon); margin-bottom: 15px;
-            font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px;
-        }
+        .control-section { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .control-section-title { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
-        .input-group input, .input-group textarea, .input-group select {
-            width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b;
-            color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar);
-        }
-        .input-group textarea { resize: vertical; min-height: 60px; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #1e293b; color: #fff; border-radius: 6px; outline: none; font-size: 14px; font-family: var(--font-ar); }
+        .input-group textarea { resize: vertical; min-height: 80px; }
+        
+        .file-upload-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
+        .custom-file-upload { display: block; width: 100%; padding: 10px; background: #0f172a; border: 1px dashed var(--primary-color); color: var(--primary-color); border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .custom-file-upload:hover { background: rgba(16, 163, 127, 0.1); }
+        
+        .btn-download { width: 100%; background: #fff; color: #000; font-weight: bold; padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-download:hover { opacity: 0.9; }
+        .btn-download:disabled { opacity: 0.8; cursor: not-allowed; background: #475569; color: #fff; }
 
-        .btn-download {
-            width: 100%; background: var(--primary-neon); color: #fff; font-weight: bold;
-            padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-download:hover { background: #0df0b9; }
+        .btn-add-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-add { flex: 1; padding: 12px; font-size: 14px; font-family: var(--font-ar); font-weight: bold; border-radius: 6px; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-add.user { background: #334155; color: #fff; border: 1px solid #475569; }
+        .btn-add.ai { background: var(--primary-color); color: #fff; }
+        .btn-add:hover { opacity: 0.8; }
 
-        /* ----- منطقة الالتقاط (السكرين شوت الخام) ----- */
-        .capture-container {
-            width: 380px;
-            aspect-ratio: 9 / 19; 
-            background-color: var(--gpt-bg);
-            border-radius: 0; /* مسطح بالكامل مثل السكرين شوت */
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .msg-list-item { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .msg-list-item .msg-text-preview { flex: 1; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+        .msg-list-item .msg-type-badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; font-weight: bold; font-family: var(--font-en); }
+        .badge-user { background: #475569; }
+        .badge-ai { background: var(--primary-color); }
+        .action-btn { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.2s; }
+        .action-btn:hover { color: #fff; }
+        .action-btn.delete:hover { color: #ef4444; }
 
-        /* شريط الإشعارات - محاذاة صارمة */
-        .phone-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px 4px 18px;
-            background: var(--gpt-bg);
-            font-family: var(--font-en);
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .status-icons {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            height: 14px; 
-        }
-        .status-icons svg {
-            display: block;
-            height: 100%;
-        }
+        /* ----- منطقة التصوير (مقاس الموبايل - بدون تجميد) ----- */
+        .capture-container { width: 380px; aspect-ratio: 9 / 19; background-color: var(--cg-bg); border-radius: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #334155; }
 
-        /* هيدر ChatGPT */
-        .gpt-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 20px 10px 20px;
-            background: var(--gpt-bg);
-            z-index: 10;
-        }
-        .gpt-menu-icon { font-size: 20px; color: var(--gpt-text); cursor: pointer; }
-        .gpt-model-selector {
-            display: flex; align-items: center; gap: 6px;
-            font-family: var(--font-en); font-weight: 600;
-            font-size: 17px; color: var(--gpt-text);
-        }
-        .gpt-model-selector .chevron { font-size: 14px; color: var(--gpt-muted); }
-        .gpt-new-chat { color: var(--gpt-text); cursor: pointer; }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px 4px 18px; background: var(--cg-header); font-family: var(--font-en); font-size: 13px; color: #ffffff; font-weight: 500; }
+        .status-icons { display: flex; align-items: center; gap: 6px; color: #fff; }
+        .status-icons i { font-size: 11px; }
+
+        /* رأس ChatGPT */
+        .cg-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: var(--cg-header); border-bottom: 1px solid var(--cg-border); }
+        .cg-header-icon { color: var(--cg-text); font-size: 20px; cursor: pointer; }
+        .cg-model-selector { display: flex; align-items: center; gap: 8px; font-family: var(--font-en); font-size: 16px; font-weight: 600; color: var(--cg-text); cursor: pointer; }
+        .cg-model-selector i { font-size: 12px; color: var(--cg-muted); }
 
         /* منطقة المحادثة */
-        .gpt-chat-area {
-            flex: 1;
-            padding: 20px 16px;
-            overflow-y: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            background: var(--gpt-bg);
-        }
+        .cg-chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 20px; overflow-y: hidden; background-color: var(--cg-bg); }
+        
+        /* رسالة المستخدم */
+        .cg-user-row { display: flex; justify-content: flex-end; width: 100%; } /* في الـ RTL، الـ flex-end يعني يسار (نفس تطبيق الذكاء الاصطناعي) */
+        .cg-user-bubble { background: var(--cg-user-bubble); padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 15px; line-height: 1.5; color: var(--cg-text); font-family: var(--font-ar); word-wrap: break-word; }
 
-        .msg-user {
-            align-self: flex-end; /* لليسار في العربي */
-            background: var(--gpt-user-bg);
-            padding: 10px 16px;
-            border-radius: 20px;
-            max-width: 85%;
-            font-size: 16px;
-            line-height: 1.5;
-            color: var(--gpt-text);
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
+        /* رسالة الذكاء الاصطناعي */
+        .cg-ai-row { display: flex; align-items: flex-start; gap: 12px; width: 100%; }
+        .cg-ai-avatar { width: 30px; height: 30px; border-radius: 50%; background-color: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background-size: cover; background-position: center; border: 1px solid #444; }
+        .cg-ai-content { flex: 1; color: var(--cg-text); font-size: 15px; line-height: 1.6; font-family: var(--font-ar); word-wrap: break-word; padding-top: 4px; }
+        
+        .cg-action-icons { display: flex; gap: 12px; color: var(--cg-muted); font-size: 14px; margin-top: 10px; }
 
-        .msg-ai {
-            align-self: flex-start;
-            max-width: 95%;
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--gpt-text);
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
+        /* منطقة الإدخال */
+        .cg-input-area { padding: 10px 15px 20px 15px; background: var(--cg-bg); display: flex; flex-direction: column; gap: 10px; }
+        .cg-input-box { background: var(--cg-user-bubble); border-radius: 24px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .cg-input-icons-left { display: flex; gap: 15px; color: var(--cg-muted); font-size: 20px; align-items: center; }
+        .cg-placeholder { flex: 1; color: var(--cg-muted); font-size: 15px; font-family: var(--font-ar); }
+        .cg-send-btn { width: 32px; height: 32px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .cg-footer-text { text-align: center; color: var(--cg-muted); font-size: 11px; font-family: var(--font-en); }
 
-        /* شريط الإدخال السفلي */
-        .gpt-input-bar {
-            padding: 10px 16px 15px 16px;
-            background: var(--gpt-bg);
-        }
-        .gpt-input-wrapper {
-            display: flex; align-items: center;
-            background: var(--gpt-user-bg); border-radius: 24px;
-            padding: 8px 12px; gap: 12px;
-        }
-        .gpt-plus-btn {
-            color: var(--gpt-text); display: flex; align-items: center; justify-content: center;
-        }
-        .gpt-placeholder {
-            flex: 1; color: var(--gpt-muted); font-size: 15px; font-family: var(--font-en);
-        }
-        .gpt-send-btn {
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        /* أزرار النظام السفلية */
-        .android-nav-bar {
-            display: flex; justify-content: space-around; align-items: center;
-            height: 44px; background: #000000; padding: 0 40px;
-        }
+        .android-nav-bar { display: flex; justify-content: space-around; align-items: center; height: 44px; background: #000000; padding: 0 40px; }
         .nav-btn-recent { width: 14px; height: 14px; border: 2px solid #888; border-radius: 2px; }
         .nav-btn-home { width: 16px; height: 16px; border: 2px solid #888; border-radius: 50%; }
         .nav-btn-back { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 11px solid #888; }
-
     </style>
 </head>
 <body>
 
     <div class="workspace">
         
-        <!-- لوحة التحكم -->
         <div class="controls">
-            <h2><i class="fas fa-robot"></i> إعدادات سكرين شوت ChatGPT</h2>
+            <h2><i class="fas fa-robot"></i> لوحة تحكم ChatGPT</h2>
             
-            <!-- إعدادات شريط النظام -->
             <div class="control-section">
                 <div class="control-section-title">شريط الإشعارات (Status Bar)</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>وقت الموبايل:</label>
-                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateLive()" dir="ltr">
+                        <input type="text" id="inPhoneTime" value="10:50" oninput="updateStaticUI()" dir="ltr">
                     </div>
                     <div class="input-group">
                         <label>البطارية:</label>
-                        <select id="inBattery" onchange="updateLive()">
+                        <select id="inBattery" onchange="updateStaticUI()">
                             <option value="full">ممتلئ (100%)</option>
                             <option value="three-quarters">جيد (75%)</option>
                             <option value="half">نصف (50%)</option>
@@ -234,196 +134,263 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group">
                         <label>الـ Wi-Fi:</label>
-                        <select id="inWifi" onchange="updateLive()">
-                            <option value="3">قوي جداً</option>
-                            <option value="2">متوسط</option>
-                            <option value="1">ضعيف</option>
+                        <select id="inWifi" onchange="updateStaticUI()">
+                            <option value="3">قوي</option>
                             <option value="0">مخفي</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>الشبكة (Signal):</label>
-                        <select id="inSignal" onchange="updateLive()">
+                        <select id="inSignal" onchange="updateStaticUI()">
                             <option value="4">تغطية كاملة</option>
-                            <option value="3">جيدة</option>
-                            <option value="2">متوسطة</option>
-                            <option value="1">ضعيفة</option>
                             <option value="0">لا توجد خدمة</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- إعدادات المحادثة الأساسية -->
             <div class="control-section">
-                <div class="control-section-title">إعدادات المحادثة</div>
+                <div class="control-section-title">إعدادات الموديل</div>
                 <div class="input-group">
-                    <label>إصدار النموذج (Model):</label>
-                    <select id="inModel" onchange="updateLive()">
-                        <option value="ChatGPT 4o">ChatGPT 4o</option>
-                        <option value="ChatGPT 4">ChatGPT 4</option>
-                        <option value="ChatGPT 3.5">ChatGPT 3.5</option>
-                    </select>
+                    <label>اسم الموديل بالأعلى:</label>
+                    <input type="text" id="inModelName" value="ChatGPT 4o" oninput="updateStaticUI()" dir="ltr">
+                </div>
+                <div class="file-upload-grid">
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" onchange="updateAvatar(event)" style="display:none;">
+                        <i class="fas fa-robot"></i> تغيير صورة الذكاء الاصطناعي (اختياري)
+                    </label>
                 </div>
             </div>
 
-            <!-- إعدادات الرسائل -->
             <div class="control-section">
-                <div class="control-section-title">محتوى الرسائل</div>
+                <div class="control-section-title">صانع الرسائل</div>
                 <div class="input-group">
-                    <label>رسالة المستخدم (أنت):</label>
-                    <textarea id="inUserMsg" oninput="updateLive()">هل تم إضافة شريط الإشعارات بأيقوناته الديناميكية لهذه الصفحة أيضاً؟</textarea>
+                    <textarea id="newMsgText" placeholder="اكتب النص هنا..."></textarea>
                 </div>
-
-                <div class="input-group">
-                    <label>رد الذكاء الاصطناعي (ChatGPT):</label>
-                    <textarea id="inAiMsg" oninput="updateLive()" style="min-height: 120px;">نعم بالتأكيد! 
-
-تم دمج نفس المصفوفة الهندسية الخاصة بشريط الإشعارات (Status Bar) التي قمنا بإنشائها مسبقاً، مع الحفاظ على التصميم الخام للسكرين شوت وعدم وجود أي حواف دائرية لضمان تطابق الصورة 100%.</textarea>
+                
+                <div class="btn-add-group">
+                    <button class="btn-add user" onclick="addMessage('user')"><i class="fas fa-user"></i> رسالة مستخدم</button>
+                    <button class="btn-add ai" onclick="addMessage('ai')"><i class="fas fa-robot"></i> رد ChatGPT</button>
                 </div>
+                <div class="control-section-title" style="margin-top: 25px; border-bottom: none; font-size: 13px; color: var(--text-muted);">
+                    <i class="fas fa-list"></i> ترتيب المحادثة
+                </div>
+                <div id="messages-list"></div>
             </div>
 
-            <button class="btn-download" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ السكرين شوت (4K)</button>
+            <button class="btn-download" id="btnDownload" onclick="captureChatGPT()"><i class="fas fa-camera"></i> حفظ الصورة بدقة 4K</button>
         </div>
 
-        <!-- السكرين شوت الخام -->
         <div class="capture-container" id="captureArea">
             
             <div class="phone-status-bar">
                 <div class="status-icons">
-                    <!-- الشبكة (SVG دقيق) -->
-                    <svg id="outSignal" viewBox="0 0 16 12" fill="#ffffff" width="16">
-                        <rect id="sig-1" x="0" y="8" width="2.5" height="4" rx="1"/>
-                        <rect id="sig-2" x="4.5" y="5.5" width="2.5" height="6.5" rx="1"/>
-                        <rect id="sig-3" x="9" y="2.5" width="2.5" height="9.5" rx="1"/>
-                        <rect id="sig-4" x="13.5" y="0" width="2.5" height="12" rx="1"/>
-                    </svg>
-
-                    <!-- الواي فاي (SVG دقيق) -->
-                    <svg id="outWifi" viewBox="0 0 18 13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18">
-                        <path id="wifi-3" d="M1 3.5 Q9 -1.5 17 3.5" />
-                        <path id="wifi-2" d="M4.5 7 Q9 4 13.5 7" />
-                        <path id="wifi-1" d="M8 10.5 Q9 9.5 10 10.5" stroke-width="2.5"/>
-                    </svg>
-
-                    <!-- البطارية (SVG دقيق) -->
-                    <svg id="outBattery" viewBox="0 0 24 12" fill="none" width="24">
-                        <rect x="1" y="1" width="20" height="10" rx="2" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                        <path d="M23 4V8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <rect id="bat-fill" x="3" y="3" width="16" height="6" rx="1" fill="#ffffff"/>
-                    </svg>
+                    <i id="outSignal" class="fas fa-signal"></i>
+                    <i id="outWifi" class="fas fa-wifi"></i>
+                    <i id="outBattery" class="fas fa-battery-three-quarters" style="font-size: 13px;"></i>
                 </div>
                 <div id="outPhoneTime">10:50</div>
             </div>
 
-            <!-- هيدر ChatGPT -->
-            <div class="gpt-header">
-                <i class="fas fa-bars gpt-menu-icon"></i>
-                <div class="gpt-model-selector">
-                    <span id="outModel" style="font-family: var(--font-en);">ChatGPT 4o</span>
-                    <i class="fas fa-chevron-right chevron"></i>
+            <div class="cg-header">
+                <div class="cg-header-icon"><i class="fas fa-bars"></i></div>
+                <div class="cg-model-selector">
+                    <span id="outModelName">ChatGPT 4o</span>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="gpt-new-chat"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <div class="cg-header-icon"><i class="far fa-edit"></i></div>
             </div>
 
-            <div class="gpt-chat-area">
-                
-                <div class="msg-user" id="outUserMsg">هل تم إضافة شريط الإشعارات بأيقوناته الديناميكية لهذه الصفحة أيضاً؟</div>
-                
-                <div class="msg-ai" id="outAiMsg">نعم بالتأكيد! 
+            <div class="cg-chat-area" id="outChatArea"></div>
 
-تم دمج نفس المصفوفة الهندسية الخاصة بشريط الإشعارات (Status Bar) التي قمنا بإنشائها مسبقاً، مع الحفاظ على التصميم الخام للسكرين شوت وعدم وجود أي حواف دائرية لضمان تطابق الصورة 100%.</div>
-
-            </div>
-
-            <div class="gpt-input-bar">
-                <div class="gpt-input-wrapper">
-                    <div class="gpt-plus-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <div class="cg-input-area">
+                <div class="cg-input-box">
+                    <div class="cg-input-icons-left">
+                        <i class="fas fa-plus-circle" style="color: #ececec;"></i>
+                        <i class="fas fa-camera"></i>
+                        <i class="far fa-image"></i>
+                        <i class="fas fa-folder"></i>
                     </div>
-                    
-                    <span class="gpt-placeholder">Message</span>
-                    
-                    <div class="gpt-send-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                            <circle cx="16" cy="16" r="16" fill="#ffffff" />
-                            <g transform="translate(4, 4)">
-                                <path d="M12 19V5M5 12l7-7 7 7" stroke="#000000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                        </svg>
-                    </div>
+                    <span class="cg-placeholder">Message ChatGPT...</span>
+                    <div class="cg-send-btn"><i class="fas fa-microphone"></i></div>
                 </div>
+                <div class="cg-footer-text">ChatGPT can make mistakes. Check important info.</div>
             </div>
 
             <div class="android-nav-bar">
-                <div class="nav-btn-recent"></div> 
-                <div class="nav-btn-home"></div>   
-                <div class="nav-btn-back"></div>   
+                <div class="nav-btn-recent"></div> <div class="nav-btn-home"></div> <div class="nav-btn-back"></div>   
             </div>
 
         </div>
     </div>
 
     <script>
-        function updateLive() {
-            // النصوص
+        function updateStaticUI() {
             document.getElementById('outPhoneTime').innerText = document.getElementById('inPhoneTime').value;
-            document.getElementById('outModel').innerText = document.getElementById('inModel').value;
+            document.getElementById('outModelName').innerText = document.getElementById('inModelName').value || 'ChatGPT';
             
-            const userMsg = document.getElementById('inUserMsg').value;
-            document.getElementById('outUserMsg').innerText = userMsg ? userMsg : '...';
-            
-            const aiMsg = document.getElementById('inAiMsg').value;
-            document.getElementById('outAiMsg').innerText = aiMsg ? aiMsg : '...';
-
-            // تحديث الواي فاي
-            const wifiLevel = parseInt(document.getElementById('inWifi').value);
-            document.getElementById('outWifi').style.display = wifiLevel === 0 ? 'none' : 'block';
-            document.getElementById('wifi-1').style.opacity = wifiLevel >= 1 ? '1' : '0.25';
-            document.getElementById('wifi-2').style.opacity = wifiLevel >= 2 ? '1' : '0.25';
-            document.getElementById('wifi-3').style.opacity = wifiLevel >= 3 ? '1' : '0.25';
-
-            // تحديث الشبكة
-            const sigLevel = parseInt(document.getElementById('inSignal').value);
-            document.getElementById('outSignal').style.display = sigLevel === 0 ? 'none' : 'block';
-            document.getElementById('sig-1').style.opacity = sigLevel >= 1 ? '1' : '0.25';
-            document.getElementById('sig-2').style.opacity = sigLevel >= 2 ? '1' : '0.25';
-            document.getElementById('sig-3').style.opacity = sigLevel >= 3 ? '1' : '0.25';
-            document.getElementById('sig-4').style.opacity = sigLevel >= 4 ? '1' : '0.25';
-
-            // تحديث البطارية
             const batteryStatus = document.getElementById('inBattery').value;
-            const batFill = document.getElementById('bat-fill');
-            if (batteryStatus === 'full') {
-                batFill.setAttribute('width', '16');
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'three-quarters') {
-                batFill.setAttribute('width', '12'); // نسبة 75% بدقة
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'half') {
-                batFill.setAttribute('width', '8');
-                batFill.setAttribute('fill', '#ffffff');
-            } else if (batteryStatus === 'low') {
-                batFill.setAttribute('width', '3');
-                batFill.setAttribute('fill', '#ff3b30'); // أحمر عند الضعف
+            const batIcon = document.getElementById('outBattery');
+            if (batteryStatus === 'full') { batIcon.className = 'fas fa-battery-full'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'three-quarters') { batIcon.className = 'fas fa-battery-three-quarters'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'half') { batIcon.className = 'fas fa-battery-half'; batIcon.style.color = '#fff'; }
+            else if (batteryStatus === 'low') { batIcon.className = 'fas fa-battery-quarter'; batIcon.style.color = '#ff3b30'; }
+
+            document.getElementById('outWifi').style.display = document.getElementById('inWifi').value === '0' ? 'none' : 'inline-block';
+            document.getElementById('outSignal').style.display = document.getElementById('inSignal').value === '0' ? 'none' : 'inline-block';
+        }
+
+        let messages = [];
+
+        function addMessage(type) {
+            const textInput = document.getElementById('newMsgText');
+            const text = textInput.value.trim();
+            if(!text) return; 
+
+            messages.push({
+                id: Date.now(),
+                type: type,
+                text: text
+            });
+
+            textInput.value = "";
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            renderMessages();
+        }
+
+        function moveMsgUp(index) {
+            if (index > 0) {
+                [messages[index], messages[index - 1]] = [messages[index - 1], messages[index]];
+                renderMessages();
             }
         }
 
-        function captureChatGPT() {
-            const captureArea = document.getElementById('captureArea');
-            html2canvas(captureArea, { 
-                scale: 5, 
-                backgroundColor: '#000000', 
-                useCORS: true 
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `ChatGPT_RawScreenshot_4K_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
+        function moveMsgDown(index) {
+            if (index < messages.length - 1) {
+                [messages[index], messages[index + 1]] = [messages[index + 1], messages[index]];
+                renderMessages();
+            }
+        }
+
+        function renderMessages() {
+            const listArea = document.getElementById('messages-list');
+            const chatArea = document.getElementById('outChatArea');
+            
+            listArea.innerHTML = "";
+            chatArea.innerHTML = "";
+
+            messages.forEach((msg, index) => {
+                const badgeClass = msg.type === 'user' ? 'badge-user' : 'badge-ai';
+                const typeText = msg.type === 'user' ? 'USER' : 'ChatGPT';
+                
+                // قائمة التحكم
+                listArea.innerHTML += `
+                    <div class="msg-list-item">
+                        <span class="msg-type-badge ${badgeClass}">${typeText}</span>
+                        <span class="msg-text-preview">${msg.text}</span>
+                        <div style="display:flex; gap:2px;">
+                            <button class="action-btn" onclick="moveMsgUp(${index})"><i class="fas fa-chevron-up"></i></button>
+                            <button class="action-btn" onclick="moveMsgDown(${index})"><i class="fas fa-chevron-down"></i></button>
+                            <button class="action-btn delete" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // تحويل الأسطر إلى <br>
+                let formattedText = msg.text.replace(/\n/g, '<br>');
+                
+                // عرض السكرين شوت
+                if (msg.type === 'user') {
+                    chatArea.innerHTML += `
+                        <div class="cg-user-row">
+                            <div class="cg-user-bubble">${formattedText}</div>
+                        </div>
+                    `;
+                } else {
+                    chatArea.innerHTML += `
+                        <div class="cg-ai-row">
+                            <div class="cg-ai-avatar" id="avatar-${msg.id}"><i class="fas fa-asterisk"></i></div>
+                            <div class="cg-ai-content">
+                                ${formattedText}
+                                <div class="cg-action-icons">
+                                    <i class="fas fa-volume-up"></i>
+                                    <i class="far fa-copy"></i>
+                                    <i class="fas fa-redo"></i>
+                                    <i class="far fa-thumbs-up"></i>
+                                    <i class="far fa-thumbs-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    // تطبيق الصورة المرفوعة إذا وجدت
+                    if (window.customAiAvatar) {
+                        document.getElementById(`avatar-${msg.id}`).innerHTML = '';
+                        document.getElementById(`avatar-${msg.id}`).style.backgroundImage = `url(${window.customAiAvatar})`;
+                    }
+                }
             });
+
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function updateAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function() { 
+                window.customAiAvatar = reader.result;
+                renderMessages(); // إعادة الرسم لتطبيق الصورة على كل ردود الـ AI
+            };
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function captureChatGPT() {
+            const btn = document.getElementById('btnDownload');
+            if (btn.disabled) return;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            btn.disabled = true;
+
+            const captureArea = document.getElementById('captureArea');
+
+            setTimeout(() => {
+                html2canvas(captureArea, { 
+                    scale: 5, 
+                    backgroundColor: '#212121', 
+                    useCORS: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `ChatGPT_4K_${Date.now()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة للتحميل مجدداً';
+                    
+                    setTimeout(() => {
+                        alert("✅ تم تحميل الصورة بنجاح!\n\n⚠️ يرجى تحديث الصفحة (Refresh) للحفاظ على أداء المتصفح قبل تصميم صورة أخرى.");
+                    }, 500);
+
+                }).catch(err => {
+                    console.error(err);
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> يرجى تحديث الصفحة';
+                    alert("❌ حدث خطأ. يرجى تحديث الصفحة والمحاولة مجدداً.");
+                });
+            }, 150);
         }
         
-        window.onload = updateLive;
+        window.onload = () => {
+            updateStaticUI();
+            
+            // إضافة محادثة افتراضية
+            document.getElementById('newMsgText').value = "اكتب لي سكريبت برمجي بلغة JS لمشروعي الجديد الخاص بريال مدريد.";
+            addMessage('user');
+            
+            document.getElementById('newMsgText').value = "بالتأكيد! إليك الكود البرمجي لمشروعك، وكما يقولون: Hala Madrid! 👑🤍\n\nconsole.log('Real Madrid is the best');";
+            addMessage('ai');
+        };
     </script>
 </body>
 </html>
